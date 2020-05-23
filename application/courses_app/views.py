@@ -4,9 +4,11 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework import generics
 
-from .models import StudentStream, StudentGroup, GroupInStream
+from .models import StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
-    StudentGroupSerializer, GroupMemberSerializer
+    StudentGroupSerializer, GroupMemberSerializer, CourseSerializer, \
+    LessonSerializer, StudentLessonResultSerializer, \
+    CreateStudentLessonResultSerializer
 from .utils import get_object_or_none
 
 
@@ -102,3 +104,48 @@ class StudentGroupMembersListCreateView(generics.ListCreateAPIView):
         serializer = self.serializer_class(members, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CourseCreateView(generics.CreateAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+
+class CourseRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+
+class CourseListView(generics.ListAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+
+class LessonCreateView(generics.CreateAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+
+
+class LessonRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+
+
+class LessonListView(generics.ListAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializer
+
+
+class StudentLessonResultCreateView(generics.CreateAPIView):
+    queryset = StudentLessonResult.objects.all()
+    serializer_class = CreateStudentLessonResultSerializer
+
+
+class StudentLessonResultRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = StudentLessonResult.objects.all()
+    serializer_class = StudentLessonResultSerializer
+
+
+class StudentLessonResultListView(generics.ListAPIView):
+    queryset = StudentLessonResult.objects.all()
+    serializer_class = StudentLessonResultSerializer
