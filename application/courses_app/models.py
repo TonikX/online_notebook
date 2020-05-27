@@ -69,10 +69,11 @@ class Lesson(models.Model):
         ('3', 'Laboratory work')
     ]
 
-    group_in_stream = models.ForeignKey(GroupInStream, on_delete=models.CASCADE)
+    group_in_stream = models.ForeignKey(GroupInStream, on_delete=models.CASCADE, blank=True, null=True)
+    student_group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, blank=True, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     lesson_type = models.CharField(choices=LESSON_TYPES, default='1', max_length=1)
-
+    date = models.DateField(default=datetime.date.today)
 
     def __str__(self):
         return 'Course: {} Group: {}, {}'.format(self.course, self.group_in_stream, self.get_lesson_type_display())
@@ -96,7 +97,6 @@ class StudentLessonResult(models.Model):
     mark = models.CharField(choices=MARKS, default='1', max_length=1)
     visit = models.CharField(choices=VISIT_TYPES, default='1', max_length=1)
     comment = models.CharField(max_length=255)
-    date = models.DateField(default=datetime.date.today)
 
     def __str__(self):
         return 'Student {}. Mark: {}. {}'.format(self.student, self.get_mark_display(), self.get_visit_display())
