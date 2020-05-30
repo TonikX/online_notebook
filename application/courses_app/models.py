@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import datetime
 
 
 class User(AbstractUser):
@@ -51,3 +52,51 @@ class GroupInStream(models.Model):
 
     def __str__(self):
         return f'{self.stream.title} {self.group.number}'
+
+
+class Course(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return self.name
+
+
+class Lesson(models.Model):
+    LESSON_TYPES = [
+        ('1', 'Lecture'),
+        ('2', 'Practical work'),
+        ('3', 'Laboratory work')
+    ]
+
+    group_in_stream = models.ForeignKey(GroupInStream, on_delete=models.CASCADE, blank=True, null=True)
+    student_group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, blank=True, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    lesson_type = models.CharField(choices=LESSON_TYPES, default='1', max_length=1)
+    date = models.DateField(default=datetime.date.today)
+
+    def __str__(self):
+        return 'Course: {} Group: {}, {}'.format(self.course, self.group_in_stream, self.get_lesson_type_display())
+
+
+class StudentLessonResult(models.Model):
+    MARKS = [
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5')
+    ]
+
+    VISIT_TYPES = [
+        ('1', 'Visited'),
+        ('2', 'Missed')
+    ]
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    mark = models.CharField(choices=MARKS, default='1', max_length=1)
+    visit = models.CharField(choices=VISIT_TYPES, default='1', max_length=1)
+    comment = models.CharField(max_length=255)
+
+    def __str__(self):
+        return 'Student {}. Mark: {}. {}'.format(self.student, self.get_mark_display(), self.get_visit_display())
