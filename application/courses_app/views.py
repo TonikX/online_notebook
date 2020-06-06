@@ -4,11 +4,13 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework import generics
 
-from .models import StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult
+from .models import StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult, \
+    ClassmatesCheckedTask, TaskOption, StudentResult, Check
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     StudentGroupSerializer, GroupMemberSerializer, CourseSerializer, \
     LessonSerializer, StudentLessonResultSerializer, \
-    CreateStudentLessonResultSerializer
+    CreateStudentLessonResultSerializer, ClassmatesCheckedTaskSerializer, \
+    TaskOptionSerializer, StudentResultSerializer, CheckSerializer
 from .utils import get_object_or_none
 
 
@@ -149,3 +151,50 @@ class StudentLessonResultRetrieveUpdateView(generics.RetrieveUpdateAPIView):
 class StudentLessonResultListView(generics.ListAPIView):
     queryset = StudentLessonResult.objects.all()
     serializer_class = StudentLessonResultSerializer
+
+
+class ClassmatesCheckedTaskListCreateView(generics.ListCreateAPIView):
+    queryset = ClassmatesCheckedTask.objects.all()
+    serializer_class = ClassmatesCheckedTaskSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class ClassmatesCheckedTaskRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ClassmatesCheckedTask.objects.all()
+    serializer_class = ClassmatesCheckedTaskSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskOptionListCreateView(generics.ListCreateAPIView):
+    queryset = TaskOption.objects.all()
+    serializer_class = TaskOptionSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskOptionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TaskOption.objects.all()
+    serializer_class = TaskOptionSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class StudentResultListCreateView(generics.ListCreateAPIView):
+    queryset = StudentResult.objects.all()
+    serializer_class = StudentResultSerializer
+
+
+class StudentResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StudentResult.objects.all()
+    serializer_class = StudentResultSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CheckListCreateView(generics.ListCreateAPIView):
+    queryset = Check.objects.all()
+    serializer_class = CheckSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CheckRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Check.objects.all()
+    serializer_class = CheckSerializer
+    permission_classes = [permissions.AllowAny]
