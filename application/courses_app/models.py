@@ -132,6 +132,7 @@ class TaskWithTickStudentResult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     task_with_tick_option = models.ForeignKey(TaskWithTickOption, on_delete=models.CASCADE)
     perform = models.BooleanField(default=False)
+    perform_date = models.DateField(default=datetime.date.today)
 
     def __str__(self):
-        return '{}, Is performed? {}'.format(self.task_with_tick_option, self.perform)
+        return '{}, Is performed? {}, Date: {}'.format(self.task_with_tick_option, self.perform, self.perform_date)
