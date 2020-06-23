@@ -100,3 +100,38 @@ class StudentLessonResult(models.Model):
 
     def __str__(self):
         return 'Student {}. Mark: {}. {}'.format(self.student, self.get_mark_display(), self.get_visit_display())
+
+
+class Section(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return 'Course {}, Section: {}'.format(self.course, self.title)
+
+
+class TaskWithTick(models.Model):
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return '{}, Task: {}'.format(self.section, self.title)
+
+
+class TaskWithTickOption(models.Model):
+    task_with_tick = models.ForeignKey(TaskWithTick, on_delete=models.CASCADE)
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return '{}, Description: {}'.format(self.task_with_tick, self.description)
+
+
+class TaskWithTickStudentResult(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    task_with_tick_option = models.ForeignKey(TaskWithTickOption, on_delete=models.CASCADE)
+    perform = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '{}, Is performed? {}'.format(self.task_with_tick_option, self.perform)
