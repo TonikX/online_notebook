@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'courses_app',
     'django_summernote',
     'rest_framework.authtoken',
+    'django.contrib.postgres',
     'djoser',
     'corsheaders',
     # 'users.apps.UsersConfig',
