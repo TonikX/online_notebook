@@ -7,7 +7,10 @@ from rest_framework import generics
 from django.contrib.postgres.search import SearchVector
 
 from .models import StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult, \
-                    Section, TaskWithTick, TaskWithTickOption, TaskWithTickStudentResult
+    ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, TaskWithTickOption, TaskWithTickStudentResult
+from .serializers import ClassmatesCheckedTaskSerializer, \
+    TaskOptionSerializer, StudentResultSerializer, CheckSerializer
+    
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     StudentGroupSerializer, GroupMemberSerializer, CourseSerializer, \
     LessonSerializer, StudentLessonResultSerializer, \
@@ -190,6 +193,53 @@ class StudentLessonResultRetrieveUpdateView(generics.RetrieveUpdateAPIView):
 class StudentLessonResultListView(generics.ListAPIView):
     queryset = StudentLessonResult.objects.all()
     serializer_class = StudentLessonResultSerializer
+
+
+class ClassmatesCheckedTaskListCreateView(generics.ListCreateAPIView):
+    queryset = ClassmatesCheckedTask.objects.all()
+    serializer_class = ClassmatesCheckedTaskSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class ClassmatesCheckedTaskRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ClassmatesCheckedTask.objects.all()
+    serializer_class = ClassmatesCheckedTaskSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskOptionListCreateView(generics.ListCreateAPIView):
+    queryset = TaskOption.objects.all()
+    serializer_class = TaskOptionSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskOptionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TaskOption.objects.all()
+    serializer_class = TaskOptionSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class StudentResultListCreateView(generics.ListCreateAPIView):
+    queryset = StudentResult.objects.all()
+    serializer_class = StudentResultSerializer
+
+
+class StudentResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StudentResult.objects.all()
+    serializer_class = StudentResultSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CheckListCreateView(generics.ListCreateAPIView):
+    queryset = Check.objects.all()
+    serializer_class = CheckSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CheckRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Check.objects.all()
+    serializer_class = CheckSerializer
+    permission_classes = [permissions.AllowAny]
     permission_class = permissions.AllowAny
 
 
@@ -308,3 +358,4 @@ class TaskWithTickStudentResultListView(generics.ListAPIView):
     queryset = TaskWithTickStudentResult.objects.all()
     serializer_class = TaskWithTickStudentResultSerializer
     permission_class = permissions.AllowAny
+

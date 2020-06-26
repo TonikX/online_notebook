@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User, StudentGroup, StudentStream, GroupInStream, Course, Lesson, StudentLessonResult, \
+from .models import User, StudentGroup, StudentStream, GroupInStream, Course, Lesson, StudentLessonResult, Section, \
+          ClassmatesCheckedTask, TaskOption, StudentResult, Check, \
 					Section, TaskWithTick, TaskWithTickOption, TaskWithTickStudentResult
 
 admin.site.register(StudentGroup)
@@ -11,6 +12,10 @@ admin.site.register(Course)
 admin.site.register(Lesson)
 admin.site.register(StudentLessonResult)
 admin.site.register(Section)
+admin.site.register(ClassmatesCheckedTask)
+admin.site.register(TaskOption)
+admin.site.register(StudentResult)
+admin.site.register(Check)
 admin.site.register(TaskWithTick)
 admin.site.register(TaskWithTickOption)
 admin.site.register(TaskWithTickStudentResult)

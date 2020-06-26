@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from .models import StudentStream, StudentGroup, Course, Lesson, StudentLessonResult, \
+from .models import StudentStream, StudentGroup, Course, Lesson, StudentLessonResult, Section, ClassmatesCheckedTask, \
+                    TaskOption, StudentResult, Check, \
                     Section, TaskWithTick, TaskWithTickOption, TaskWithTickStudentResult
 
 
@@ -71,6 +72,29 @@ class SectionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ClassmatesCheckedTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassmatesCheckedTask
+        fields = '__all__'
+
+
+class TaskOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskOption
+        fields = '__all__'
+
+
+class StudentResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentResult
+        fields = '__all__'
+
+
+class CheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Check
+
+        
 class CreateSectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section

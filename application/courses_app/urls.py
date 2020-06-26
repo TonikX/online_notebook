@@ -1,5 +1,4 @@
-from django.urls import path, re_path
-from django.conf.urls import url
+from django.urls import path
 from .views import StudentStreamListCreateView, StudentStreamRetrieveUpdateView,\
     StudentGroupListCreateView, StudentGroupRetrieveUpdateView, \
     StudentGroupMembersListCreateView, GroupInStreamListCreateView, \
@@ -7,6 +6,9 @@ from .views import StudentStreamListCreateView, StudentStreamRetrieveUpdateView,
     LessonRetrieveUpdateView, StudentLessonResultCreateView, \
     StudentLessonResultRetrieveUpdateView, CourseListView, \
     LessonListView, StudentLessonResultListView, \
+    ClassmatesCheckedTaskListCreateView, ClassmatesCheckedTaskRetrieveUpdateDestroyView, \
+    TaskOptionListCreateView, TaskOptionRetrieveUpdateDestroyView, \
+    StudentResultListCreateView, StudentResultRetrieveUpdateDestroyView
     SectionCreateView, SectionListView, SectionRetrieveView, \
     SectionUpdateView, TaskWithTickCreateView, TaskWithTickListView, \
     TaskWithTickRetrieveView, TaskWithTickUpdateView, \
@@ -14,6 +16,7 @@ from .views import StudentStreamListCreateView, StudentStreamRetrieveUpdateView,
     TaskWithTickOptionRetrieveView, TaskWithTickOptionUpdateView, \
     TaskWithTickStudentResultCreateView, TaskWithTickStudentResultRetrieveView, \
     TaskWithTickStudentResultUpdateView, TaskWithTickStudentResultListView
+
 
 app_name = "courses_app"
 
@@ -31,6 +34,18 @@ urlpatterns = [
     path('courses/add/', CourseCreateView.as_view()),
     path('courses/all/', CourseListView.as_view()),
     path('courses/<int:pk>/', CourseRetrieveUpdateView.as_view()),
+
+    path('classmates/tasks/', ClassmatesCheckedTaskListCreateView.as_view()),
+    path('classmates/tasks/<int:pk>/', ClassmatesCheckedTaskRetrieveUpdateDestroyView.as_view()),
+
+    path('classmates/options/', TaskOptionListCreateView.as_view()),
+    path('classmates/options/<int:pk>/', TaskOptionRetrieveUpdateDestroyView.as_view()),
+
+    path('classmates/results/', StudentResultListCreateView.as_view()),
+    path('classmates/results/<int:pk>/', StudentResultRetrieveUpdateDestroyView.as_view()),
+
+    path('classmates/checks/', StudentResultListCreateView.as_view()),
+    path('classmates/checks/<int:pk>/', StudentResultRetrieveUpdateDestroyView.as_view()),
 
     path('lessons/add/', LessonCreateView.as_view()),
     path('lessons/all/', LessonListView.as_view()),
@@ -59,4 +74,5 @@ urlpatterns = [
     path('tasks/with_tick/results/all/', TaskWithTickStudentResultListView.as_view()),
     path('tasks/with_tick/results/<int:pk>/', TaskWithTickStudentResultRetrieveView.as_view()),
     path('tasks/with_tick/results/update/<int:pk>/', TaskWithTickStudentResultUpdateView.as_view()),
+
 ]

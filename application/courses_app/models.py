@@ -12,7 +12,8 @@ class User(AbstractUser):
     )
 
     REQUIRED_FIELDS = [
-        'first_name', 'last_name', 'email', 'role', 'tel', 'group'
+        'email'
+        # 'first_name', 'last_name', 'email', 'role', 'tel', 'group'
     ]
 
     def __str__(self):
@@ -103,12 +104,62 @@ class StudentLessonResult(models.Model):
 
 
 class Section(models.Model):
+    section = models.CharField(max_length=50)
+
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=1024)
 
     def __str__(self):
-        return 'Course {}, Section: {}'.format(self.course, self.title)
+        return 'Section {} for course {}'.format(self.section, self.course.name)
+
+
+class ClassmatesCheckedTask(models.Model):
+    number = models.CharField(max_length=10)
+
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return 'Task {} for section {}'.format(self.number, self.section.section)
+
+
+class TaskOption(models.Model):
+    option = models.ForeignKey(ClassmatesCheckedTask, on_delete=models.CASCADE)
+
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return 'Option for classmates checked task {}'.format(self.option.number)
+
+
+class StudentResult(models.Model):
+    """Associative entity between User, TaskOption"""
+    result = models.CharField(max_length=20)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    option = models.ForeignKey(TaskOption, on_delete=models.CASCADE)
+    performance = models.CharField(max_length=20)
+    description = models.CharField(max_length=1024, default='')
+
+    def __str__(self):
+        return 'Result {} (Associative)'.format(self.result)
+
+
+class Check(models.Model):
+    """Associative entity between User, StudentResult"""
+    check = models.CharField(max_length=20)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    result = models.ForeignKey(StudentResult, on_delete=models.CASCADE)
+    verifier = models.CharField(max_length=20)
+    mark = models.CharField(max_length=10, default='')
+    comment = models.CharField(max_length=255, default='')
+    description = models.CharField(max_length=1024, default='')
+
+    def __str__(self):
+        return 'Check {} (Associative)'.format(self.check)
 
 
 class TaskWithTick(models.Model):

@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'courses_app',
     'django_summernote',
     'rest_framework.authtoken',
     'django.contrib.postgres',
     'djoser',
+    'drf_yasg',
+    'courses_app',
     'corsheaders',
     # 'users.apps.UsersConfig',
 ]
