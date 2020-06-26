@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from .models import StudentStream, StudentGroup, Course, Lesson, StudentLessonResult
+from .models import StudentStream, StudentGroup, Course, Lesson, StudentLessonResult, \
+                    Section, TaskWithTick, TaskWithTickOption, TaskWithTickStudentResult
+
 
 User = get_user_model()
 
@@ -58,4 +60,61 @@ class StudentLessonResultSerializer(serializers.ModelSerializer):
 class CreateStudentLessonResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentLessonResult
+        fields = '__all__'
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    course = CourseSerializer()
+
+    class Meta:
+        model = Section
+        fields = '__all__'
+
+
+class CreateSectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
+        fields = '__all__'
+
+
+class TaskWithTickSerializer(serializers.ModelSerializer):
+    section = SectionSerializer()
+
+    class Meta:
+        model = TaskWithTick
+        fields = '__all__'
+
+
+class CreateTaskWithTickSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskWithTick
+        fields = '__all__'
+
+
+class TaskWithTickOptionSerializer(serializers.ModelSerializer):
+    task_with_tick = TaskWithTickSerializer()
+
+    class Meta:
+        model = TaskWithTickOption
+        fields = '__all__'
+
+
+class CreateTaskWithTickOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskWithTickOption
+        fields = '__all__'
+
+
+class TaskWithTickStudentResultSerializer(serializers.ModelSerializer):
+    task_with_tick = TaskWithTickSerializer()
+    user = GroupMemberSerializer()
+
+    class Meta:
+        model = TaskWithTickStudentResult
+        fields = '__all__'
+
+
+class CreateTaskWithTickStudentResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskWithTickStudentResult
         fields = '__all__'
