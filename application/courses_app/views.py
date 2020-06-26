@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import get_user_model
 from rest_framework.views import APIView, status
 from rest_framework.response import Response
 from rest_framework import permissions
@@ -17,6 +18,31 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     CreateTaskWithTickStudentResultSerializer
 
 from .utils import get_object_or_none
+
+
+User = get_user_model()
+
+
+class StudentListView(generics.ListAPIView):
+    serializer_class = StudentSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        queryset = User.objects.filter(role='student')
+        last_name = self.request.query_params.get('last_name', None)
+        group_id = self.request.query_params.get('group_id', None)
+        stream_id = self.request.query_params.get('stream_id', None)
+
+        if last_name is not None:
+            queryset = queryset.filter(last_name__istartswith=last_name)
+
+        if group_id is not None:
+            queryset = queryset.filter(group_id=group_id)
+
+        if stream_id is not None:
+            queryset = queryset.filter(group__streams__id=stream_id)
+
+        return queryset
 
 
 class StudentStreamListCreateView(generics.ListCreateAPIView):

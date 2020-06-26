@@ -18,6 +18,8 @@ from .views import StudentStreamListCreateView, StudentStreamRetrieveUpdateView,
 app_name = "courses_app"
 
 urlpatterns = [
+    path('students/', StudentListView.as_view()),
+
     path('streams/', StudentStreamListCreateView.as_view()),
     path('streams/<int:pk>/', StudentStreamRetrieveUpdateView.as_view()),
     path('streams/<int:pk>/groups/', GroupInStreamListCreateView.as_view()),
