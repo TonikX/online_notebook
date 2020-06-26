@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_summernote',
     'rest_framework.authtoken',
+    'django.contrib.postgres',
     'djoser',
     'drf_yasg',
     'courses_app',
