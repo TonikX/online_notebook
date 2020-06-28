@@ -6,10 +6,15 @@ from rest_framework import permissions
 from rest_framework import generics
 from django.contrib.postgres.search import SearchVector
 
-from .models import StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult, \
-    ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, TaskWithTickOption, TaskWithTickStudentResult
-from .serializers import ClassmatesCheckedTaskSerializer, \
-    TaskOptionSerializer, StudentResultSerializer, CheckSerializer
+from .models import \
+    StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult, \
+    ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
+    TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
+    TaskWithClassmatesCheckResult, TaskWithTeacherCheckResult, TaskWithKeyword, \
+    TaskWithClassmatesCheck, TaskWithTeacherCheck
+from .serializers import \
+    ClassmatesCheckedTaskSerializer, TaskOptionSerializer, StudentResultSerializer, \
+    CheckSerializer, TaskSerializer, UserResultsSerializer
     
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     StudentGroupSerializer, GroupMemberSerializer, CourseSerializer, \
@@ -359,3 +364,60 @@ class TaskWithTickStudentResultListView(generics.ListAPIView):
     serializer_class = TaskWithTickStudentResultSerializer
     permission_class = permissions.AllowAny
 
+
+class StatisticsTaskByStudent(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
+    MODEL_BY_TYPE = {
+        'with_keyword': TaskWithKeyword,
+        'with_teacher_check': TaskWithTeacherCheck,
+        'with_classmates_check': TaskWithClassmatesCheck,
+    }
+
+    def get_serializer_class(self):
+        task_type = self.kwargs['task_type']
+        model = self.MODEL_BY_TYPE.get(task_type, None)
+
+        if model is not None:
+            TaskSerializer.Meta.model = model
+            return TaskSerializer
+
+        raise Exception(f'Unknown type of task: {task_type}')
+
+    def get_queryset(self):
+        task_type = self.kwargs['task_type']
+        section_id = self.kwargs['section_id']
+
+        model = self.MODEL_BY_TYPE.get(task_type, None)
+
+        if model is None:
+            raise Exception(f'Unknown type of task: {task_type}')
+
+        queryset = model.objects.filter(section_id=section_id)
+
+        return queryset
+
+
+class StatisticsStudentResults(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
+    MODEL_BY_TYPE = {
+        'with_keyword': TaskWithKeywordResult,
+        'with_teacher_check': TaskWithTeacherCheckResult,
+        'with_classmates_check': TaskWithClassmatesCheckResult,
+    }
+
+    def get_serializer(self, data, many):
+        task_type = self.kwargs['task_type']
+        section_id = self.kwargs['section_id']
+        task_result_model = self.MODEL_BY_TYPE.get(task_type, None)
+
+        if task_result_model is None:
+            raise Exception(f'Unknown type of task: {task_result_model}')
+
+        return UserResultsSerializer(data, many=many, task_result_model=task_result_model,
+                                     section_id=section_id)
+
+    def get_queryset(self):
+        user_id = self.kwargs['user_id']
+        queryset = User.objects.filter(id=user_id)
+
+        return queryset

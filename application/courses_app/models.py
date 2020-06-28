@@ -187,3 +187,85 @@ class TaskWithTickStudentResult(models.Model):
 
     def __str__(self):
         return '{}, Is performed? {}, Date: {}'.format(self.task_with_tick_option, self.perform, self.perform_date)
+
+
+class TaskWithClassmatesCheck(models.Model):
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return f'{self.section}, Task: {self.title}'
+
+
+class TaskWithClassmatesCheckOption(models.Model):
+    task = models.ForeignKey(TaskWithClassmatesCheck, on_delete=models.CASCADE)
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return f'{self.task}, Description: {self.description}'
+
+
+class TaskWithClassmatesCheckResult(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    option = models.ForeignKey(TaskWithClassmatesCheckOption, on_delete=models.CASCADE)
+
+    perform = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.option}, User: {self.user} Is performed? {self.perform}'
+
+
+class TaskWithTeacherCheck(models.Model):
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return f'{self.section}, Task: {self.title}'
+
+
+class TaskWithTeacherCheckOption(models.Model):
+    task = models.ForeignKey(TaskWithTeacherCheck, on_delete=models.CASCADE)
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return f'{self.task}, Description: {self.description}'
+
+
+class TaskWithTeacherCheckResult(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    option = models.ForeignKey(TaskWithTeacherCheckOption, on_delete=models.CASCADE)
+
+    perform = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.option}, User: {self.user} Is performed? {self.perform}'
+
+
+class TaskWithKeyword(models.Model):
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=1024)
+
+    def __str__(self):
+        return f'{self.section}, Task: {self.title}'
+
+
+class TaskWithKeywordOption(models.Model):
+    task = models.ForeignKey(TaskWithKeyword, on_delete=models.CASCADE)
+    description = models.CharField(max_length=1024)
+    keyword = models.CharField(max_length=128)
+
+    def __str__(self):
+        return f'{self.task}, Description: {self.description}'
+
+
+class TaskWithKeywordResult(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    option = models.ForeignKey(TaskWithKeywordOption, on_delete=models.CASCADE)
+
+    perform = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.option}, User: {self.user} Is performed? {self.perform}'
