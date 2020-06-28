@@ -9,3 +9,4 @@ __pycache__/
 courses_app_frontend_vue/
 node_modules/
 templates/
+/application/courses_app/migrations

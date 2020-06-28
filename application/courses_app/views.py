@@ -18,7 +18,7 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     CreateSectionSerializer, TaskWithTickSerializer, CreateTaskWithTickSerializer, \
     TaskWithTickOptionSerializer, CreateTaskWithTickOptionSerializer, \
     TaskWithTickStudentResult, TaskWithTickStudentResultSerializer, \
-    CreateTaskWithTickStudentResultSerializer
+    CreateTaskWithTickStudentResultSerializer, StudentSerializer
 
 from .utils import get_object_or_none
 

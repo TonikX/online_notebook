@@ -1,17 +1,17 @@
 from django.urls import path
 from .views import StudentStreamListCreateView, StudentStreamRetrieveUpdateView,\
     StudentGroupListCreateView, StudentGroupRetrieveUpdateView, \
-    StudentGroupMembersListCreateView, GroupInStreamListCreateView, \
-    CourseCreateView, CourseRetrieveUpdateView, LessonCreateView, \
+    StudentGroupMembersListCreateView, GroupInStreamListCreateView, StudentListView
+from .views import CourseCreateView, CourseRetrieveUpdateView, LessonCreateView, \
     LessonRetrieveUpdateView, StudentLessonResultCreateView, \
     StudentLessonResultRetrieveUpdateView, CourseListView, \
-    LessonListView, StudentLessonResultListView, \
-    ClassmatesCheckedTaskListCreateView, ClassmatesCheckedTaskRetrieveUpdateDestroyView, \
-    TaskOptionListCreateView, TaskOptionRetrieveUpdateDestroyView, \
-    StudentResultListCreateView, StudentResultRetrieveUpdateDestroyView
-    SectionCreateView, SectionListView, SectionRetrieveView, \
-    SectionUpdateView, TaskWithTickCreateView, TaskWithTickListView, \
-    TaskWithTickRetrieveView, TaskWithTickUpdateView, \
+    LessonListView, StudentLessonResultListView
+from .views import ClassmatesCheckedTaskListCreateView, ClassmatesCheckedTaskRetrieveUpdateDestroyView
+from .views import TaskOptionListCreateView, TaskOptionRetrieveUpdateDestroyView
+from .views import StudentResultListCreateView, StudentResultRetrieveUpdateDestroyView
+from .views import SectionCreateView, SectionListView, SectionRetrieveView, \
+    SectionUpdateView, TaskWithTickCreateView, TaskWithTickListView
+from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, \
     TaskWithTickOptionCreateView, TaskWithTickOptionListView, \
     TaskWithTickOptionRetrieveView, TaskWithTickOptionUpdateView, \
     TaskWithTickStudentResultCreateView, TaskWithTickStudentResultRetrieveView, \
