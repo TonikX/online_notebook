@@ -15,7 +15,8 @@ from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, \
     TaskWithTickOptionCreateView, TaskWithTickOptionListView, \
     TaskWithTickOptionRetrieveView, TaskWithTickOptionUpdateView, \
     TaskWithTickStudentResultCreateView, TaskWithTickStudentResultRetrieveView, \
-    TaskWithTickStudentResultUpdateView, TaskWithTickStudentResultListView
+    TaskWithTickStudentResultUpdateView, TaskWithTickStudentResultListView, \
+    StatisticsTaskByStudent, StatisticsStudentResults
 
 
 app_name = "courses_app"
@@ -75,4 +76,9 @@ urlpatterns = [
     path('tasks/with_tick/results/<int:pk>/', TaskWithTickStudentResultRetrieveView.as_view()),
     path('tasks/with_tick/results/update/<int:pk>/', TaskWithTickStudentResultUpdateView.as_view()),
 
+    path('statistics/sections/<int:section_id>/tasks/<str:task_type>/results/', StatisticsTaskByStudent.as_view()),
+    path(
+        'statistics/sections/<int:section_id>/tasks/<str:task_type>/students/<int:user_id>/results/',
+        StatisticsStudentResults.as_view(),
+    ),
 ]
