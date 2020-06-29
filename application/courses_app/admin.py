@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User, StudentGroup, StudentStream, GroupInStream, Course, Lesson, StudentLessonResult, Section, \
-          ClassmatesCheckedTask, TaskOption, StudentResult, Check, \
-					Section, TaskWithTick, TaskWithTickOption, TaskWithTickStudentResult
+from .models import User, StudentGroup, StudentStream, GroupInStream, Course, Lesson, StudentLessonResult, \
+    ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, TaskWithTickOption, \
+    TaskWithTickStudentResult, TaskWithTickCheck
 
 admin.site.register(StudentGroup)
 admin.site.register(StudentStream)
@@ -19,6 +19,7 @@ admin.site.register(Check)
 admin.site.register(TaskWithTick)
 admin.site.register(TaskWithTickOption)
 admin.site.register(TaskWithTickStudentResult)
+admin.site.register(TaskWithTickCheck)
 
 UserAdmin.fieldsets += ('Custom fields set', {'fields': ('role', 'group')}),
 admin.site.register(User, UserAdmin)

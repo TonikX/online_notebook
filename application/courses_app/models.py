@@ -187,3 +187,18 @@ class TaskWithTickStudentResult(models.Model):
 
     def __str__(self):
         return '{}, Is performed? {}, Date: {}'.format(self.task_with_tick_option, self.perform, self.perform_date)
+
+
+class TaskWithTickCheck(models.Model):
+    """Associative entity between User, TaskWithTickStudentResult"""
+    check = models.CharField(max_length=20)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    result = models.ForeignKey(TaskWithTickStudentResult, on_delete=models.CASCADE)
+    verifier = models.CharField(max_length=20)
+    mark = models.CharField(max_length=10, default='')
+    comment = models.CharField(max_length=255, default='')
+    description = models.CharField(max_length=1024, default='')
+
+    def __str__(self):
+        return 'TaskWithTickCheck {} (Associative)'.format(self.check)

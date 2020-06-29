@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 
 from .models import StudentStream, StudentGroup, Course, Lesson, StudentLessonResult, Section, ClassmatesCheckedTask, \
                     TaskOption, StudentResult, Check, \
-                    Section, TaskWithTick, TaskWithTickOption, TaskWithTickStudentResult
+                    Section, TaskWithTick, TaskWithTickOption, TaskWithTickStudentResult, TaskWithTickCheck
 
 
 User = get_user_model()
@@ -130,7 +130,7 @@ class CreateTaskWithTickOptionSerializer(serializers.ModelSerializer):
 
 
 class TaskWithTickStudentResultSerializer(serializers.ModelSerializer):
-    task_with_tick = TaskWithTickSerializer()
+    task_with_tick_option = TaskWithTickOptionSerializer()
     user = GroupMemberSerializer()
 
     class Meta:
@@ -141,4 +141,19 @@ class TaskWithTickStudentResultSerializer(serializers.ModelSerializer):
 class CreateTaskWithTickStudentResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskWithTickStudentResult
+        fields = '__all__'
+
+
+class TaskWithTickCheckSerializer(serializers.ModelSerializer):
+    task_with_tick_student_result = TaskWithTickStudentResultSerializer()
+    user = GroupMemberSerializer()
+
+    class Meta:
+        model = TaskWithTickCheck
+        fields = '__all__'
+
+
+class CreateTaskWithTickCheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskWithTickCheck
         fields = '__all__'

@@ -8,14 +8,16 @@ from .views import StudentStreamListCreateView, StudentStreamRetrieveUpdateView,
     LessonListView, StudentLessonResultListView, \
     ClassmatesCheckedTaskListCreateView, ClassmatesCheckedTaskRetrieveUpdateDestroyView, \
     TaskOptionListCreateView, TaskOptionRetrieveUpdateDestroyView, \
-    StudentResultListCreateView, StudentResultRetrieveUpdateDestroyView
+    StudentResultListCreateView, StudentResultRetrieveUpdateDestroyView, \
     SectionCreateView, SectionListView, SectionRetrieveView, \
     SectionUpdateView, TaskWithTickCreateView, TaskWithTickListView, \
     TaskWithTickRetrieveView, TaskWithTickUpdateView, \
     TaskWithTickOptionCreateView, TaskWithTickOptionListView, \
     TaskWithTickOptionRetrieveView, TaskWithTickOptionUpdateView, \
     TaskWithTickStudentResultCreateView, TaskWithTickStudentResultRetrieveView, \
-    TaskWithTickStudentResultUpdateView, TaskWithTickStudentResultListView
+    TaskWithTickStudentResultUpdateView, TaskWithTickStudentResultListView, \
+    TaskWithTickCheckCreateView, TaskWithTickCheckListView, \
+    TaskWithTickCheckRetrieveView, TaskWithTickCheckUpdateView, StudentListView
 
 
 app_name = "courses_app"
@@ -74,5 +76,10 @@ urlpatterns = [
     path('tasks/with_tick/results/all/', TaskWithTickStudentResultListView.as_view()),
     path('tasks/with_tick/results/<int:pk>/', TaskWithTickStudentResultRetrieveView.as_view()),
     path('tasks/with_tick/results/update/<int:pk>/', TaskWithTickStudentResultUpdateView.as_view()),
+
+    path('tasks/with_tick/checks/add/', TaskWithTickCheckCreateView.as_view()),
+    path('tasks/with_tick/checks/all/', TaskWithTickCheckListView.as_view()),
+    path('tasks/with_tick/checks/<int:pk>/', TaskWithTickCheckRetrieveView.as_view()),
+    path('tasks/with_tick/checks/update/<int:pk>/', TaskWithTickCheckUpdateView.as_view()),
 
 ]

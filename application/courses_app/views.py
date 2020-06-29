@@ -7,18 +7,19 @@ from rest_framework import generics
 from django.contrib.postgres.search import SearchVector
 
 from .models import StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult, \
-    ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, TaskWithTickOption, TaskWithTickStudentResult
+    ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, TaskWithTickOption, \
+    TaskWithTickStudentResult, TaskWithTickCheck
 from .serializers import ClassmatesCheckedTaskSerializer, \
     TaskOptionSerializer, StudentResultSerializer, CheckSerializer
     
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     StudentGroupSerializer, GroupMemberSerializer, CourseSerializer, \
-    LessonSerializer, StudentLessonResultSerializer, \
+    LessonSerializer, StudentLessonResultSerializer, StudentSerializer, \
     CreateStudentLessonResultSerializer, SectionSerializer, \
     CreateSectionSerializer, TaskWithTickSerializer, CreateTaskWithTickSerializer, \
     TaskWithTickOptionSerializer, CreateTaskWithTickOptionSerializer, \
     TaskWithTickStudentResult, TaskWithTickStudentResultSerializer, \
-    CreateTaskWithTickStudentResultSerializer
+    CreateTaskWithTickStudentResultSerializer, TaskWithTickCheckSerializer, CreateTaskWithTickCheckSerializer
 
 from .utils import get_object_or_none
 
@@ -359,3 +360,26 @@ class TaskWithTickStudentResultListView(generics.ListAPIView):
     serializer_class = TaskWithTickStudentResultSerializer
     permission_class = permissions.AllowAny
 
+
+class TaskWithTickCheckCreateView(generics.CreateAPIView):
+    queryset = TaskWithTickCheck.objects.all()
+    serializer_class = CreateTaskWithTickCheckSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithTickCheckRetrieveView(generics.RetrieveAPIView):
+    queryset = TaskWithTickCheck.objects.all()
+    serializer_class = TaskWithTickCheckSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithTickCheckUpdateView(generics.UpdateAPIView):
+    queryset = TaskWithTickCheck.objects.all()
+    serializer_class = CreateTaskWithTickCheckSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithTickCheckListView(generics.ListAPIView):
+    queryset = TaskWithTickCheck.objects.all()
+    serializer_class = TaskWithTickCheckSerializer
+    permission_class = permissions.AllowAny
