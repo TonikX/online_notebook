@@ -15,7 +15,7 @@ User = get_user_model()
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "email", "tel", "group")
+        fields = ("first_name", "last_name", "email", "tel", "group", "username")
 
 
 class StudentStreamSerializer(serializers.ModelSerializer):
