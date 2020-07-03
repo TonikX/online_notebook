@@ -249,7 +249,7 @@ class TaskWithKeyword(models.Model):
     description = models.CharField(max_length=1024)
 
     def __str__(self):
-        return f'{self.section}, Task: {self.title}'
+        return '{}, Task: {}'.format(self.section, self.title)
 
 
 class TaskWithKeywordOption(models.Model):
@@ -258,7 +258,7 @@ class TaskWithKeywordOption(models.Model):
     keyword = models.CharField(max_length=128)
 
     def __str__(self):
-        return f'{self.task}, Description: {self.description}'
+        return '{}, Description: {}'.format(self.task, self.description)
 
 
 class TaskWithKeywordResult(models.Model):
@@ -268,4 +268,4 @@ class TaskWithKeywordResult(models.Model):
     perform = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.option}, User: {self.user} Is performed? {self.perform}'
+        return '{}, User: {} Is performed? {}'.format(self.option, self.user, self.perform)
