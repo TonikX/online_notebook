@@ -10,11 +10,13 @@ from .models import \
     StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult, \
     ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
     TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
-    TaskWithClassmatesCheckResult, TaskWithTeacherCheckResult, TaskWithKeyword, \
-    TaskWithClassmatesCheck, TaskWithTeacherCheck
+    TaskWithTeacherCheckResult, TaskWithKeyword, TaskWithTeacherCheckOption, \
+    TaskWithTeacherCheck, TaskWithTeacherCheckCheck
 from .serializers import \
     ClassmatesCheckedTaskSerializer, TaskOptionSerializer, StudentResultSerializer, \
-    CheckSerializer, TaskSerializer, UserResultsSerializer
+    CheckSerializer, TaskWithTeacherCheckSerializer, TaskWithTeacherCheckOptionSerializer, \
+    TaskWithTeacherCheckResultSerializer, TaskWithTeacherCheckCheckSerializer, \
+    TaskSerializer, UserResultsSerializer
     
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     StudentGroupSerializer, GroupMemberSerializer, CourseSerializer, \
@@ -151,6 +153,7 @@ class CourseCreateView(generics.CreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class CourseRetrieveUpdateView(generics.RetrieveUpdateAPIView):
@@ -227,6 +230,7 @@ class TaskOptionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
 class StudentResultListCreateView(generics.ListCreateAPIView):
     queryset = StudentResult.objects.all()
     serializer_class = StudentResultSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class StudentResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
@@ -248,10 +252,60 @@ class CheckRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     permission_class = permissions.AllowAny
 
 
+class TaskWithTeacherCheckListCreateView(generics.ListCreateAPIView):
+    queryset = TaskWithTeacherCheck.objects.all()
+    serializer_class = TaskWithTeacherCheckSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithTeacherCheckRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TaskWithTeacherCheck.objects.all()
+    serializer_class = TaskWithTeacherCheckSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithTeacherCheckOptionListCreateView(generics.ListCreateAPIView):
+    queryset = TaskWithTeacherCheckOption.objects.all()
+    serializer_class = TaskWithTeacherCheckOptionSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithTeacherCheckOptionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TaskWithTeacherCheckOption.objects.all()
+    serializer_class = TaskWithTeacherCheckOptionSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithTeacherCheckResultListCreateView(generics.ListCreateAPIView):
+    queryset = TaskWithTeacherCheckResult.objects.all()
+    serializer_class = TaskWithTeacherCheckResultSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithTeacherCheckResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TaskWithTeacherCheckResult.objects.all()
+    serializer_class = TaskWithTeacherCheckResultSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithTeacherCheckCheckListCreateView(generics.ListCreateAPIView):
+    queryset = TaskWithTeacherCheckCheck.objects.all()
+    serializer_class = TaskWithTeacherCheckCheckSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithTeacherCheckCheckRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TaskWithTeacherCheckCheck.objects.all()
+    serializer_class = TaskWithTeacherCheckCheckSerializer
+    permission_classes = [permissions.AllowAny]
+    permission_class = permissions.AllowAny
+
+
 class SectionCreateView(generics.CreateAPIView):
     queryset = Section.objects.all()
     serializer_class = CreateSectionSerializer
     permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class SectionRetrieveView(generics.RetrieveAPIView):
@@ -370,7 +424,7 @@ class StatisticsTaskByStudent(generics.ListAPIView):
     MODEL_BY_TYPE = {
         'with_keyword': TaskWithKeyword,
         'with_teacher_check': TaskWithTeacherCheck,
-        'with_classmates_check': TaskWithClassmatesCheck,
+        'with_classmates_check': ClassmatesCheckedTask,
     }
 
     def get_serializer_class(self):
@@ -402,7 +456,7 @@ class StatisticsStudentResults(generics.ListAPIView):
     MODEL_BY_TYPE = {
         'with_keyword': TaskWithKeywordResult,
         'with_teacher_check': TaskWithTeacherCheckResult,
-        'with_classmates_check': TaskWithClassmatesCheckResult,
+        'with_classmates_check': ClassmatesCheckedTask,
     }
 
     def get_serializer(self, data, many):

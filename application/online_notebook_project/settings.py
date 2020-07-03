@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'online_notebook_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'onlinenotebook_db',
+        'NAME': 'sqllearndb',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'db',
