@@ -6,7 +6,7 @@ from .models import \
     ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
     TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithClassmatesCheckResult, TaskWithKeyword, \
-    TaskWithClassmatesCheck, TaskWithTeacherCheck
+    TaskWithClassmatesCheck, TaskWithTeacherCheck, TaskWithKeywordOption
 
 
 User = get_user_model()
@@ -144,6 +144,49 @@ class TaskWithTickStudentResultSerializer(serializers.ModelSerializer):
 class CreateTaskWithTickStudentResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskWithTickStudentResult
+        fields = '__all__'
+
+
+class TaskWithKeywordSerializer(serializers.ModelSerializer):
+    section = SectionSerializer()
+
+    class Meta:
+        model = TaskWithKeyword
+        fields = '__all__'
+
+
+class CreateTaskWithKeywordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskWithKeyword
+        fields = '__all__'
+
+
+class TaskWithKeywordOptionSerializer(serializers.ModelSerializer):
+    task = TaskWithKeywordSerializer()
+
+    class Meta:
+        model = TaskWithKeywordOption
+        fields = '__all__'
+
+
+class CreateTaskWithKeywordOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskWithKeywordOption
+        fields = '__all__'
+
+
+class TaskWithKeywordResultSerializer(serializers.ModelSerializer):
+    user = StudentSerializer()
+    option = TaskWithKeywordOptionSerializer()
+
+    class Meta:
+        model = TaskWithKeywordResult
+        fields = '__all__'
+
+
+class CreateTaskWithKeywordResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskWithKeywordResult
         fields = '__all__'
 
 
