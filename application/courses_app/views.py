@@ -288,7 +288,7 @@ class TaskWithTickRetrieveView(generics.RetrieveAPIView):
     permission_class = permissions.AllowAny
 
 
-class TaskWithTickUpdateView(generics.UpdateAPIView):
+class TaskWithTickUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TaskWithTick.objects.all()
     serializer_class = CreateTaskWithTickSerializer
     permission_class = permissions.AllowAny
@@ -333,7 +333,7 @@ class TaskWithTickOptionRetrieveView(generics.RetrieveAPIView):
     permission_class = permissions.AllowAny
 
 
-class TaskWithTickOptionUpdateView(generics.UpdateAPIView):
+class TaskWithTickOptionUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TaskWithTickOption.objects.all()
     serializer_class = CreateTaskWithTickOptionSerializer
     permission_class = permissions.AllowAny
@@ -381,7 +381,7 @@ class TaskWithKeywordRetrieveView(generics.RetrieveAPIView):
     permission_class = permissions.AllowAny
 
 
-class TaskWithKeywordUpdateView(generics.UpdateAPIView):
+class TaskWithKeywordUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TaskWithKeyword.objects.all()
     serializer_class = CreateTaskWithKeywordSerializer
     permission_class = permissions.AllowAny
@@ -405,7 +405,7 @@ class TaskWithKeywordOptionRetrieveView(generics.RetrieveAPIView):
     permission_class = permissions.AllowAny
 
 
-class TaskWithKeywordOptionUpdateView(generics.UpdateAPIView):
+class TaskWithKeywordOptionUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TaskWithKeywordOption.objects.all()
     serializer_class = CreateTaskWithKeywordOptionSerializer
     permission_class = permissions.AllowAny
