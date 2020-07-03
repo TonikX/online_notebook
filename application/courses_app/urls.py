@@ -18,6 +18,14 @@ from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, \
     TaskWithTickStudentResultUpdateView, TaskWithTickStudentResultListView, \
     StatisticsTaskByStudent, StatisticsStudentResults
 
+# task with keyword views
+from .views import TaskWithKeywordCreateView, TaskWithKeywordRetrieveView, \
+    TaskWithKeywordUpdateView, TaskWithKeywordListView, TaskWithKeywordOptionCreateView, \
+    TaskWithKeywordOptionRetrieveView, TaskWithKeywordOptionUpdateView, \
+    TaskWithKeywordOptionListView, TaskWithKeywordResultCreateView, \
+    TaskWithKeywordResultRetrieveView, TaskWithKeywordResultUpdateView, \
+    TaskWithKeywordResultListView
+
 
 app_name = "courses_app"
 
@@ -75,6 +83,21 @@ urlpatterns = [
     path('tasks/with_tick/results/all/', TaskWithTickStudentResultListView.as_view()),
     path('tasks/with_tick/results/<int:pk>/', TaskWithTickStudentResultRetrieveView.as_view()),
     path('tasks/with_tick/results/update/<int:pk>/', TaskWithTickStudentResultUpdateView.as_view()),
+
+    path('tasks/with_keyword/add/', TaskWithKeywordCreateView.as_view()),
+    path('tasks/with_keyword/all/', TaskWithKeywordListView.as_view()),
+    path('tasks/with_keyword/<int:pk>/', TaskWithKeywordRetrieveView.as_view()),
+    path('tasks/with_keyword/update/<int:pk>/', TaskWithKeywordUpdateView.as_view()),
+
+    path('tasks/with_keyword/options/add/', TaskWithKeywordOptionCreateView.as_view()),
+    path('tasks/with_keyword/options/all/', TaskWithKeywordOptionListView.as_view()),
+    path('tasks/with_keyword/options/<int:pk>/', TaskWithKeywordOptionRetrieveView.as_view()),
+    path('tasks/with_keyword/options/update/<int:pk>/', TaskWithKeywordOptionUpdateView.as_view()),
+
+    path('tasks/with_keyword/results/add/', TaskWithKeywordResultCreateView.as_view()),
+    path('tasks/with_keyword/results/all/', TaskWithKeywordResultListView.as_view()),
+    path('tasks/with_keyword/results/<int:pk>/', TaskWithKeywordResultRetrieveView.as_view()),
+    path('tasks/with_keyword/results/update/<int:pk>/', TaskWithKeywordResultUpdateView.as_view()),
 
     path('statistics/sections/<int:section_id>/tasks/<str:task_type>/results/', StatisticsTaskByStudent.as_view()),
     path(
