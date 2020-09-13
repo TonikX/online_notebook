@@ -10,8 +10,11 @@ from .models import \
     StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult, \
     ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
     TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
+    TaskWithClassmatesCheckResult, TaskWithTeacherCheckResult, TaskWithKeyword, \
+    TaskWithClassmatesCheck, TaskWithTeacherCheck, TaskWithKeywordOption
     TaskWithTeacherCheckResult, TaskWithKeyword, TaskWithTeacherCheckOption, \
     TaskWithTeacherCheck, TaskWithTeacherCheckCheck
+  
 from .serializers import \
     ClassmatesCheckedTaskSerializer, TaskOptionSerializer, StudentResultSerializer, \
     CheckSerializer, TaskWithTeacherCheckSerializer, TaskWithTeacherCheckOptionSerializer, \
@@ -25,7 +28,10 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     CreateSectionSerializer, TaskWithTickSerializer, CreateTaskWithTickSerializer, \
     TaskWithTickOptionSerializer, CreateTaskWithTickOptionSerializer, \
     TaskWithTickStudentResult, TaskWithTickStudentResultSerializer, \
-    CreateTaskWithTickStudentResultSerializer, StudentSerializer
+    CreateTaskWithTickStudentResultSerializer, StudentSerializer, \
+    TaskWithKeywordSerializer, CreateTaskWithKeywordSerializer, \
+    TaskWithKeywordOptionSerializer, CreateTaskWithKeywordOptionSerializer, \
+    TaskWithKeywordResultSerializer, CreateTaskWithKeywordResultSerializer
 
 from .utils import get_object_or_none
 
@@ -338,7 +344,7 @@ class TaskWithTickRetrieveView(generics.RetrieveAPIView):
     permission_class = permissions.AllowAny
 
 
-class TaskWithTickUpdateView(generics.UpdateAPIView):
+class TaskWithTickUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TaskWithTick.objects.all()
     serializer_class = CreateTaskWithTickSerializer
     permission_class = permissions.AllowAny
@@ -383,7 +389,7 @@ class TaskWithTickOptionRetrieveView(generics.RetrieveAPIView):
     permission_class = permissions.AllowAny
 
 
-class TaskWithTickOptionUpdateView(generics.UpdateAPIView):
+class TaskWithTickOptionUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TaskWithTickOption.objects.all()
     serializer_class = CreateTaskWithTickOptionSerializer
     permission_class = permissions.AllowAny
@@ -417,6 +423,98 @@ class TaskWithTickStudentResultListView(generics.ListAPIView):
     queryset = TaskWithTickStudentResult.objects.all()
     serializer_class = TaskWithTickStudentResultSerializer
     permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordCreateView(generics.CreateAPIView):
+    queryset = TaskWithKeyword.objects.all()
+    serializer_class = CreateTaskWithKeywordSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordRetrieveView(generics.RetrieveAPIView):
+    queryset = TaskWithKeyword.objects.all()
+    serializer_class = TaskWithKeywordSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordUpdateView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TaskWithKeyword.objects.all()
+    serializer_class = CreateTaskWithKeywordSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordListView(generics.ListAPIView):
+    queryset = TaskWithKeyword.objects.all()
+    serializer_class = TaskWithKeywordSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordOptionCreateView(generics.CreateAPIView):
+    queryset = TaskWithKeywordOption.objects.all()
+    serializer_class = CreateTaskWithKeywordOptionSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordOptionRetrieveView(generics.RetrieveAPIView):
+    queryset = TaskWithKeywordOption.objects.all()
+    serializer_class = TaskWithKeywordOptionSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordOptionUpdateView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TaskWithKeywordOption.objects.all()
+    serializer_class = CreateTaskWithKeywordOptionSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordOptionListView(generics.ListAPIView):
+    queryset = TaskWithKeywordOption.objects.all()
+    serializer_class = TaskWithKeywordOptionSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordResultCreateView(generics.CreateAPIView):
+    queryset = TaskWithKeywordResult.objects.all()
+    serializer_class = CreateTaskWithKeywordResultSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordResultRetrieveView(generics.RetrieveAPIView):
+    queryset = TaskWithKeywordResult.objects.all()
+    serializer_class = TaskWithKeywordResultSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordResultUpdateView(generics.UpdateAPIView):
+    queryset = TaskWithKeywordResult.objects.all()
+    serializer_class = CreateTaskWithKeywordResultSerializer
+    permission_class = permissions.AllowAny
+
+
+class TaskWithKeywordResultListView(generics.ListAPIView):
+    serializer_class = TaskWithKeywordResultSerializer
+    permission_class = permissions.AllowAny
+
+    def get_queryset(self):
+        queryset = TaskWithKeywordResult.objects.all()
+
+        params = self.request.query_params
+
+        username = params.get('username', None)
+        is_perform = params.get('is_perform', None)
+
+        if username:
+            queryset = queryset.filter(user__username=username)
+
+        # if is performed
+        if is_perform == '1':
+            queryset = queryset.filter(perform=True)
+
+        # if isn't performed
+        if is_perform == '0':
+            queryset = queryset.filter(perform=False)
+
+        return queryset
 
 
 class StatisticsTaskByStudent(generics.ListAPIView):
