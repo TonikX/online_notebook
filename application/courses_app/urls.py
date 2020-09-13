@@ -6,9 +6,17 @@ from .views import CourseCreateView, CourseRetrieveUpdateView, LessonCreateView,
     LessonRetrieveUpdateView, StudentLessonResultCreateView, \
     StudentLessonResultRetrieveUpdateView, CourseListView, \
     LessonListView, StudentLessonResultListView
+
 from .views import ClassmatesCheckedTaskListCreateView, ClassmatesCheckedTaskRetrieveUpdateDestroyView
 from .views import TaskOptionListCreateView, TaskOptionRetrieveUpdateDestroyView
 from .views import StudentResultListCreateView, StudentResultRetrieveUpdateDestroyView
+from .views import CheckListCreateView, CheckRetrieveUpdateDestroyView
+
+from .views import TaskWithTeacherCheckListCreateView, TaskWithTeacherCheckRetrieveUpdateDestroyView
+from .views import TaskWithTeacherCheckOptionListCreateView, TaskWithTeacherCheckOptionRetrieveUpdateDestroyView
+from .views import TaskWithTeacherCheckResultListCreateView, TaskWithTeacherCheckResultRetrieveUpdateDestroyView
+from .views import TaskWithTeacherCheckCheckListCreateView, TaskWithTeacherCheckCheckRetrieveUpdateDestroyView
+
 from .views import SectionCreateView, SectionListView, SectionRetrieveView, \
     SectionUpdateView, TaskWithTickCreateView, TaskWithTickListView
 from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, \
@@ -45,8 +53,20 @@ urlpatterns = [
     path('classmates/results/', StudentResultListCreateView.as_view()),
     path('classmates/results/<int:pk>/', StudentResultRetrieveUpdateDestroyView.as_view()),
 
-    path('classmates/checks/', StudentResultListCreateView.as_view()),
-    path('classmates/checks/<int:pk>/', StudentResultRetrieveUpdateDestroyView.as_view()),
+    path('classmates/checks/', CheckListCreateView.as_view()),
+    path('classmates/checks/<int:pk>/', CheckRetrieveUpdateDestroyView.as_view()),
+
+    path('teacher/tasks/', TaskWithTeacherCheckListCreateView.as_view()),
+    path('teacher/tasks/<int:pk>/', TaskWithTeacherCheckResultRetrieveUpdateDestroyView.as_view()),
+
+    path('teacher/options/', TaskWithTeacherCheckOptionListCreateView.as_view()),
+    path('teacher/options/<int:pk>/', TaskWithTeacherCheckOptionRetrieveUpdateDestroyView.as_view()),
+
+    path('teacher/results/', TaskWithTeacherCheckResultListCreateView.as_view()),
+    path('teacher/results/<int:pk>/', TaskWithTeacherCheckResultRetrieveUpdateDestroyView.as_view()),
+
+    path('teacher/checks/', TaskWithTeacherCheckCheckListCreateView.as_view()),
+    path('teacher/checks/<int:pk>/', TaskWithTeacherCheckCheckRetrieveUpdateDestroyView.as_view()),
 
     path('lessons/add/', LessonCreateView.as_view()),
     path('lessons/all/', LessonListView.as_view()),

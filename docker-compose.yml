@@ -8,14 +8,13 @@ services:
         environment:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres
-            - POSTGRES_DB=onlinenotebook_db
+            - POSTGRES_DB=sqllearndb
         volumes:
             - ./dbs/postgres-data:/var/lib/postgresql
     backend:
         container_name: online_notebook_backend
         build: ./application
         command: bash -c "
-                sleep 3 &&
                 python manage.py makemigrations && python manage.py migrate &&
                 python manage.py runserver --insecure 0.0.0.0:8000";
         volumes:
