@@ -189,33 +189,6 @@ class TaskWithTickStudentResult(models.Model):
         return '{}, Is performed? {}, Date: {}'.format(self.task_with_tick_option, self.perform, self.perform_date)
 
 
-class TaskWithClassmatesCheck(models.Model):
-    section = models.ForeignKey(Section, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    description = models.CharField(max_length=1024)
-
-    def __str__(self):
-        return f'{self.section}, Task: {self.title}'
-
-
-class TaskWithClassmatesCheckOption(models.Model):
-    task = models.ForeignKey(TaskWithClassmatesCheck, on_delete=models.CASCADE)
-    description = models.CharField(max_length=1024)
-
-    def __str__(self):
-        return f'{self.task}, Description: {self.description}'
-
-
-class TaskWithClassmatesCheckResult(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    option = models.ForeignKey(TaskWithClassmatesCheckOption, on_delete=models.CASCADE)
-
-    perform = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f'{self.option}, User: {self.user} Is performed? {self.perform}'
-
-
 class TaskWithTeacherCheck(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
@@ -241,6 +214,21 @@ class TaskWithTeacherCheckResult(models.Model):
 
     def __str__(self):
         return f'{self.option}, User: {self.user} Is performed? {self.perform}'
+
+
+class TaskWithTeacherCheckCheck(models.Model):
+    """Associative entity between User, TaskWithTeacherCheckResult"""
+    check = models.CharField(max_length=20)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    result = models.ForeignKey(TaskWithTeacherCheckResult, on_delete=models.CASCADE)
+    verifier = models.CharField(max_length=20)
+    mark = models.CharField(max_length=10, default='')
+    comment = models.CharField(max_length=255, default='')
+    description = models.CharField(max_length=1024, default='')
+
+    def __str__(self):
+        return 'TaskWithTeacherCheckCheck {} (Associative)'.format(self.check)
 
 
 class TaskWithKeyword(models.Model):
