@@ -76,10 +76,10 @@ urlpatterns = [
     path('lessons/results/all/', StudentLessonResultListView.as_view()),
     path('lessons/results/<int:pk>/', StudentLessonResultRetrieveUpdateView.as_view()),
 
-    path('courses/sections/add/', SectionCreateView.as_view()),
-    path('courses/sections/all/', SectionListView.as_view()),
-    path('courses/sections/<int:pk>/', SectionRetrieveView.as_view()),
-    path('courses/sections/update/<int:pk>/', SectionUpdateView.as_view()),
+    path('courses/sections/add/', CourseCreateView.as_view()),
+    path('courses/sections/all/', CourseListView.as_view()),
+    path('courses/sections/<int:pk>/', CourseRetrieveUpdateView.as_view()),
+    path('courses/sections/update/<int:pk>/', CourseRetrieveUpdateView.as_view()),
 
     path('tasks/with_tick/add/', TaskWithTickCreateView.as_view()),
     path('tasks/with_tick/all/', TaskWithTickListView.as_view()),
