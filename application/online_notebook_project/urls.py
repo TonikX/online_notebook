@@ -18,6 +18,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from .yasg import urlpatterns as doc_urlpatterns
+from django.conf.urls import url
+from rest_framework_swagger.views import get_swagger_view
+
+
+schema_view = get_swagger_view(title='OnlineNotebook API')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,7 +31,10 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.urls.jwt')),
+    url(r'swagger-docs/', schema_view),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += doc_urlpatterns
+
+
 

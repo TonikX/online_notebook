@@ -25,6 +25,8 @@ SECRET_KEY = '#or0l2jubs(45^m)#a8q$z3pk64d+q5q6z$8fhgc&36_61smm7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+
 #ALLOWED_HOSTS = ['94.250.249.177', '94.250.249.177:8000', 'localhost', '127.0.0.1']
 ALLOWED_HOSTS = ['*']
 
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'courses_app',
     'corsheaders',
+    'rest_framework_swagger',
     # 'users.apps.UsersConfig',
 ]
 
@@ -154,7 +157,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAdminUser',
         'rest_framework.permissions.AllowAny',
     ),
-    'PAGE_SIZE': 1000,
+    'PAGE_SIZE': 10,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',
@@ -173,7 +176,14 @@ REST_FRAMEWORK = {
     #     'rest_framework_json_api.renderers.JSONRenderer',
     #     'rest_framework.renderers.BrowsableAPIRenderer',
     # ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        # 'rest_framework_json_api.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
     'DEFAULT_METADATA_CLASS': 'rest_framework_json_api.metadata.JSONAPIMetadata',
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    #'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 AUTHENTICATION_BACKENDS = (
@@ -209,5 +219,15 @@ DJOSER = {
         #'user': 'courses_app.serializers.UserSerializer',
         #'current_user': 'courses_app.serializers.UserSerializer',
         #'user_create': 'courses_app.serializers.UserSerializer',
+    },
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization'
+        }
     },
 }

@@ -152,7 +152,7 @@ class StudentGroupMembersListCreateView(generics.ListCreateAPIView):
 class CourseCreateView(generics.CreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    permission_class = permissions.AllowAny
+    #permission_class = permissions.AllowAny
     permission_classes = [permissions.AllowAny]
 
 
