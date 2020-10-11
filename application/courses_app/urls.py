@@ -2,7 +2,7 @@ from django.urls import path
 from .views import StudentStreamListCreateView, StudentStreamRetrieveUpdateView,\
     StudentGroupListCreateView, StudentGroupRetrieveUpdateView, \
     StudentGroupMembersListCreateView, GroupInStreamListCreateView, StudentListView
-from .views import CourseCreateView, CourseRetrieveUpdateView, LessonCreateView, \
+from .views import CourseCreateView, CourseListView, CourseRetrieveUpdateView, LessonCreateView, \
     LessonRetrieveUpdateView, StudentLessonResultCreateView, \
     StudentLessonResultRetrieveUpdateView, CourseListView, \
     LessonListView, StudentLessonResultListView
@@ -40,6 +40,7 @@ urlpatterns = [
     path('groups/<int:pk>/', StudentGroupRetrieveUpdateView.as_view()),
     path('groups/<int:pk>/members/', StudentGroupMembersListCreateView.as_view()),
 
+    path('courses', CourseListView.as_view()),
     path('courses/add/', CourseCreateView.as_view()),
     path('courses/all/', CourseListView.as_view()),
     path('courses/<int:pk>/', CourseRetrieveUpdateView.as_view()),

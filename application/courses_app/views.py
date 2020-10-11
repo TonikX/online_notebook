@@ -149,11 +149,22 @@ class StudentGroupMembersListCreateView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class CourseListView(generics.ListAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    #permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
+
+
 class CourseCreateView(generics.CreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     #permission_class = permissions.AllowAny
     permission_classes = [permissions.AllowAny]
+
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class CourseRetrieveUpdateView(generics.RetrieveUpdateAPIView):

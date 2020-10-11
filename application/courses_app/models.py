@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 import datetime
 
 
@@ -58,6 +59,8 @@ class GroupInStream(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1024)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+
 
     def __str__(self):
         return self.name
