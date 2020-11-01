@@ -44,6 +44,12 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CourseCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['name', 'description']
+
+
 class LessonSerializer(serializers.ModelSerializer):
     course = CourseSerializer()
 
