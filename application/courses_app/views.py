@@ -29,6 +29,8 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
 
 from .utils import get_object_or_none
 
+from rest_framework import filters
+
 
 User = get_user_model()
 
@@ -156,7 +158,7 @@ class CourseListView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class CourseCreateView(generics.CreateAPIView):
+class CourseCreateAPIView(generics.CreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     #permission_class = permissions.AllowAny
@@ -167,17 +169,36 @@ class CourseCreateView(generics.CreateAPIView):
         serializer.save(owner=self.request.user)
 
 
-class CourseRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+class CourseListAPIView(generics.ListAPIView):
+    serializer_class = CourseSerializer
+    queryset = Course.objects.all()
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'description']
+    permission_classes = [permissions.AllowAny]
+
+
+class CourseCreateAPIView(generics.CreateAPIView):
+    serializer_class = CourseSerializer
+    queryset = Course.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+
+class CourseDestroyView(generics.DestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
-class CourseListView(generics.ListAPIView):
+class CourseUpdateView(generics.UpdateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
+
+class CourseDetailsView(generics.RetrieveAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.AllowAny]
 
 class LessonCreateView(generics.CreateAPIView):
     queryset = Lesson.objects.all()

@@ -2,10 +2,13 @@ from django.urls import path
 from .views import StudentStreamListCreateView, StudentStreamRetrieveUpdateView,\
     StudentGroupListCreateView, StudentGroupRetrieveUpdateView, \
     StudentGroupMembersListCreateView, GroupInStreamListCreateView, StudentListView
-from .views import CourseCreateView, CourseListView, CourseRetrieveUpdateView, LessonCreateView, \
+from .views import LessonCreateView, \
     LessonRetrieveUpdateView, StudentLessonResultCreateView, \
-    StudentLessonResultRetrieveUpdateView, CourseListView, \
+    StudentLessonResultRetrieveUpdateView, \
     LessonListView, StudentLessonResultListView
+
+from .views import CourseCreateAPIView, CourseListAPIView, CourseDetailsView, CourseDestroyView, CourseUpdateView
+
 
 from .views import ClassmatesCheckedTaskListCreateView, ClassmatesCheckedTaskRetrieveUpdateDestroyView
 from .views import TaskOptionListCreateView, TaskOptionRetrieveUpdateDestroyView
@@ -40,10 +43,11 @@ urlpatterns = [
     path('groups/<int:pk>/', StudentGroupRetrieveUpdateView.as_view()),
     path('groups/<int:pk>/members/', StudentGroupMembersListCreateView.as_view()),
 
-    path('courses', CourseListView.as_view()),
-    path('courses/add/', CourseCreateView.as_view()),
-    path('courses/all/', CourseListView.as_view()),
-    path('courses/<int:pk>/', CourseRetrieveUpdateView.as_view()),
+    path('api/Course', CourseListAPIView.as_view()),
+    path('api/Course/create', CourseCreateAPIView.as_view()),
+    path('api/Course/detail/<int:pk>', CourseDetailsView.as_view()),
+    path('api/Course/delete/<int:pk>', CourseDestroyView.as_view()),
+    path('api/Course/update/<int:pk>', CourseUpdateView.as_view()),
 
     path('classmates/tasks/', ClassmatesCheckedTaskListCreateView.as_view()),
     path('classmates/tasks/<int:pk>/', ClassmatesCheckedTaskRetrieveUpdateDestroyView.as_view()),
