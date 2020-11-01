@@ -43,11 +43,11 @@ urlpatterns = [
     path('groups/<int:pk>/', StudentGroupRetrieveUpdateView.as_view()),
     path('groups/<int:pk>/members/', StudentGroupMembersListCreateView.as_view()),
 
-    path('api/Course', CourseListAPIView.as_view()),
-    path('api/Course/create', CourseCreateAPIView.as_view()),
-    path('api/Course/detail/<int:pk>', CourseDetailsView.as_view()),
-    path('api/Course/delete/<int:pk>', CourseDestroyView.as_view()),
-    path('api/Course/update/<int:pk>', CourseUpdateView.as_view()),
+    path('Course', CourseListAPIView.as_view()),
+    path('Course/create', CourseCreateAPIView.as_view()),
+    path('Course/detail/<int:pk>', CourseDetailsView.as_view()),
+    path('Course/delete/<int:pk>', CourseDestroyView.as_view()),
+    path('Course/update/<int:pk>', CourseUpdateView.as_view()),
 
     path('classmates/tasks/', ClassmatesCheckedTaskListCreateView.as_view()),
     path('classmates/tasks/<int:pk>/', ClassmatesCheckedTaskRetrieveUpdateDestroyView.as_view()),
