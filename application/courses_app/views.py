@@ -25,7 +25,7 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     CreateSectionSerializer, TaskWithTickSerializer, CreateTaskWithTickSerializer, \
     TaskWithTickOptionSerializer, CreateTaskWithTickOptionSerializer, \
     TaskWithTickStudentResult, TaskWithTickStudentResultSerializer, \
-    CreateTaskWithTickStudentResultSerializer, StudentSerializer
+    CreateTaskWithTickStudentResultSerializer, StudentSerializer, CourseCreateSerializer
 
 from .utils import get_object_or_none
 
@@ -178,7 +178,7 @@ class CourseListAPIView(generics.ListAPIView):
 
 
 class CourseCreateAPIView(generics.CreateAPIView):
-    serializer_class = CourseSerializer
+    serializer_class = CourseCreateSerializer
     queryset = Course.objects.all()
     permission_classes = [permissions.AllowAny]
 
