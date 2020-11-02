@@ -132,7 +132,7 @@ class TaskWithTeacherCheckCheckSerializer(serializers.ModelSerializer):
 class CreateSectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section
-        fields = '__all__'
+        fields = ['title', 'course']
 
 
 class TaskWithTickSerializer(serializers.ModelSerializer):
