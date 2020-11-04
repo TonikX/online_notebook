@@ -83,7 +83,7 @@ urlpatterns = [
 
     path('courses/sections/add/', SectionCreateView.as_view()),
     path('courses/sections/all/', SectionListView.as_view()),
-    path('courses/sections/<int:pk>/', SectionRetrieveView.as_view()),
+    path('courses/sections/detail/<int:pk>/', SectionRetrieveView.as_view()),
     path('courses/sections/update/<int:pk>/', SectionUpdateView.as_view()),
     path('courses/sections/<int:course_id>/', SectionInCourseListView.as_view()),
 
