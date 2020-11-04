@@ -158,15 +158,15 @@ class CourseListView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class CourseCreateAPIView(generics.CreateAPIView):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
-    #permission_class = permissions.AllowAny
-    permission_classes = [permissions.AllowAny]
-
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+# class CourseCreateAPIView(generics.CreateAPIView):
+#     queryset = Course.objects.all()
+#     serializer_class = CourseSerializer
+#     #permission_class = permissions.AllowAny
+#     permission_classes = [permissions.AllowAny]
+#
+#
+#     def perform_create(self, serializer):
+#         serializer.save(owner=self.request.user)
 
 
 class CourseListAPIView(generics.ListAPIView):
@@ -181,6 +181,10 @@ class CourseCreateAPIView(generics.CreateAPIView):
     serializer_class = CourseCreateSerializer
     queryset = Course.objects.all()
     permission_classes = [permissions.AllowAny]
+
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class CourseDestroyView(generics.DestroyAPIView):
