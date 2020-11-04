@@ -362,6 +362,22 @@ class SectionListView(generics.ListAPIView):
     permission_class = permissions.AllowAny
 
 
+class SectionInCourseListView(generics.ListAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
+    permission_class = permissions.AllowAny
+
+
+    def list(self, request, **kwargs):
+        """
+        Вывод всех результатов для одной рабочей программы по id
+        """
+        # Note the use of `get_queryset()` instead of `self.queryset`
+        queryset = Section.objects.filter(course__id=self.kwargs['course_id'])
+        serializer = SectionSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
 class TaskWithTickCreateView(generics.CreateAPIView):
     queryset = TaskWithTick.objects.all()
     serializer_class = CreateTaskWithTickSerializer
