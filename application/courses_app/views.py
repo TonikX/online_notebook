@@ -355,6 +355,12 @@ class SectionUpdateView(generics.UpdateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
+class SectionDeleteView(generics.DestroyAPIView):
+    queryset = Section.objects.all()
+    serializer_class = CreateSectionSerializer
+    permission_classes = [permissions.AllowAny]
+
+
 class SectionListView(generics.ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
