@@ -364,7 +364,7 @@ class SectionListView(generics.ListAPIView):
 class SectionInCourseListView(generics.ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
-    permission_classes = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
     def list(self, request, **kwargs):
