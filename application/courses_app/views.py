@@ -335,38 +335,36 @@ class TaskWithTeacherCheckCheckRetrieveUpdateDestroyView(generics.RetrieveUpdate
     queryset = TaskWithTeacherCheckCheck.objects.all()
     serializer_class = TaskWithTeacherCheckCheckSerializer
     permission_classes = [permissions.AllowAny]
-    permission_class = permissions.AllowAny
 
 
 class SectionCreateView(generics.CreateAPIView):
     queryset = Section.objects.all()
     serializer_class = CreateSectionSerializer
-    permission_class = permissions.AllowAny
     permission_classes = [permissions.AllowAny]
 
 
 class SectionRetrieveView(generics.RetrieveAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class SectionUpdateView(generics.UpdateAPIView):
     queryset = Section.objects.all()
     serializer_class = CreateSectionSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class SectionListView(generics.ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class SectionInCourseListView(generics.ListAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = permissions.AllowAny
 
 
     def list(self, request, **kwargs):
