@@ -109,7 +109,7 @@ class StudentLessonResult(models.Model):
 class Section(models.Model):
     section = models.CharField(max_length=50, blank=True, null=True)
 
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name = 'sections_in_course')
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=1024, blank=True, null=True)
 
@@ -169,6 +169,8 @@ class TaskWithTick(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=1024)
+    tick_text = models.CharField(max_length=1024)
+    points = models.IntegerField()
 
     def __str__(self):
         return '{}, Task: {}'.format(self.section, self.title)

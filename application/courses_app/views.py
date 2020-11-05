@@ -19,7 +19,8 @@ from .serializers import \
     TaskSerializer, UserResultsSerializer
     
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
-    StudentGroupSerializer, GroupMemberSerializer, CourseSerializer, \
+    StudentGroupSerializer, GroupMemberSerializer, \
+    CourseSerializer, CourseListSerializer, \
     LessonSerializer, StudentLessonResultSerializer, \
     CreateStudentLessonResultSerializer, SectionSerializer, \
     CreateSectionSerializer, TaskWithTickSerializer, CreateTaskWithTickSerializer, \
@@ -170,7 +171,7 @@ class CourseListView(generics.ListAPIView):
 
 
 class CourseListAPIView(generics.ListAPIView):
-    serializer_class = CourseSerializer
+    serializer_class = CourseListSerializer
     queryset = Course.objects.all()
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'description']

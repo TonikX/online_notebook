@@ -18,6 +18,12 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ("first_name", "last_name", "email", "tel", "group")
 
 
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email", "tel")
+
+
 class StudentStreamSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentStream
@@ -38,7 +44,27 @@ class GroupMemberSerializer(serializers.ModelSerializer):
         fields = ("id", "first_name", "last_name", "email", "tel")
 
 
+class CourseListSerializer(serializers.ModelSerializer):
+    owner = TeacherSerializer()
+
+
+    class Meta:
+        model = Course
+        fields = '__all__'
+
+
+class SectionInCourseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Section
+        fields = '__all__'
+
+
 class CourseSerializer(serializers.ModelSerializer):
+    owner = TeacherSerializer()
+    sections_in_course = SectionInCourseSerializer(many = True)
+
+
     class Meta:
         model = Course
         fields = '__all__'
