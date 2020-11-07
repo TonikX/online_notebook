@@ -22,7 +22,7 @@ from .views import TaskWithTeacherCheckCheckListCreateView, TaskWithTeacherCheck
 
 from .views import SectionCreateView, SectionListView, SectionRetrieveView, SectionInCourseListView, SectionDeleteView, \
     SectionUpdateView, TaskWithTickCreateView, TaskWithTickListView
-from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, \
+from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, TaskWithTickDeleteView, \
     TaskWithTickOptionCreateView, TaskWithTickOptionListView, \
     TaskWithTickOptionRetrieveView, TaskWithTickOptionUpdateView, \
     TaskWithTickStudentResultCreateView, TaskWithTickStudentResultRetrieveView, \
@@ -92,6 +92,7 @@ urlpatterns = [
     path('tasks/with_tick/all/', TaskWithTickListView.as_view()),
     path('tasks/with_tick/<int:pk>/', TaskWithTickRetrieveView.as_view()),
     path('tasks/with_tick/update/<int:pk>/', TaskWithTickUpdateView.as_view()),
+    path('tasks/with_tick/delete/<int:pk>/', TaskWithTickDeleteView.as_view()),
 
     path('tasks/with_tick/options/add/', TaskWithTickOptionCreateView.as_view()),
     path('tasks/with_tick/options/all/', TaskWithTickOptionListView.as_view()),
