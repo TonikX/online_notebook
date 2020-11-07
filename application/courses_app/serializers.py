@@ -53,7 +53,15 @@ class CourseListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskWithTickInSectionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaskWithTick
+        fields = '__all__'
+
+
 class SectionInCourseSerializer(serializers.ModelSerializer):
+    task_with_tick_in_section = TaskWithTickInSectionSerializer(many = True)
 
     class Meta:
         model = Section

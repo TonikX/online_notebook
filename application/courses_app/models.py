@@ -166,7 +166,7 @@ class Check(models.Model):
 
 
 class TaskWithTick(models.Model):
-    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name = 'task_with_tick_in_section')
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=1024)
     tick_text = models.CharField(max_length=1024, blank=True, null=True)
