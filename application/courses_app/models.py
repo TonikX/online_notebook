@@ -130,7 +130,7 @@ class ClassmatesCheckedTask(models.Model):
 
 class TaskOption(models.Model):
     option = models.ForeignKey(ClassmatesCheckedTask, on_delete=models.CASCADE)
-
+    index_number = models.IntegerField(blank=True, null=True)
     description = models.CharField(max_length=1024)
 
     def __str__(self):
@@ -179,6 +179,7 @@ class TaskWithTick(models.Model):
 class TaskWithTickOption(models.Model):
     task_with_tick = models.ForeignKey(TaskWithTick, on_delete=models.CASCADE)
     description = models.CharField(max_length=1024)
+    index_number = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return '{}, Description: {}'.format(self.task_with_tick, self.description)
@@ -250,6 +251,7 @@ class TaskWithKeywordOption(models.Model):
     task = models.ForeignKey(TaskWithKeyword, on_delete=models.CASCADE)
     description = models.CharField(max_length=1024)
     keyword = models.CharField(max_length=128)
+    index_number = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.task}, Description: {self.description}'
