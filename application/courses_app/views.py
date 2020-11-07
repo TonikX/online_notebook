@@ -402,7 +402,7 @@ class TaskWithTickUpdateView(generics.UpdateAPIView):
     permission_class = permissions.AllowAny
 
 
-class TaskWithTickDeleteView(generics.DeleteAPIView):
+class TaskWithTickDeleteView(generics.DestroyAPIView):
     queryset = TaskWithTick.objects.all()
     serializer_class = CreateTaskWithTickSerializer
     permission_class = permissions.AllowAny
