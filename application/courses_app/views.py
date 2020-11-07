@@ -387,30 +387,30 @@ class SectionInCourseListView(generics.ListAPIView):
 class TaskWithTickCreateView(generics.CreateAPIView):
     queryset = TaskWithTick.objects.all()
     serializer_class = CreateTaskWithTickSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickRetrieveView(generics.RetrieveAPIView):
     queryset = TaskWithTick.objects.all()
     serializer_class = TaskWithTickSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickUpdateView(generics.UpdateAPIView):
     queryset = TaskWithTick.objects.all()
     serializer_class = CreateTaskWithTickSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickDeleteView(generics.DestroyAPIView):
     queryset = TaskWithTick.objects.all()
     serializer_class = CreateTaskWithTickSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickListView(generics.ListAPIView):
     serializer_class = TaskWithTickSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         queryset = TaskWithTick.objects.all()
@@ -438,49 +438,49 @@ class TaskWithTickListView(generics.ListAPIView):
 class TaskWithTickOptionCreateView(generics.CreateAPIView):
     queryset = TaskWithTickOption.objects.all()
     serializer_class = CreateTaskWithTickOptionSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickOptionRetrieveView(generics.RetrieveAPIView):
     queryset = TaskWithTickOption.objects.all()
     serializer_class = TaskWithTickOptionSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickOptionUpdateView(generics.UpdateAPIView):
     queryset = TaskWithTickOption.objects.all()
     serializer_class = CreateTaskWithTickOptionSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickOptionListView(generics.ListAPIView):
     queryset = TaskWithTickOption.objects.all()
     serializer_class = TaskWithTickOptionSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickStudentResultCreateView(generics.CreateAPIView):
     queryset = TaskWithTickStudentResult.objects.all()
     serializer_class = CreateTaskWithTickStudentResultSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickStudentResultRetrieveView(generics.RetrieveAPIView):
     queryset = TaskWithTickStudentResult.objects.all()
     serializer_class = TaskWithTickStudentResultSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickStudentResultUpdateView(generics.UpdateAPIView):
     queryset = TaskWithTickStudentResult.objects.all()
     serializer_class = CreateTaskWithTickStudentResultSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickStudentResultListView(generics.ListAPIView):
     queryset = TaskWithTickStudentResult.objects.all()
     serializer_class = TaskWithTickStudentResultSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class StatisticsTaskByStudent(generics.ListAPIView):
