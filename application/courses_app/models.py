@@ -204,7 +204,7 @@ class TaskWithTeacherCheck(models.Model):
 
 
 class TaskWithTeacherCheckOption(models.Model):
-    task = models.ForeignKey(TaskWithTeacherCheck, on_delete=models.CASCADE)
+    task = models.ForeignKey(TaskWithTeacherCheck, on_delete=models.CASCADE, related_name = 'option_for_task_with_teacher')
     description = models.CharField(max_length=1024)
 
     def __str__(self):

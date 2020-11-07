@@ -26,7 +26,8 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     CreateSectionSerializer, TaskWithTickSerializer, CreateTaskWithTickSerializer, \
     TaskWithTickOptionSerializer, CreateTaskWithTickOptionSerializer, \
     TaskWithTickStudentResult, TaskWithTickStudentResultSerializer, \
-    CreateTaskWithTickStudentResultSerializer, StudentSerializer, CourseCreateSerializer
+    CreateTaskWithTickStudentResultSerializer, StudentSerializer, CourseCreateSerializer, \
+    TaskWithTeacherCreateCheckSerializer
 
 from .utils import get_object_or_none
 
@@ -291,7 +292,7 @@ class CheckRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 
 class TaskWithTeacherCheckListCreateView(generics.ListCreateAPIView):
     queryset = TaskWithTeacherCheck.objects.all()
-    serializer_class = TaskWithTeacherCheckSerializer
+    serializer_class = TaskWithTeacherCreateCheckSerializer
     permission_classes = [permissions.AllowAny]
 
 
