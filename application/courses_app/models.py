@@ -197,8 +197,8 @@ class TaskWithTickStudentResult(models.Model):
 
 class TaskWithTeacherCheck(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name = 'task_with_teacher_check_in_section')
-    title = models.CharField(max_length=255)
-    description = models.CharField(max_length=1024)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    description = models.CharField(max_length=1024, blank=True, null=True)
     upload_file = models.BooleanField(default = False, blank=True, null=True)
     points = models.IntegerField(blank=True, null=True)
 
@@ -209,7 +209,7 @@ class TaskWithTeacherCheck(models.Model):
 class TaskWithTeacherCheckOption(models.Model):
     task = models.ForeignKey(TaskWithTeacherCheck, on_delete=models.CASCADE, related_name = 'option_for_task_with_teacher')
     title = models.CharField(max_length=255, blank = True, null=True)
-    description = models.CharField(max_length=1024)
+    description = models.CharField(max_length=1024, blank = True, null=True)
 
     def __str__(self):
         return f'{self.task}, Description: {self.description}'
