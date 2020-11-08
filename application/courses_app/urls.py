@@ -30,9 +30,9 @@ from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, TaskWithTic
     StatisticsTaskByStudent, StatisticsStudentResults
 
 from .views import TaskWithKeywordRetrieveView, TaskWithKeywordUpdateView, TaskWithKeywordDeleteView, \
-    TaskWithKeywordCreateView, TaskWithKeywordListView
-    # TaskWithKeywordOptionCreateView, TaskWithKeywordOptionListView, \
-    # TaskWithKeywordOptionRetrieveView, TaskWithKeywordOptionUpdateView, \
+    TaskWithKeywordCreateView, TaskWithKeywordListView, \
+    TaskWithKeywordOptionCreateView, TaskWithKeywordOptionListView, \
+    TaskWithKeywordOptionRetrieveView, TaskWithKeywordOptionUpdateView
     # TaskWithKeywordStudentResultCreateView, TaskWithKeywordStudentResultRetrieveView, \
     # TaskWithKeywordStudentResultUpdateView, TaskWithKeywordStudentResultListView, \
 
@@ -122,10 +122,10 @@ urlpatterns = [
     path('tasks/with_keyword/update/<int:pk>/', TaskWithKeywordUpdateView.as_view()),
     path('tasks/with_keyword/delete/<int:pk>/', TaskWithKeywordDeleteView.as_view()),
 
-    # path('tasks/with_keyword/options/add/', TaskWithKeywordOptionCreateView.as_view()),
-    # path('tasks/with_keyword/options/all/', TaskWithKeywordOptionListView.as_view()),
-    # path('tasks/with_keyword/options/<int:pk>/', TaskWithKeywordOptionRetrieveView.as_view()),
-    # path('tasks/with_keyword/options/update/<int:pk>/', TaskWithKeywordOptionUpdateView.as_view()),
+    path('tasks/with_keyword/options/add/', TaskWithKeywordOptionCreateView.as_view()),
+    path('tasks/with_keyword/options/all/', TaskWithKeywordOptionListView.as_view()),
+    path('tasks/with_keyword/options/<int:pk>/', TaskWithKeywordOptionRetrieveView.as_view()),
+    path('tasks/with_keyword/options/update/<int:pk>/', TaskWithKeywordOptionUpdateView.as_view()),
     #
     # path('tasks/with_keyword/results/add/', TaskWithKeywordStudentResultCreateView.as_view()),
     # path('tasks/with_keyword/results/all/', TaskWithKeywordStudentResultListView.as_view()),

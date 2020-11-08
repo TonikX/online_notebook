@@ -326,12 +326,6 @@ class UserResultsSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'username', 'results')
 
 
-class TaskWithKeywordSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = TaskWithKeyword
-        fields = '__all__'
-
 class TaskWithKeywordForCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -357,4 +351,25 @@ class TaskWithKeywordCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskWithKeyword
+        fields = '__all__'
+
+
+class TaskWithKeywordOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskWithKeywordOption
+        fields = '__all__'
+
+
+class TaskWithKeywordSerializer(serializers.ModelSerializer):
+    option_for_task_with_keyword = TaskWithKeywordOptionSerializer(many = True)
+
+    class Meta:
+        model = TaskWithKeyword
+        fields = '__all__'
+
+
+class TaskWithKeywordResultSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaskWithKeywordResult
         fields = '__all__'

@@ -171,6 +171,7 @@ class TaskWithTick(models.Model):
     description = models.CharField(max_length=1024)
     tick_text = models.CharField(max_length=1024, blank=True, null=True)
     points = models.IntegerField(blank=True, null=True)
+    index_number = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return '{}, Task: {}'.format(self.section, self.title)
@@ -201,6 +202,7 @@ class TaskWithTeacherCheck(models.Model):
     description = models.CharField(max_length=1024, blank=True, null=True)
     upload_file = models.BooleanField(default = False, blank=True, null=True)
     points = models.IntegerField(blank=True, null=True)
+    index_number = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.section}, Task: {self.title}'
@@ -245,6 +247,7 @@ class TaskWithKeyword(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=1024)
     upload_file = models.BooleanField(default = False, blank=True, null=True)
+    index_number = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.section}, Task: {self.title}'
