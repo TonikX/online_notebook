@@ -186,17 +186,17 @@ class TaskWithTeacherCreateCheckSerializer(serializers.ModelSerializer):
         }
 
 
-class TaskWithTeacherCheckSerializer(serializers.ModelSerializer):
-    option_for_task_with_teacher = TaskWithTeacherOptionForCreateSerializer(many = True)
-
-    class Meta:
-        model = TaskWithTeacherCheck
-        fields = '__all__'
-
-
 class TaskWithTeacherCheckOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskWithTeacherCheckOption
+        fields = '__all__'
+
+
+class TaskWithTeacherCheckSerializer(serializers.ModelSerializer):
+    option_for_task_with_teacher = TaskWithTeacherCheckOptionSerializer(many = True)
+
+    class Meta:
+        model = TaskWithTeacherCheck
         fields = '__all__'
 
 
@@ -358,6 +358,3 @@ class TaskWithKeywordCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskWithKeyword
         fields = '__all__'
-        extra_kwargs = {
-            'option_for_task_with_teacher': {'required': False}
-        }
