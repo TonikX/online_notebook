@@ -159,7 +159,7 @@ class TaskWithTeacherOptionForCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskWithTeacherCheckOption
-        fields = ['title', 'description']
+        fields = ['pk', 'title', 'description']
 
 
 class TaskWithTeacherCreateCheckSerializer(serializers.ModelSerializer):
