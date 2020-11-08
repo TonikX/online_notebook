@@ -6,7 +6,8 @@ from .models import \
     ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
     TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, \
-    TaskWithTeacherCheck, TaskWithTeacherCheckOption, TaskWithTeacherCheckCheck
+    TaskWithTeacherCheck, TaskWithTeacherCheckOption, TaskWithTeacherCheckCheck, \
+    TaskWithKeyword, TaskWithKeywordOption
 
 
 User = get_user_model()
@@ -64,6 +65,13 @@ class TaskWithTeacherCheckInSectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskWithTeacherCheck
+        fields = '__all__'
+
+
+class TaskWithKeywordCheckInSectionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaskWithKeyword
         fields = '__all__'
 
 
@@ -147,7 +155,7 @@ class CheckSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TaskWithTeacherForCreateSerializer(serializers.ModelSerializer):
+class TaskWithTeacherOptionForCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskWithTeacherCheckOption
@@ -155,7 +163,7 @@ class TaskWithTeacherForCreateSerializer(serializers.ModelSerializer):
 
 
 class TaskWithTeacherCreateCheckSerializer(serializers.ModelSerializer):
-    option_for_task_with_teacher = TaskWithTeacherForCreateSerializer(many = True)
+    option_for_task_with_teacher = TaskWithTeacherOptionForCreateSerializer(many = True)
 
 
     def create(self, validated_data):
@@ -179,6 +187,8 @@ class TaskWithTeacherCreateCheckSerializer(serializers.ModelSerializer):
 
 
 class TaskWithTeacherCheckSerializer(serializers.ModelSerializer):
+    option_for_task_with_teacher = TaskWithTeacherOptionForCreateSerializer(many = True)
+
     class Meta:
         model = TaskWithTeacherCheck
         fields = '__all__'
@@ -209,7 +219,7 @@ class CreateSectionSerializer(serializers.ModelSerializer):
 
 
 class TaskWithTickSerializer(serializers.ModelSerializer):
-    section = SectionSerializer()
+
 
     class Meta:
         model = TaskWithTick
@@ -314,3 +324,40 @@ class UserResultsSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'first_name', 'username', 'results')
+
+
+class TaskWithKeywordSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaskWithKeyword
+        fields = ['description']
+
+class TaskWithKeywordForCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaskWithKeywordOption
+        fields = ['description']
+
+
+class TaskWithKeywordCreateSerializer(serializers.ModelSerializer):
+    option_for_task_with_teacher = TaskWithKeywordForCreateSerializer(many = True)
+
+
+    def create(self, validated_data):
+        # Create the book instance
+        book = TaskWithKeyword.objects.create(title=validated_data['title'], description=validated_data['description'], section=validated_data['section'])
+
+        # Create or update each page instance
+        for item in validated_data['option_for_task_with_teacher']:
+            page = TaskWithKeywordOption(description=item['description'], task=book)
+            page.save()
+
+        return book
+
+
+    class Meta:
+        model = TaskWithKeyword
+        fields = '__all__'
+        extra_kwargs = {
+            'option_for_task_with_teacher': {'required': False}
+        }

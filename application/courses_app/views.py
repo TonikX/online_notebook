@@ -29,6 +29,8 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     CreateTaskWithTickStudentResultSerializer, StudentSerializer, CourseCreateSerializer, \
     TaskWithTeacherCreateCheckSerializer
 
+from .serializers import TaskWithKeywordCreateSerializer, TaskWithKeywordSerializer
+
 from .utils import get_object_or_none
 
 from rest_framework import filters
@@ -539,3 +541,35 @@ class StatisticsStudentResults(generics.ListAPIView):
         queryset = User.objects.filter(id=user_id)
 
         return queryset
+
+
+# Задания с ключевым словом
+
+class TaskWithKeywordCreateView(generics.CreateAPIView):
+    queryset = TaskWithKeyword.objects.all()
+    serializer_class = TaskWithKeywordCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithKeywordRetrieveView(generics.RetrieveAPIView):
+    queryset = TaskWithKeyword.objects.all()
+    serializer_class = TaskWithKeywordSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithKeywordUpdateView(generics.UpdateAPIView):
+    queryset = TaskWithKeyword.objects.all()
+    serializer_class = TaskWithKeywordCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithKeywordDeleteView(generics.DestroyAPIView):
+    queryset = TaskWithKeyword.objects.all()
+    serializer_class = TaskWithKeywordCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithKeywordListView(generics.ListAPIView):
+    queryset = TaskWithKeyword.objects.all()
+    serializer_class = TaskWithKeywordSerializer
+    permission_classes = [permissions.AllowAny]

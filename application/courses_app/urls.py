@@ -29,6 +29,12 @@ from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, TaskWithTic
     TaskWithTickStudentResultUpdateView, TaskWithTickStudentResultListView, \
     StatisticsTaskByStudent, StatisticsStudentResults
 
+from .views import TaskWithKeywordRetrieveView, TaskWithKeywordUpdateView, TaskWithKeywordDeleteView, \
+    TaskWithKeywordCreateView, TaskWithKeywordListView
+    # TaskWithKeywordOptionCreateView, TaskWithKeywordOptionListView, \
+    # TaskWithKeywordOptionRetrieveView, TaskWithKeywordOptionUpdateView, \
+    # TaskWithKeywordStudentResultCreateView, TaskWithKeywordStudentResultRetrieveView, \
+    # TaskWithKeywordStudentResultUpdateView, TaskWithKeywordStudentResultListView, \
 
 app_name = "courses_app"
 
@@ -62,7 +68,7 @@ urlpatterns = [
     path('tasks/classmates/checks/<int:pk>/', CheckRetrieveUpdateDestroyView.as_view()),
 
     path('tasks/teacher', TaskWithTeacherCheckListCreateView.as_view()),
-    path('tasks/teacher/<int:pk>/', TaskWithTeacherCheckResultRetrieveUpdateDestroyView.as_view()),
+    path('tasks/teacher/detail/<int:pk>/', TaskWithTeacherCheckRetrieveUpdateDestroyView.as_view()),
 
     path('tasks/teacher/options/', TaskWithTeacherCheckOptionListCreateView.as_view()),
     path('tasks/teacher/options/<int:pk>/', TaskWithTeacherCheckOptionRetrieveUpdateDestroyView.as_view()),
@@ -109,4 +115,21 @@ urlpatterns = [
         'statistics/sections/<int:section_id>/tasks/<str:task_type>/students/<int:user_id>/results/',
         StatisticsStudentResults.as_view(),
     ),
+
+    path('tasks/with_keyword/add/', TaskWithKeywordCreateView.as_view()),
+    path('tasks/with_keyword/all/', TaskWithKeywordListView.as_view()),
+    path('tasks/with_keyword/<int:pk>/', TaskWithKeywordRetrieveView.as_view()),
+    path('tasks/with_keyword/update/<int:pk>/', TaskWithKeywordUpdateView.as_view()),
+    path('tasks/with_keyword/delete/<int:pk>/', TaskWithKeywordDeleteView.as_view()),
+
+    # path('tasks/with_keyword/options/add/', TaskWithKeywordOptionCreateView.as_view()),
+    # path('tasks/with_keyword/options/all/', TaskWithKeywordOptionListView.as_view()),
+    # path('tasks/with_keyword/options/<int:pk>/', TaskWithKeywordOptionRetrieveView.as_view()),
+    # path('tasks/with_keyword/options/update/<int:pk>/', TaskWithKeywordOptionUpdateView.as_view()),
+    #
+    # path('tasks/with_keyword/results/add/', TaskWithKeywordStudentResultCreateView.as_view()),
+    # path('tasks/with_keyword/results/all/', TaskWithKeywordStudentResultListView.as_view()),
+    # path('tasks/with_keyword/results/<int:pk>/', TaskWithKeywordStudentResultRetrieveView.as_view()),
+    # path('tasks/with_keyword/results/update/<int:pk>/', TaskWithKeywordStudentResultUpdateView.as_view()),
+
 ]
