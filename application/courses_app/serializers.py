@@ -172,7 +172,7 @@ class TaskWithTeacherCreateCheckSerializer(serializers.ModelSerializer):
 
         # Create or update each page instance
         for item in validated_data['option_for_task_with_teacher']:
-            page = TaskWithTeacherCheckOption(description=item['description'], task=book, task=book)
+            page = TaskWithTeacherCheckOption(description=item['description'], task=book)
             page.save()
 
         return book
