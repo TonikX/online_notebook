@@ -255,8 +255,8 @@ class TaskWithKeyword(models.Model):
 
 class TaskWithKeywordOption(models.Model):
     task = models.ForeignKey(TaskWithKeyword, on_delete=models.CASCADE, related_name = 'option_for_task_with_keyword')
-    description = models.CharField(max_length=1024)
-    keyword = models.CharField(max_length=128)
+    description = models.CharField(max_length=1024, blank=True, null=True)
+    keyword = models.CharField(max_length=128, blank=True, null=True)
     index_number = models.IntegerField(blank=True, null=True)
     title = models.CharField(max_length=255, blank=True, null=True)
 
