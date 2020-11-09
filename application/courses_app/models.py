@@ -243,7 +243,7 @@ class TaskWithTeacherCheckCheck(models.Model):
 
 
 class TaskWithKeyword(models.Model):
-    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name = 'task_with_keyword_in_section')
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=1024)
     upload_file = models.BooleanField(default = False, blank=True, null=True)
