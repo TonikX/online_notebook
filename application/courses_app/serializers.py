@@ -159,7 +159,7 @@ class TaskWithTeacherOptionForCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskWithTeacherCheckOption
-        fields = ['pk']
+        fields = ['pk','title','description']
 
 
 class TaskWithTeacherCreateCheckSerializer(serializers.ModelSerializer):
@@ -172,7 +172,8 @@ class TaskWithTeacherCreateCheckSerializer(serializers.ModelSerializer):
 
         # Create or update each page instance
         for item in validated_data['option_for_task_with_teacher']:
-            page = TaskWithTeacherCheckOption(description=item['description'], task=book)
+            print (item['description'])
+            page = TaskWithTeacherCheckOption(description=item['description'], title = item['title'], task=book)
             page.save()
 
         return book
@@ -330,7 +331,7 @@ class TaskWithKeywordForCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskWithKeywordOption
-        fields = ['pk']
+        fields = ['pk', 'title', 'description', 'keyword']
 
 
 class TaskWithKeywordCreateSerializer(serializers.ModelSerializer):
@@ -343,7 +344,7 @@ class TaskWithKeywordCreateSerializer(serializers.ModelSerializer):
 
         # Create or update each page instance
         for item in validated_data['option_for_task_with_keyword']:
-            page = TaskWithKeywordOption(description=item['description'], task=book)
+            page = TaskWithKeywordOption(description=item['description'], title = item['title'], keqyword = item['keyword'], task=book)
             page.save()
 
         return book
