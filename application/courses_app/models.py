@@ -258,6 +258,7 @@ class TaskWithKeywordOption(models.Model):
     description = models.CharField(max_length=1024)
     keyword = models.CharField(max_length=128)
     index_number = models.IntegerField(blank=True, null=True)
+    title = models.CharField(max_length=255)
 
     def __str__(self):
         return f'{self.task}, Description: {self.description}'
