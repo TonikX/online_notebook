@@ -7,7 +7,7 @@ from .models import \
     TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, \
     TaskWithTeacherCheck, TaskWithTeacherCheckOption, TaskWithTeacherCheckCheck, \
-    TaskWithKeyword, TaskWithKeywordOption
+    TaskWithKeyword, TaskWithKeywordOption, TaskWithTickInStream
 
 
 User = get_user_model()
@@ -29,6 +29,21 @@ class StudentStreamSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentStream
         fields = ("id", "title")
+
+
+class StudentGroupForStreamSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = StudentGroup
+        fields = ['id']
+
+
+class StudentStreamCreateSerializer(serializers.ModelSerializer):
+    #groups = StudentGroupForStreamSerializer(many=True)
+
+    class Meta:
+        model = StudentStream
+        fields = ("id", "title", "groups")
 
 
 class StudentGroupSerializer(serializers.ModelSerializer):
@@ -371,6 +386,41 @@ class TaskWithKeywordSerializer(serializers.ModelSerializer):
 
 class TaskWithKeywordResultSerializer(serializers.ModelSerializer):
 
+
     class Meta:
         model = TaskWithKeywordResult
+        fields = '__all__'
+
+
+class TaskWithTickInStreamSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = TaskWithTickInStream
+        fields = ['id', 'deadline_date']
+
+
+class TaskWithTickInSectionForStreamSerializer(serializers.ModelSerializer):
+    deadline_value = TaskWithTickInStreamSerializer(many = True)
+
+    class Meta:
+        model = TaskWithTick
+        fields = '__all__'
+
+
+class SectionInCourseForStreamSerializer(serializers.ModelSerializer):
+    task_with_tick_in_section = TaskWithTickInSectionForStreamSerializer(many = True)
+    task_with_teacher_check_in_section = TaskWithTeacherCheckInSectionSerializer(many = True)
+    task_with_keyword_in_section = TaskWithKeywordCheckInSectionSerializer(many = True)
+    class Meta:
+        model = Section
+        fields = '__all__'
+
+
+class CourseInStreamSerializer(serializers.ModelSerializer):
+    sections_in_course = SectionInCourseForStreamSerializer(many = True)
+
+
+    class Meta:
+        model = Course
         fields = '__all__'

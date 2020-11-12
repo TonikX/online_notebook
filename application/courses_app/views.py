@@ -27,9 +27,9 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     TaskWithTickOptionSerializer, CreateTaskWithTickOptionSerializer, \
     TaskWithTickStudentResult, TaskWithTickStudentResultSerializer, \
     CreateTaskWithTickStudentResultSerializer, StudentSerializer, CourseCreateSerializer, \
-    TaskWithTeacherCreateCheckSerializer
+    TaskWithTeacherCreateCheckSerializer, StudentStreamCreateSerializer
 
-from .serializers import TaskWithKeywordCreateSerializer, TaskWithKeywordSerializer, TaskWithKeywordOptionSerializer, TaskWithKeywordResultSerializer
+from .serializers import TaskWithKeywordCreateSerializer, TaskWithKeywordSerializer, TaskWithKeywordOptionSerializer, TaskWithKeywordResultSerializer, CourseInStreamSerializer
 
 from .utils import get_object_or_none
 
@@ -112,6 +112,12 @@ class GroupInStreamListCreateView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class GroupInStreamNewListCreateView(generics.ListCreateAPIView):
+    queryset = StudentStream.objects.all()
+    serializer_class = StudentStreamCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+
 class StudentGroupListCreateView(generics.ListCreateAPIView):
     queryset = StudentGroup.objects.all()
     serializer_class = StudentGroupSerializer
@@ -179,6 +185,48 @@ class CourseListAPIView(generics.ListAPIView):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'description']
     permission_classes = [permissions.AllowAny]
+
+
+class CourseInStreamsListAPIView(generics.ListAPIView):
+    serializer_class = CourseListSerializer
+    queryset = Course.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+
+    def list(self, request, **kwargs):
+        """
+        Вывод курсов, которые применены в потоках
+        """
+
+        try:
+            queryset = Course.objects.filter(id__in = StudentStream.objects.all().values('course_access'))
+            serializer = CourseListSerializer(queryset, many=True)
+            return Response(serializer.data)
+        except:
+            return Response(status=400)
+
+
+class CourseInStreamsByIdListAPIView(generics.ListAPIView):
+    serializer_class = CourseInStreamSerializer
+    queryset = Course.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+
+    def list(self, request, **kwargs):
+        """
+        Вывод курсов, которые применены в потоках
+        """
+        queryset = Course.objects.filter(streams_on_a_course__id = self.kwargs['stream_id']).distinct()
+        print (queryset)
+        serializer = CourseInStreamSerializer(queryset, many = True)
+        return Response(serializer.data)
+        # try:(
+        #     queryset = Course.objects.filter(id__in = StudentStream.objects.all().values('course_access'))
+        #     serializer = CourseListSerializer(queryset, many=True)
+        #     return Response(serializer.data)
+        # except:
+        #     return Response(status=400)
+
 
 
 class CourseCreateAPIView(generics.CreateAPIView):

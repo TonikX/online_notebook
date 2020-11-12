@@ -27,12 +27,13 @@ from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, TaskWithTic
     TaskWithTickOptionRetrieveView, TaskWithTickOptionUpdateView, \
     TaskWithTickStudentResultCreateView, TaskWithTickStudentResultRetrieveView, \
     TaskWithTickStudentResultUpdateView, TaskWithTickStudentResultListView, \
-    StatisticsTaskByStudent, StatisticsStudentResults
+    StatisticsTaskByStudent, StatisticsStudentResults, \
+    CourseInStreamsListAPIView, CourseInStreamsByIdListAPIView
 
 from .views import TaskWithKeywordRetrieveView, TaskWithKeywordUpdateView, TaskWithKeywordDeleteView, \
     TaskWithKeywordCreateView, TaskWithKeywordListView, \
     TaskWithKeywordOptionCreateView, TaskWithKeywordOptionListView, \
-    TaskWithKeywordOptionRetrieveView, TaskWithKeywordOptionUpdateView
+    TaskWithKeywordOptionRetrieveView, TaskWithKeywordOptionUpdateView, GroupInStreamNewListCreateView
     # TaskWithKeywordStudentResultCreateView, TaskWithKeywordStudentResultRetrieveView, \
     # TaskWithKeywordStudentResultUpdateView, TaskWithKeywordStudentResultListView, \
 
@@ -44,6 +45,7 @@ urlpatterns = [
     path('streams/', StudentStreamListCreateView.as_view()),
     path('streams/<int:pk>/', StudentStreamRetrieveUpdateView.as_view()),
     path('streams/<int:pk>/groups/', GroupInStreamListCreateView.as_view()),
+    path('stream/new_endpoint/groups/<int:pk>', GroupInStreamNewListCreateView.as_view()),
 
     path('groups/', StudentGroupListCreateView.as_view()),
     path('groups/<int:pk>/', StudentGroupRetrieveUpdateView.as_view()),
@@ -86,6 +88,9 @@ urlpatterns = [
     path('lessons/results/add/', StudentLessonResultCreateView.as_view()),
     path('lessons/results/all/', StudentLessonResultListView.as_view()),
     path('lessons/results/<int:pk>/', StudentLessonResultRetrieveUpdateView.as_view()),
+
+    path('courses_in_streams/all/', CourseInStreamsListAPIView.as_view()),
+    path('courses_in_streams/by_stream_id/<int:stream_id>', CourseInStreamsByIdListAPIView.as_view()),
 
     path('courses/sections/add/', SectionCreateView.as_view()),
     path('courses/sections/all/', SectionListView.as_view()),

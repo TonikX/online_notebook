@@ -23,6 +23,9 @@ class User(AbstractUser):
 
 class StudentStream(models.Model):
     title = models.CharField(max_length=60)
+    course_access = models.ManyToManyField(
+        'Course', related_name='streams_on_a_course'
+    )
 
     def __str__(self):
         return self.title
@@ -123,6 +126,10 @@ class ClassmatesCheckedTask(models.Model):
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=1024)
+    deadline_in_stream = models.ManyToManyField(
+        'StudentStream', related_name='classmates_task_in_stream'
+    )
+
 
     def __str__(self):
         return 'Task {} for section {}'.format(self.number, self.section.section)
@@ -172,9 +179,19 @@ class TaskWithTick(models.Model):
     tick_text = models.CharField(max_length=1024, blank=True, null=True)
     points = models.IntegerField(blank=True, null=True)
     index_number = models.IntegerField(blank=True, null=True)
+    deadline_in_stream = models.ManyToManyField(
+        'StudentStream', through = 'TaskWithTickInStream', related_name='task_with_tick_in_stream'
+    )
+
 
     def __str__(self):
         return '{}, Task: {}'.format(self.section, self.title)
+
+
+class TaskWithTickInStream(models.Model):
+    task_with_tick = models.ForeignKey(TaskWithTick, on_delete=models.CASCADE, related_name = 'deadline_value')
+    student_stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
+    deadline_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='Профессия')
 
 
 class TaskWithTickOption(models.Model):
