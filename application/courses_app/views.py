@@ -137,7 +137,7 @@ class GroupInStreamNewCreateView(generics.CreateAPIView):
 
 class GroupInStreamNewDetailView(generics.RetrieveAPIView):
     queryset = StudentStream.objects.all()
-    serializer_class = StudentStreamCreateSerializer
+    serializer_class = StudentStreamListSerializer
     permission_classes = [permissions.AllowAny]
 
 
