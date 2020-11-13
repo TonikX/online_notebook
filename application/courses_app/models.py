@@ -26,7 +26,7 @@ class StudentStream(models.Model):
     course_access = models.ManyToManyField(
         'Course', related_name='streams_on_a_course'
     )
-    start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
+    start_date = models.DateTimeField(editable=True, blank=True, null=True, verbose_name='старт')
     deadline_date = models.DateTimeField(editable=True, blank=True, null=True, verbose_name='дедлайн')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
 
