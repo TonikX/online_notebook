@@ -53,7 +53,7 @@ urlpatterns = [
     path('stream/new_endpoint/groups/', GroupInStreamNewListView.as_view()),
     path('stream/new_endpoint/groups/create', GroupInStreamNewCreateView.as_view()),
     path('stream/new_endpoint/groups/delete_update/<int:pk>', GroupInStreamNewDeleteUpdateView.as_view()),
-    path('stream/new_endpoint/groups/detail/<int:pk>', GroupInStreamNewDetail.as_view()),
+    path('stream/new_endpoint/groups/detail/<int:pk>', GroupInStreamNewDetailView.as_view()),
 
     path('groups/', StudentGroupListCreateView.as_view()),
     path('groups/<int:pk>/', StudentGroupRetrieveUpdateView.as_view()),
