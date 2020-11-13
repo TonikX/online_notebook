@@ -140,7 +140,7 @@ class ClassmatesCheckedTask(models.Model):
 
 
 class ClassmatesCheckedTaskInStream(models.Model):
-    task_with_classmates = models.ForeignKey(ClassmatesCheckedTask, on_delete=models.CASCADE, related_name = 'deadline_value')
+    task = models.ForeignKey(ClassmatesCheckedTask, on_delete=models.CASCADE, related_name = 'deadline_value')
     student_stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
     start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
     deadline_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='дедлайн')
@@ -200,7 +200,7 @@ class TaskWithTick(models.Model):
 
 
 class TaskWithTickInStream(models.Model):
-    task_with_tick = models.ForeignKey(TaskWithTick, on_delete=models.CASCADE, related_name = 'deadline_value')
+    task = models.ForeignKey(TaskWithTick, on_delete=models.CASCADE, related_name = 'deadline_value')
     student_stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
     start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
     deadline_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='Профессия')
@@ -238,7 +238,7 @@ class TaskWithTeacherCheck(models.Model):
 
 
 class TaskWithTeacherCheckInStream(models.Model):
-    task_with_teacher = models.ForeignKey(TaskWithTeacherCheck, on_delete=models.CASCADE, related_name = 'deadline_value')
+    task = models.ForeignKey(TaskWithTeacherCheck, on_delete=models.CASCADE, related_name = 'deadline_value')
     student_stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
     start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
     deadline_date = models.DateTimeField(editable=True, blank=True, null=True, verbose_name='дедлайн')
@@ -290,7 +290,7 @@ class TaskWithKeyword(models.Model):
 
 
 class TaskWithKeywordInStream(models.Model):
-    task_with_keyword = models.ForeignKey(TaskWithKeyword, on_delete=models.CASCADE, related_name = 'deadline_value')
+    task = models.ForeignKey(TaskWithKeyword, on_delete=models.CASCADE, related_name = 'deadline_value')
     student_stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
     start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
     deadline_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='дедлайн')
