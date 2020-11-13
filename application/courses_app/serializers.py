@@ -46,7 +46,7 @@ class StudentStreamCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StudentStream
-        fields = ("id", "title", "groups", "course_access")
+        fields = ("id", "title", "groups", "course_access", 'deadline_date', 'start_date')
 
 
 class StudentGroupSerializer(serializers.ModelSerializer):
@@ -484,9 +484,27 @@ class SectionInCourseForStreamSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class StudentGroupForStreamsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = StudentGroup
+        fields = ("id", "title", "number", "year_of_receipt")
+
+
+class StudentStreamForCourseInStreamSerializer(serializers.ModelSerializer):
+    #groups = StudentGroupForStreamSerializer(many=True)
+    groups = StudentGroupForStreamsSerializer(
+        many=True)
+
+    class Meta:
+        model = StudentStream
+        fields = ("id", "title", "groups", 'deadline_date', 'start_date')
+
+
 class CourseInStreamSerializer(serializers.ModelSerializer):
     sections_in_course = SectionInCourseForStreamSerializer(many = True)
     owner = TeacherSerializer()
+    streams_on_a_course = StudentStreamForCourseInStreamSerializer(many = True)
 
     class Meta:
         model = Course
