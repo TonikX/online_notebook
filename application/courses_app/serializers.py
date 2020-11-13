@@ -7,7 +7,8 @@ from .models import \
     TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, \
     TaskWithTeacherCheck, TaskWithTeacherCheckOption, TaskWithTeacherCheckCheck, \
-    TaskWithKeyword, TaskWithKeywordOption, TaskWithTickInStream
+    TaskWithKeyword, TaskWithKeywordOption, TaskWithTickInStream, \
+    ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, TaskWithKeywordInStream
 
 
 User = get_user_model()
@@ -393,6 +394,10 @@ class TaskWithKeywordResultSerializer(serializers.ModelSerializer):
         model = TaskWithKeywordResult
         fields = '__all__'
 
+"""
+Блой дедлайнов
+"""
+
 
 class TaskWithTickInStreamSerializer(serializers.ModelSerializer):
 
@@ -410,10 +415,69 @@ class TaskWithTickInSectionForStreamSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+
+class TaskWithKeywordInStreamSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = TaskWithKeywordInStream
+        fields = ['id', 'deadline_date']
+
+
+class TaskWithKeywordSectionForStreamSerializer(serializers.ModelSerializer):
+    deadline_value = TaskWithKeywordInStreamSerializer(many = True)
+
+    class Meta:
+        model = TaskWithKeyword
+        fields = '__all__'
+
+
+
+
+class ClassmatesCheckedTaskInStreamSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = ClassmatesCheckedTaskInStream
+        fields = ['id', 'deadline_date']
+
+
+class ClassmatesCheckedTaskForStreamSerializer(serializers.ModelSerializer):
+    deadline_value = ClassmatesCheckedTaskInStreamSerializer(many = True)
+
+    class Meta:
+        model = ClassmatesCheckedTask
+        fields = '__all__'
+
+
+
+
+class TaskWithTeacherCheckInStreamSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = TaskWithTeacherCheckInStream
+        fields = ['id', 'deadline_date']
+
+
+class TaskWithTeacherCheckInSectionForStreamSerializer(serializers.ModelSerializer):
+    deadline_value = TaskWithTeacherCheckInStreamSerializer(many = True)
+
+    class Meta:
+        model = TaskWithTeacherCheck
+        fields = '__all__'
+
+"""
+Конец блока дедлайнов
+"""
+
+
 class SectionInCourseForStreamSerializer(serializers.ModelSerializer):
     task_with_tick_in_section = TaskWithTickInSectionForStreamSerializer(many = True)
-    task_with_teacher_check_in_section = TaskWithTeacherCheckInSectionSerializer(many = True)
-    task_with_keyword_in_section = TaskWithKeywordCheckInSectionSerializer(many = True)
+    task_with_teacher_check_in_section = TaskWithTeacherCheckInSectionForStreamSerializer(many = True)
+    task_with_keyword_in_section = TaskWithKeywordSectionForStreamSerializer(many = True)
+    task_with_keyword_in_section = ClassmatesCheckedTaskForStreamSerializer(many = True)
     class Meta:
         model = Section
         fields = '__all__'

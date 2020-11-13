@@ -38,6 +38,10 @@ from .views import TaskWithKeywordRetrieveView, TaskWithKeywordUpdateView, TaskW
     # TaskWithKeywordStudentResultCreateView, TaskWithKeywordStudentResultRetrieveView, \
     # TaskWithKeywordStudentResultUpdateView, TaskWithKeywordStudentResultListView, \
 
+
+from .views import 	TaskWithTeacherCheckInStreamCreateView, TaskWithTeacherCheckInStreamDetailDeleteUpdateView, \
+    TaskWithKeywordInStreamCreateView, TaskWithKeywordInStreamDetailDeleteUpdateView, \
+    ClassmatesCheckedTaskInStreamCreateView, ClassmatesCheckedTaskInStreamDetailDeleteUpdateView
 app_name = "courses_app"
 
 urlpatterns = [
@@ -109,6 +113,15 @@ urlpatterns = [
 
     path('tasks/with_tick/stream/deadline', TaskWithTickInStreamCreateView.as_view()),
     path('tasks/with_tick/stream/deadline/detail/<int:pk>', TaskWithTickInStreamDetailDeleteUpdateView.as_view()),
+
+    path('tasks/with_teacher/stream/deadline', TaskWithTeacherCheckInStreamCreateView.as_view()),
+    path('tasks/with_teacher/stream/deadline/detail/<int:pk>', TaskWithTeacherCheckInStreamDetailDeleteUpdateView.as_view()),
+
+    path('tasks/with_keyword/stream/deadline', TaskWithKeywordInStreamCreateView.as_view()),
+    path('tasks/with_keyword/stream/deadline/detail/<int:pk>', TaskWithKeywordInStreamDetailDeleteUpdateView.as_view()),
+
+    path('tasks/with_keyword/stream/deadline', ClassmatesCheckedTaskInStreamCreateView.as_view()),
+    path('tasks/with_keyword/stream/deadline/detail/<int:pk>', ClassmatesCheckedTaskInStreamDetailDeleteUpdateView.as_view()),
 
     path('tasks/with_tick/options/add/', TaskWithTickOptionCreateView.as_view()),
     path('tasks/with_tick/options/all/', TaskWithTickOptionListView.as_view()),

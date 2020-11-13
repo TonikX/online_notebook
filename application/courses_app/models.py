@@ -135,6 +135,13 @@ class ClassmatesCheckedTask(models.Model):
         return 'Task {} for section {}'.format(self.number, self.section.section)
 
 
+class ClassmatesCheckedTaskInStream(models.Model):
+    task_with_classmates = models.ForeignKey(ClassmatesCheckedTask, on_delete=models.CASCADE, related_name = 'deadline_value')
+    student_stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
+    start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
+    deadline_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='дедлайн')
+
+
 class TaskOption(models.Model):
     option = models.ForeignKey(ClassmatesCheckedTask, on_delete=models.CASCADE)
     index_number = models.IntegerField(blank=True, null=True)
@@ -191,6 +198,7 @@ class TaskWithTick(models.Model):
 class TaskWithTickInStream(models.Model):
     task_with_tick = models.ForeignKey(TaskWithTick, on_delete=models.CASCADE, related_name = 'deadline_value')
     student_stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
+    start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
     deadline_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='Профессия')
 
 
@@ -223,6 +231,13 @@ class TaskWithTeacherCheck(models.Model):
 
     def __str__(self):
         return f'{self.section}, Task: {self.title}'
+
+
+class TaskWithTeacherCheckInStream(models.Model):
+    task_with_teacher = models.ForeignKey(TaskWithTeacherCheck, on_delete=models.CASCADE, related_name = 'deadline_value')
+    student_stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
+    start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
+    deadline_date = models.DateTimeField(editable=True, blank=True, null=True, verbose_name='дедлайн')
 
 
 class TaskWithTeacherCheckOption(models.Model):
@@ -268,6 +283,13 @@ class TaskWithKeyword(models.Model):
 
     def __str__(self):
         return f'{self.section}, Task: {self.title}'
+
+
+class TaskWithKeywordInStream(models.Model):
+    task_with_keyword = models.ForeignKey(TaskWithKeyword, on_delete=models.CASCADE, related_name = 'deadline_value')
+    student_stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
+    start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
+    deadline_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='дедлайн')
 
 
 class TaskWithKeywordOption(models.Model):
