@@ -262,7 +262,7 @@ class CourseInStreamsListAPIView(generics.ListAPIView):
 
         try:
             queryset = Course.objects.filter(id__in = StudentStream.objects.all().values('course_access'))
-            serializer = CourseListSerializer(queryset, many=True)
+            serializer = CourseInStreamSerializer(queryset, many=True)
             return Response(serializer.data)
         except:
             return Response(status=400)

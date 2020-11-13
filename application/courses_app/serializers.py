@@ -485,7 +485,7 @@ class SectionInCourseForStreamSerializer(serializers.ModelSerializer):
 
 class CourseInStreamSerializer(serializers.ModelSerializer):
     sections_in_course = SectionInCourseForStreamSerializer(many = True)
-
+    owner = TeacherSerializer()
 
     class Meta:
         model = Course
