@@ -34,7 +34,7 @@ from .views import TaskWithKeywordRetrieveView, TaskWithKeywordUpdateView, TaskW
     TaskWithKeywordCreateView, TaskWithKeywordListView, \
     TaskWithKeywordOptionCreateView, TaskWithKeywordOptionListView, \
     TaskWithKeywordOptionRetrieveView, TaskWithKeywordOptionUpdateView, GroupInStreamNewListView, GroupInStreamNewCreateView, \
-    GroupInStreamNewDetailDeleteUpdateView, TaskWithTickInStreamDetailDeleteUpdateView, TaskWithTickInStreamCreateView
+    GroupInStreamNewDetailView, GroupInStreamNewDeleteUpdateView, TaskWithTickInStreamDetailDeleteUpdateView, TaskWithTickInStreamCreateView
     # TaskWithKeywordStudentResultCreateView, TaskWithKeywordStudentResultRetrieveView, \
     # TaskWithKeywordStudentResultUpdateView, TaskWithKeywordStudentResultListView, \
 
@@ -52,7 +52,8 @@ urlpatterns = [
     path('streams/<int:pk>/groups/', GroupInStreamListCreateView.as_view()),
     path('stream/new_endpoint/groups/', GroupInStreamNewListView.as_view()),
     path('stream/new_endpoint/groups/create', GroupInStreamNewCreateView.as_view()),
-    path('stream/new_endpoint/groups/detail/<int:pk>', GroupInStreamNewDetailDeleteUpdateView.as_view()),
+    path('stream/new_endpoint/groups/delete_update/<int:pk>', GroupInStreamNewDeleteUpdateView.as_view()),
+    path('stream/new_endpoint/groups/detail/<int:pk>', GroupInStreamNewDetail.as_view()),
 
     path('groups/', StudentGroupListCreateView.as_view()),
     path('groups/<int:pk>/', StudentGroupRetrieveUpdateView.as_view()),
