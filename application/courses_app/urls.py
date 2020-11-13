@@ -33,7 +33,8 @@ from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, TaskWithTic
 from .views import TaskWithKeywordRetrieveView, TaskWithKeywordUpdateView, TaskWithKeywordDeleteView, \
     TaskWithKeywordCreateView, TaskWithKeywordListView, \
     TaskWithKeywordOptionCreateView, TaskWithKeywordOptionListView, \
-    TaskWithKeywordOptionRetrieveView, TaskWithKeywordOptionUpdateView, GroupInStreamNewListCreateView
+    TaskWithKeywordOptionRetrieveView, TaskWithKeywordOptionUpdateView, GroupInStreamNewListCreateView, \
+    GroupInStreamNewDetailDeleteUpdateView, TaskWithTickInStreamDetailDeleteUpdateView, TaskWithTickInStreamCreateView
     # TaskWithKeywordStudentResultCreateView, TaskWithKeywordStudentResultRetrieveView, \
     # TaskWithKeywordStudentResultUpdateView, TaskWithKeywordStudentResultListView, \
 
@@ -45,7 +46,8 @@ urlpatterns = [
     path('streams/', StudentStreamListCreateView.as_view()),
     path('streams/<int:pk>/', StudentStreamRetrieveUpdateView.as_view()),
     path('streams/<int:pk>/groups/', GroupInStreamListCreateView.as_view()),
-    path('stream/new_endpoint/groups/<int:pk>', GroupInStreamNewListCreateView.as_view()),
+    path('stream/new_endpoint/groups/', GroupInStreamNewListCreateView.as_view()),
+    path('stream/new_endpoint/groups/detail/<int:pk>', GroupInStreamNewDetailDeleteUpdateView.as_view()),
 
     path('groups/', StudentGroupListCreateView.as_view()),
     path('groups/<int:pk>/', StudentGroupRetrieveUpdateView.as_view()),
@@ -104,6 +106,9 @@ urlpatterns = [
     path('tasks/with_tick/<int:pk>/', TaskWithTickRetrieveView.as_view()),
     path('tasks/with_tick/update/<int:pk>/', TaskWithTickUpdateView.as_view()),
     path('tasks/with_tick/delete/<int:pk>/', TaskWithTickDeleteView.as_view()),
+
+    path('tasks/with_tick/stream/deadline', TaskWithTickInStreamCreateView.as_view()),
+    path('tasks/with_tick/stream/deadline/detail/<int:pk>', TaskWithTickInStreamDetailDeleteUpdateView.as_view()),
 
     path('tasks/with_tick/options/add/', TaskWithTickOptionCreateView.as_view()),
     path('tasks/with_tick/options/all/', TaskWithTickOptionListView.as_view()),

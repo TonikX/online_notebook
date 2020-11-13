@@ -11,7 +11,7 @@ from .models import \
     ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
     TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, TaskWithTeacherCheckOption, \
-    TaskWithTeacherCheck, TaskWithTeacherCheckCheck, TaskWithKeywordOption
+    TaskWithTeacherCheck, TaskWithTeacherCheckCheck, TaskWithKeywordOption, TaskWithTickInStream
 from .serializers import \
     ClassmatesCheckedTaskSerializer, TaskOptionSerializer, StudentResultSerializer, \
     CheckSerializer, TaskWithTeacherCheckSerializer, TaskWithTeacherCheckOptionSerializer, \
@@ -29,7 +29,7 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     CreateTaskWithTickStudentResultSerializer, StudentSerializer, CourseCreateSerializer, \
     TaskWithTeacherCreateCheckSerializer, StudentStreamCreateSerializer
 
-from .serializers import TaskWithKeywordCreateSerializer, TaskWithKeywordSerializer, TaskWithKeywordOptionSerializer, TaskWithKeywordResultSerializer, CourseInStreamSerializer
+from .serializers import TaskWithKeywordCreateSerializer, TaskWithKeywordSerializer, TaskWithKeywordOptionSerializer, TaskWithKeywordResultSerializer, CourseInStreamSerializer, TaskWithTickInStreamSerializer
 
 from .utils import get_object_or_none
 
@@ -116,6 +116,24 @@ class GroupInStreamNewListCreateView(generics.ListCreateAPIView):
     queryset = StudentStream.objects.all()
     serializer_class = StudentStreamCreateSerializer
     permission_classes = [permissions.AllowAny]
+
+
+class GroupInStreamNewDetailDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StudentStream.objects.all()
+    serializer_class = StudentStreamCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+class TaskWithTickInStreamCreateView(generics.CreateAPIView):
+    queryset = TaskWithTickInStream.objects.all()
+    serializer_class = TaskWithTickInStreamSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class TaskWithTickInStreamDetailDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = TaskWithTickInStream.objects.all()
+    serializer_class = TaskWithTickInStreamSerializer
+    permission_classes = [permissions.AllowAny]
+
 
 
 class StudentGroupListCreateView(generics.ListCreateAPIView):

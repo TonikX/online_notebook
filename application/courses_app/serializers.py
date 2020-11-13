@@ -40,10 +40,12 @@ class StudentGroupForStreamSerializer(serializers.ModelSerializer):
 
 class StudentStreamCreateSerializer(serializers.ModelSerializer):
     #groups = StudentGroupForStreamSerializer(many=True)
+    groups = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=StudentGroup.objects.all())
 
     class Meta:
         model = StudentStream
-        fields = ("id", "title", "groups")
+        fields = ("id", "title", "groups", "course_access")
 
 
 class StudentGroupSerializer(serializers.ModelSerializer):
