@@ -141,7 +141,7 @@ class GroupInStreamNewDetailView(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class GroupInStreamNewDeleteUpdateView(generics.UpdateDestroyAPIView):
+class GroupInStreamNewDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = StudentStream.objects.all()
     serializer_class = StudentStreamCreateSerializer
     permission_classes = [permissions.AllowAny]
