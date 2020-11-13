@@ -405,7 +405,7 @@ class TaskWithTickInStreamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskWithTickInStream
-        fields = ['id', 'deadline_date', 'start_date']
+        fields = '__all__'
 
 
 class TaskWithTickInSectionForStreamSerializer(serializers.ModelSerializer):
@@ -423,7 +423,7 @@ class TaskWithKeywordInStreamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskWithKeywordInStream
-        fields = ['id', 'deadline_date', 'start_date']
+        fields = '__all__'
 
 
 class TaskWithKeywordSectionForStreamSerializer(serializers.ModelSerializer):
@@ -441,7 +441,7 @@ class ClassmatesCheckedTaskInStreamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClassmatesCheckedTaskInStream
-        fields = ['id', 'deadline_date', 'start_date']
+        fields = '__all__'
 
 
 class ClassmatesCheckedTaskForStreamSerializer(serializers.ModelSerializer):
@@ -459,7 +459,7 @@ class TaskWithTeacherCheckInStreamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TaskWithTeacherCheckInStream
-        fields = ['id', 'deadline_date', 'start_date']
+        fields = '__all__'
 
 
 class TaskWithTeacherCheckInSectionForStreamSerializer(serializers.ModelSerializer):
