@@ -26,6 +26,8 @@ class StudentStream(models.Model):
     course_access = models.ManyToManyField(
         'Course', related_name='streams_on_a_course'
     )
+    start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
+    deadline_date = models.DateTimeField(editable=True, blank=True, null=True, verbose_name='дедлайн')
 
     def __str__(self):
         return self.title
