@@ -37,7 +37,7 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
 from .serializers import TaskWithKeywordCreateSerializer, TaskWithKeywordSerializer, TaskWithKeywordOptionSerializer, TaskWithKeywordResultSerializer, CourseInStreamSerializer, TaskWithTickInStreamSerializer
 
 
-from .serializers import TaskWithKeywordInStreamSerializer, TaskWithTeacherCheckInStreamSerializer, ClassmatesCheckedTaskInStreamSerializer
+from .serializers import TaskWithKeywordInStreamSerializer, TaskWithTeacherCheckInStreamSerializer, ClassmatesCheckedTaskInStreamSerializer, StudentStreamListSerializer
 
 
 from .utils import get_object_or_none
@@ -120,8 +120,16 @@ class GroupInStreamListCreateView(generics.ListCreateAPIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+StudentStreamListSerializer
 
-class GroupInStreamNewListCreateView(generics.ListCreateAPIView):
+
+class GroupInStreamNewListView(generics.ListAPIView):
+    queryset = StudentStream.objects.all()
+    serializer_class = StudentStreamListSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class GroupInStreamNewCreateView(generics.CreateAPIView):
     queryset = StudentStream.objects.all()
     serializer_class = StudentStreamCreateSerializer
     permission_classes = [permissions.AllowAny]

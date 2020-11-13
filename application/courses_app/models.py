@@ -28,6 +28,7 @@ class StudentStream(models.Model):
     )
     start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
     deadline_date = models.DateTimeField(editable=True, blank=True, null=True, verbose_name='дедлайн')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -40,6 +41,7 @@ class StudentGroup(models.Model):
     streams = models.ManyToManyField(
         StudentStream, through='GroupInStream', related_name='groups'
     )
+
 
     class Meta:
         unique_together = ['number', 'year_of_receipt']
