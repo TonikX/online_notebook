@@ -11,7 +11,7 @@ from .models import \
     ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
     TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, TaskWithTeacherCheckOption, \
-    TaskWithTeacherCheck, TaskWithTeacherCheckCheck, TaskWithKeywordOption, TaskWithTickInStream
+    TaskWithTeacherCheck, TaskWithTeacherCheckCheck, TaskWithKeywordOption, TaskWithTickInStream, StudentInCourse
 
 
 from .models import ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, TaskWithKeywordInStream
@@ -32,7 +32,8 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     TaskWithTickOptionSerializer, CreateTaskWithTickOptionSerializer, \
     TaskWithTickStudentResult, TaskWithTickStudentResultSerializer, \
     CreateTaskWithTickStudentResultSerializer, StudentSerializer, CourseCreateSerializer, \
-    TaskWithTeacherCreateCheckSerializer, StudentStreamCreateSerializer
+    TaskWithTeacherCreateCheckSerializer, StudentStreamCreateSerializer, \
+    StudentInCourseSerializer, StudentInCourseCreateSerializer
 
 from .serializers import TaskWithKeywordCreateSerializer, TaskWithKeywordSerializer, TaskWithKeywordOptionSerializer, TaskWithKeywordResultSerializer, CourseInStreamSerializer, TaskWithTickInStreamSerializer
 
@@ -43,6 +44,8 @@ from .serializers import TaskWithKeywordInStreamSerializer, TaskWithTeacherCheck
 from .utils import get_object_or_none
 
 from rest_framework import filters
+
+from collections import OrderedDict
 
 
 User = get_user_model()
@@ -261,6 +264,56 @@ class CourseListAPIView(generics.ListAPIView):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'description']
     permission_classes = [permissions.AllowAny]
+
+
+class CourseForStudentListAPIView(generics.ListAPIView):
+    serializer_class = CourseListSerializer
+    queryset = Course.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+
+    def list(self, request, **kwargs):
+        """
+        Вывод курсов, который проходимт этот юзер
+        """
+        queryset = Course.objects.none()
+        group = self.request.user.group
+        streams = group.streams.all()
+        for stream in streams:
+            queryset = queryset.union(stream.course_access.all())
+        serializer = CourseInStreamSerializer(queryset, many=True)
+        data = []
+
+        for course in serializer.data:
+            all_tasks = 0
+            student_tasks = 0
+            newdata = dict(course)
+            try:
+                for section in course["sections_in_course"]:
+                    for task in section["task_with_tick_in_section"]:
+                        all_tasks +=1
+                        if TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_option__task_with_tick_id = task["id"], perform = True):
+                            student_tasks +=1
+                try:
+                    newdata.update({"status": StudentInCourse.objects.get(course = newdata["id"], user = self.request.user).status, "all_tasks": all_tasks, "student_tasks": student_tasks})
+                except:
+                    newdata.update({"status": "1", "all_tasks": all_tasks, "student_tasks": student_tasks})
+            except:
+                pass
+            newdata=OrderedDict(newdata)
+            data.append(newdata)
+        return Response(data)
+        try:
+            queryset = Course.objects.none()
+            group = self.request.user.group
+            streams = group.streams.all()
+            for stream in streams:
+                queryset = queryset.union(stream.course_access.all())
+            serializer = CourseInStreamSerializer(queryset, many=True)
+            newdata = dict(serializer.data[0])
+            return Response(serializer.data)
+        except:
+            return Response(status=400)
 
 
 class CourseInStreamsListAPIView(generics.ListAPIView):
@@ -745,3 +798,45 @@ class TaskWithKeywordResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDest
 #     queryset = TaskWithKeywordCheck.objects.all()
 #     serializer_class = TaskWithKeywordCheckSerializer
 #     permission_classes = [permissions.AllowAny]
+
+
+"""
+Блок студента в курсе
+"""
+
+class StudentInCourseCreateAPIView(generics.CreateAPIView):
+    serializer_class = StudentInCourseCreateSerializer
+    queryset = StudentInCourse.objects.all()
+    permission_classes = [permissions.AllowAny]
+    #
+    #
+    # def perform_create(self, serializer):
+    #     serializer.save(owner=self.request.user)
+
+
+class StudentInCourseListView(generics.ListAPIView):
+    queryset = StudentInCourse.objects.all()
+    serializer_class = StudentInCourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class StudentInCourseDestroyView(generics.DestroyAPIView):
+    queryset = StudentInCourse.objects.all()
+    serializer_class = StudentInCourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class StudentInCourseUpdateView(generics.UpdateAPIView):
+    queryset = StudentInCourse.objects.all()
+    serializer_class = StudentInCourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class StudentInCourseDetailsView(generics.RetrieveAPIView):
+    queryset = StudentInCourse.objects.all()
+    serializer_class = StudentInCourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+"""
+Блок студента в курса
+"""

@@ -12,6 +12,10 @@ class User(AbstractUser):
         related_name='members'
     )
 
+    courses = models.ManyToManyField(
+        'Course', related_name='students_in_course'
+    )
+
     REQUIRED_FIELDS = [
         'email'
         # 'first_name', 'last_name', 'email', 'role', 'tel', 'group'
@@ -71,6 +75,20 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class StudentInCourse(models.Model):
+    STATUS_TYPES = [
+        ('1', 'None'),
+        ('2', 'In_progress'),
+        ('3', 'Done')
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    status = models.CharField(choices=STATUS_TYPES, default='1', max_length=1)
+
+    # def __str__(self):
+    #     return f'{self.stream.title} {self.group.number}'
 
 
 class Lesson(models.Model):

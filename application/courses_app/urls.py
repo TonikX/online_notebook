@@ -38,10 +38,12 @@ from .views import TaskWithKeywordRetrieveView, TaskWithKeywordUpdateView, TaskW
     # TaskWithKeywordStudentResultCreateView, TaskWithKeywordStudentResultRetrieveView, \
     # TaskWithKeywordStudentResultUpdateView, TaskWithKeywordStudentResultListView, \
 
+from .views import StudentInCourseCreateAPIView, StudentInCourseListView, StudentInCourseDetailsView, StudentInCourseDestroyView, StudentInCourseUpdateView
+
 
 from .views import 	TaskWithTeacherCheckInStreamCreateView, TaskWithTeacherCheckInStreamDetailDeleteUpdateView, \
     TaskWithKeywordInStreamCreateView, TaskWithKeywordInStreamDetailDeleteUpdateView, \
-    ClassmatesCheckedTaskInStreamCreateView, ClassmatesCheckedTaskInStreamDetailDeleteUpdateView
+    ClassmatesCheckedTaskInStreamCreateView, ClassmatesCheckedTaskInStreamDetailDeleteUpdateView, CourseForStudentListAPIView
 app_name = "courses_app"
 
 urlpatterns = [
@@ -64,6 +66,12 @@ urlpatterns = [
     path('Course/detail/<int:pk>', CourseDetailsView.as_view()),
     path('Course/delete/<int:pk>', CourseDestroyView.as_view()),
     path('Course/update/<int:pk>', CourseUpdateView.as_view()),
+
+    path('student_in_course', StudentInCourseListView.as_view()),
+    path('student_in_course/create', StudentInCourseCreateAPIView.as_view()),
+    path('student_in_course/detail/<int:pk>', StudentInCourseDetailsView.as_view()),
+    path('student_in_course/delete/<int:pk>', StudentInCourseDestroyView.as_view()),
+    path('student_in_course/update/<int:pk>', StudentInCourseUpdateView.as_view()),
 
     path('tasks/classmates/tasks/', ClassmatesCheckedTaskListCreateView.as_view()),
     path('tasks/classmates/tasks/<int:pk>/', ClassmatesCheckedTaskRetrieveUpdateDestroyView.as_view()),
@@ -99,6 +107,7 @@ urlpatterns = [
 
     path('courses_in_streams/all/', CourseInStreamsListAPIView.as_view()),
     path('courses_in_streams/by_stream_id/<int:stream_id>', CourseInStreamsByIdListAPIView.as_view()),
+    path('courses_for_student/all/', CourseForStudentListAPIView.as_view()),
 
     path('courses/sections/add/', SectionCreateView.as_view()),
     path('courses/sections/all/', SectionListView.as_view()),

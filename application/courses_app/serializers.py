@@ -8,7 +8,7 @@ from .models import \
     TaskWithTeacherCheckResult, TaskWithKeyword, \
     TaskWithTeacherCheck, TaskWithTeacherCheckOption, TaskWithTeacherCheckCheck, \
     TaskWithKeyword, TaskWithKeywordOption, TaskWithTickInStream, \
-    ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, TaskWithKeywordInStream
+    ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, TaskWithKeywordInStream, StudentInCourse
 
 
 User = get_user_model()
@@ -522,3 +522,19 @@ class StudentStreamListSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentStream
         fields = ("id", "title", "groups", "course_access", 'deadline_date', 'start_date', 'owner')
+
+
+class StudentInCourseCreateSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = StudentInCourse
+        fields = '__all__'
+
+
+class StudentInCourseSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = StudentInCourse
+        fields = '__all__'
