@@ -812,10 +812,10 @@ class StudentInCourseCreateAPIView(generics.CreateAPIView):
     serializer_class = StudentInCourseCreateSerializer
     queryset = StudentInCourse.objects.all()
     permission_classes = [permissions.AllowAny]
-    #
-    #
-    # def perform_create(self, serializer):
-    #     serializer.save(owner=self.request.user)
+
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class StudentInCourseListView(generics.ListAPIView):
