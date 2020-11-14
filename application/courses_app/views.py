@@ -278,9 +278,13 @@ class CourseForStudentListAPIView(generics.ListAPIView):
         """
         queryset = Course.objects.none()
         group = self.request.user.group
-        streams = group.streams.all()
-        for stream in streams:
-            queryset = queryset.union(stream.course_access.all())
+        try:
+            streams = group.streams.all()
+            for stream in streams:
+                queryset = queryset.union(stream.course_access.all())
+        except:
+            pass
+
         serializer = CourseInStreamSerializer(queryset, many=True)
         data = []
 
