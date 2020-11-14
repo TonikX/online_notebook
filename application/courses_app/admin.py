@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import \
     User, StudentGroup, StudentStream, GroupInStream, Course, Lesson, StudentLessonResult,\
     Section, ClassmatesCheckedTask, TaskOption, StudentResult, Check, TaskWithTick, \
-    TaskWithTickOption, TaskWithTickStudentResult, TaskWithTeacherCheckCheck, TaskWithTeacherCheck, \
+    TaskWithTickStudentResult, TaskWithTeacherCheckCheck, TaskWithTeacherCheck, \
     TaskWithKeyword, TaskWithTeacherCheckOption, TaskWithKeywordOption, \
     TaskWithTeacherCheckResult, TaskWithKeywordResult, TaskWithTickInStream, StudentInCourse
 
@@ -21,7 +21,7 @@ admin.site.register(TaskOption)
 admin.site.register(StudentResult)
 admin.site.register(Check)
 admin.site.register(TaskWithTick)
-admin.site.register(TaskWithTickOption)
+
 admin.site.register(TaskWithTickStudentResult)
 admin.site.register(TaskWithTeacherCheck)
 admin.site.register(TaskWithKeyword)

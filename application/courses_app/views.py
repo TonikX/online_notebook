@@ -9,7 +9,7 @@ from django.contrib.postgres.search import SearchVector
 from .models import \
     StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult, \
     ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
-    TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
+    TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, TaskWithTeacherCheckOption, \
     TaskWithTeacherCheck, TaskWithTeacherCheckCheck, TaskWithKeywordOption, TaskWithTickInStream, StudentInCourse
 
@@ -29,7 +29,6 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     LessonSerializer, StudentLessonResultSerializer, \
     CreateStudentLessonResultSerializer, SectionSerializer, \
     CreateSectionSerializer, TaskWithTickSerializer, CreateTaskWithTickSerializer, \
-    TaskWithTickOptionSerializer, CreateTaskWithTickOptionSerializer, \
     TaskWithTickStudentResult, TaskWithTickStudentResultSerializer, \
     CreateTaskWithTickStudentResultSerializer, StudentSerializer, CourseCreateSerializer, \
     TaskWithTeacherCreateCheckSerializer, StudentStreamCreateSerializer, \
@@ -301,7 +300,7 @@ class CourseForStudentListAPIView(generics.ListAPIView):
                 for section in course["sections_in_course"]:
                     for task in section["task_with_tick_in_section"]:
                         all_tasks +=1
-                        if TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_option__task_with_tick_id = task["id"], perform = True):
+                        if TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True):
                             student_tasks +=1
                 try:
                     newdata.update({"status": StudentInCourse.objects.get(course = newdata["id"], user = self.request.user).status, "all_tasks": all_tasks, "student_tasks": student_tasks})
@@ -325,6 +324,49 @@ class CourseForStudentListAPIView(generics.ListAPIView):
             return Response(serializer.data)
         except:
             return Response(status=400)
+
+
+class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = CourseInStreamSerializer
+    queryset = Course.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+        except (Movie.DoesNotExist, KeyError):
+            return Response({"error": "Requested Movie does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = self.get_serializer(instance)
+        print ('her')
+        newdata = dict(serializer.data)
+        #try:
+        for section in newdata["sections_in_course"]:
+            for task in section["task_with_tick_in_section"]:
+
+                if TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True):
+                    print ("dfdfdftrue")
+                    task.update({"status": "1"})
+                elif TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = False):
+                    task.update({"status": "0"})
+                else:
+                    task.update({"status": None})
+
+
+        try:
+            newdata.update({"status": StudentInCourse.objects.get(course = newdata["id"], user = self.request.user).status})
+        except:
+            newdata.update({"status": "1"})
+
+
+        # except:
+        #     pass
+
+
+
+        newdata=OrderedDict(newdata)
+
+        return Response(newdata)
+
 
 
 class CourseInStreamsListAPIView(generics.ListAPIView):
@@ -625,28 +667,28 @@ class TaskWithTickListView(generics.ListAPIView):
         return queryset
 
 
-class TaskWithTickOptionCreateView(generics.CreateAPIView):
-    queryset = TaskWithTickOption.objects.all()
-    serializer_class = CreateTaskWithTickOptionSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class TaskWithTickOptionRetrieveView(generics.RetrieveAPIView):
-    queryset = TaskWithTickOption.objects.all()
-    serializer_class = TaskWithTickOptionSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class TaskWithTickOptionUpdateView(generics.UpdateAPIView):
-    queryset = TaskWithTickOption.objects.all()
-    serializer_class = CreateTaskWithTickOptionSerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class TaskWithTickOptionListView(generics.ListAPIView):
-    queryset = TaskWithTickOption.objects.all()
-    serializer_class = TaskWithTickOptionSerializer
-    permission_classes = [permissions.AllowAny]
+# class TaskWithTickOptionCreateView(generics.CreateAPIView):
+#     queryset = TaskWithTickOption.objects.all()
+#     serializer_class = CreateTaskWithTickOptionSerializer
+#     permission_classes = [permissions.AllowAny]
+#
+#
+# class TaskWithTickOptionRetrieveView(generics.RetrieveAPIView):
+#     queryset = TaskWithTickOption.objects.all()
+#     serializer_class = TaskWithTickOptionSerializer
+#     permission_classes = [permissions.AllowAny]
+#
+#
+# class TaskWithTickOptionUpdateView(generics.UpdateAPIView):
+#     queryset = TaskWithTickOption.objects.all()
+#     serializer_class = CreateTaskWithTickOptionSerializer
+#     permission_classes = [permissions.AllowAny]
+#
+#
+# class TaskWithTickOptionListView(generics.ListAPIView):
+#     queryset = TaskWithTickOption.objects.all()
+#     serializer_class = TaskWithTickOptionSerializer
+#     permission_classes = [permissions.AllowAny]
 
 
 class TaskWithTickStudentResultCreateView(generics.CreateAPIView):

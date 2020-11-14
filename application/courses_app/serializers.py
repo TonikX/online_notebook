@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from .models import \
     StudentStream, StudentGroup, Course, Lesson, StudentLessonResult, Section,\
     ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
-    TaskWithTickOption, TaskWithTickStudentResult, TaskWithKeywordResult, \
+    TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, \
     TaskWithTeacherCheck, TaskWithTeacherCheckOption, TaskWithTeacherCheckCheck, \
     TaskWithKeyword, TaskWithKeywordOption, TaskWithTickInStream, \
@@ -252,18 +252,18 @@ class CreateTaskWithTickSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TaskWithTickOptionSerializer(serializers.ModelSerializer):
-    task_with_tick = TaskWithTickSerializer()
-
-    class Meta:
-        model = TaskWithTickOption
-        fields = '__all__'
-
-
-class CreateTaskWithTickOptionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TaskWithTickOption
-        fields = '__all__'
+# class TaskWithTickOptionSerializer(serializers.ModelSerializer):
+#     task_with_tick = TaskWithTickSerializer()
+#
+#     class Meta:
+#         model = TaskWithTickOption
+#         fields = '__all__'
+#
+#
+# class CreateTaskWithTickOptionSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = TaskWithTickOption
+#         fields = '__all__'
 
 
 class TaskWithTickStudentResultSerializer(serializers.ModelSerializer):

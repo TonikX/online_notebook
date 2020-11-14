@@ -23,12 +23,10 @@ from .views import TaskWithTeacherCheckCheckListCreateView, TaskWithTeacherCheck
 from .views import SectionCreateView, SectionListView, SectionRetrieveView, SectionInCourseListView, SectionDeleteView, \
     SectionUpdateView, TaskWithTickCreateView, TaskWithTickListView
 from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, TaskWithTickDeleteView, \
-    TaskWithTickOptionCreateView, TaskWithTickOptionListView, \
-    TaskWithTickOptionRetrieveView, TaskWithTickOptionUpdateView, \
     TaskWithTickStudentResultCreateView, TaskWithTickStudentResultRetrieveView, \
     TaskWithTickStudentResultUpdateView, TaskWithTickStudentResultListView, \
     StatisticsTaskByStudent, StatisticsStudentResults, \
-    CourseInStreamsListAPIView, CourseInStreamsByIdListAPIView
+    CourseInStreamsListAPIView, CourseInStreamsByIdListAPIView, CourseForStudentDetailAPIView
 
 from .views import TaskWithKeywordRetrieveView, TaskWithKeywordUpdateView, TaskWithKeywordDeleteView, \
     TaskWithKeywordCreateView, TaskWithKeywordListView, \
@@ -108,6 +106,7 @@ urlpatterns = [
     path('courses_in_streams/all/', CourseInStreamsListAPIView.as_view()),
     path('courses_in_streams/by_stream_id/<int:stream_id>', CourseInStreamsByIdListAPIView.as_view()),
     path('courses_for_student/all/', CourseForStudentListAPIView.as_view()),
+    path('courses_for_student/detail/<int:pk>/',CourseForStudentDetailAPIView.as_view()),
 
     path('courses/sections/add/', SectionCreateView.as_view()),
     path('courses/sections/all/', SectionListView.as_view()),
@@ -134,10 +133,10 @@ urlpatterns = [
     path('tasks/with_keyword/stream/deadline', ClassmatesCheckedTaskInStreamCreateView.as_view()),
     path('tasks/with_keyword/stream/deadline/detail/<int:pk>', ClassmatesCheckedTaskInStreamDetailDeleteUpdateView.as_view()),
 
-    path('tasks/with_tick/options/add/', TaskWithTickOptionCreateView.as_view()),
-    path('tasks/with_tick/options/all/', TaskWithTickOptionListView.as_view()),
-    path('tasks/with_tick/options/<int:pk>/', TaskWithTickOptionRetrieveView.as_view()),
-    path('tasks/with_tick/options/update/<int:pk>/', TaskWithTickOptionUpdateView.as_view()),
+    # path('tasks/with_tick/options/add/', TaskWithTickOptionCreateView.as_view()),
+    # path('tasks/with_tick/options/all/', TaskWithTickOptionListView.as_view()),
+    # path('tasks/with_tick/options/<int:pk>/', TaskWithTickOptionRetrieveView.as_view()),
+    # path('tasks/with_tick/options/update/<int:pk>/', TaskWithTickOptionUpdateView.as_view()),
 
     path('tasks/with_tick/results/add/', TaskWithTickStudentResultCreateView.as_view()),
     path('tasks/with_tick/results/all/', TaskWithTickStudentResultListView.as_view()),

@@ -222,25 +222,26 @@ class TaskWithTickInStream(models.Model):
     student_stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
     start_date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='старт')
     deadline_date = models.DateTimeField(editable=True, blank=True, null=True, verbose_name='Профессия')
-
-
-class TaskWithTickOption(models.Model):
-    task_with_tick = models.ForeignKey(TaskWithTick, on_delete=models.CASCADE)
-    description = models.CharField(max_length=1024)
-    index_number = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return '{}, Description: {}'.format(self.task_with_tick, self.description)
+#
+#
+# class TaskWithTickOption(models.Model):
+#     task_with_tick = models.ForeignKey(TaskWithTick, on_delete=models.CASCADE)
+#     description = models.CharField(max_length=1024)
+#     index_number = models.IntegerField(blank=True, null=True)
+#
+#     def __str__(self):
+#         return '{}, Description: {}'.format(self.task_with_tick, self.description)
 
 
 class TaskWithTickStudentResult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    task_with_tick_option = models.ForeignKey(TaskWithTickOption, on_delete=models.CASCADE)
+    #task_with_tick_option = models.ForeignKey(TaskWithTickOption, on_delete=models.CASCADE)
+    task_with_tick = models.ForeignKey(TaskWithTick, on_delete=models.CASCADE, blank=True, null=True)
     perform = models.BooleanField(default=False)
     perform_date = models.DateField(default=datetime.date.today)
 
     def __str__(self):
-        return '{}, Is performed? {}, Date: {}'.format(self.task_with_tick_option, self.perform, self.perform_date)
+        return 'Is performed? {}, Date: {}'.format(self.perform, self.perform_date)
 
 
 class TaskWithTeacherCheck(models.Model):
