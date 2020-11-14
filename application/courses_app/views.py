@@ -278,13 +278,18 @@ class CourseForStudentListAPIView(generics.ListAPIView):
         """
         queryset = Course.objects.none()
         group = self.request.user.group
+        course_in_streams_titles = {}
         try:
             streams = group.streams.all()
             for stream in streams:
+                print (stream.title, stream.course_access.all())
                 queryset = queryset.union(stream.course_access.all())
+                for course in stream.course_access.all():
+                    print (course.id)
+                    course_in_streams_titles.update({course.id:stream.title})
         except:
             pass
-
+        print (course_in_streams_titles)
         serializer = CourseInStreamSerializer(queryset, many=True)
         data = []
 
@@ -302,6 +307,8 @@ class CourseForStudentListAPIView(generics.ListAPIView):
                     newdata.update({"status": StudentInCourse.objects.get(course = newdata["id"], user = self.request.user).status, "all_tasks": all_tasks, "student_tasks": student_tasks})
                 except:
                     newdata.update({"status": "1", "all_tasks": all_tasks, "student_tasks": student_tasks})
+                newdata.update({"course_in_streams_title": course_in_streams_titles[course["id"]]})
+                del course_in_streams_titles[course["id"]]
             except:
                 pass
             newdata=OrderedDict(newdata)

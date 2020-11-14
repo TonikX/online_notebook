@@ -505,11 +505,18 @@ class StudentStreamForCourseInStreamSerializer(serializers.ModelSerializer):
 class CourseInStreamSerializer(serializers.ModelSerializer):
     sections_in_course = SectionInCourseForStreamSerializer(many = True)
     owner = TeacherSerializer()
-    streams_on_a_course = StudentStreamForCourseInStreamSerializer(many = True)
+    #streams_on_a_course = serializers.SerializerMethodField('get_id_of_wpcb')
+    #streams_on_a_course = StudentStreamForCourseInStreamSerializer(many = True)
 
     class Meta:
         model = Course
         fields = '__all__'
+
+    def get_id_of_wpcb(self, obj):
+
+        work_program = StudentStream.objects.filter(work_program_in_change_block = obj.id)
+        serializers = StudentStreamForCourseInStreamSerializer(work_program, many=True, context={'parent_cb_id': obj.id})
+        return serializers.data
 
 
 class StudentStreamListSerializer(serializers.ModelSerializer):
