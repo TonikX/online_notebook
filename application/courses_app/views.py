@@ -332,6 +332,7 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
 
     def retrieve(self, request, *args, **kwargs):
+        course_in_streams_titles = {}
         try:
             instance = self.get_object()
         except (Movie.DoesNotExist, KeyError):
@@ -341,15 +342,27 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
         newdata = dict(serializer.data)
         #try:
         for section in newdata["sections_in_course"]:
+            tasks_in_sections = 0
+            completed_task_in_section = 0
             for task in section["task_with_tick_in_section"]:
-
+                tasks_in_sections +=1
                 if TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True):
                     print ("dfdfdftrue")
                     task.update({"status": "1"})
+                    completed_task_in_section +=1
                 elif TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = False):
                     task.update({"status": "0"})
                 else:
                     task.update({"status": None})
+
+                """
+                Остальные задания кроме галочки
+                """
+
+            section.update({"tasks_in_sections": tasks_in_sections})
+            section.update({"completed_task_in_section": completed_task_in_section})
+
+
 
 
         try:
