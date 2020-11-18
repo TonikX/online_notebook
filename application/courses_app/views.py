@@ -956,6 +956,7 @@ class StudentInCourseCreateAPIView(generics.CreateAPIView):
         headers = self.get_success_headers(serializer.data)
         for task in TaskWithKeyword.objects.filter(section__course = request.data["course"]):
             options = TaskWithKeywordOption.objects.filter(task = task)
+            print (options)
             options_ids = [friend.id for friend in options]
             TaskWithKeywordResult.objects.create(option_id = choice(options_ids),user = self.request.user)
             print ('1')
