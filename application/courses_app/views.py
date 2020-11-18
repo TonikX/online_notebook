@@ -404,6 +404,8 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
 
         group = self.request.user.group
         newdata.update({"stream_title": group.streams.filter(course_access = serializer.data["id"])[0].title})
+        newdata.update({"stream_start_date": group.streams.filter(course_access = serializer.data["id"])[0].start_date})
+        newdata.update({"stream_deadline_date": group.streams.filter(course_access = serializer.data["id"])[0].deadline_date})
 
         # except:
         #     pass
