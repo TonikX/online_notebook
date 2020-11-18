@@ -897,16 +897,17 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
         instance = self.get_object()
         print(instance.option.keyword)
         if instance.option.keyword == request.data["user_keyword"]:
+
             instance.perform = True
             serializer = self.get_serializer(instance, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                return Response({"message": "solution is correct"})
+                return Response({"message": "solution is correct", "status":"success"})
             else:
                 return Response({"message": "wrong_data"})
 
         else:
-            return Response({"message": "solution is not correct"})
+            return Response({"message": "solution is not correct", "status":"false"})
 
 
 class TaskWithKeywordStudentResultCreateView(generics.CreateAPIView):
