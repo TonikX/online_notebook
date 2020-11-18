@@ -922,8 +922,25 @@ class StudentInCourseCreateAPIView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    def create(self, request, *args, **kwargs):
+        request.data.update({"user":request.user.id})
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        for task in TaskWithKeyword.objects.filter(section__course = request.data["course"]):
+            options = TaskWithKeywordOption.objects.filter(task = task)
+            options_ids = [friend.id for friend in options]
+            TaskWithKeywordResult.objects.create(option_id = choice(options_ids),user = self.request.user)
+            print ('1')
+
+        for task in TaskWithTick.objects.filter(section__course = request.data["course"]):
+            TaskWithTickStudentResult.objects.create(user = self.request.user, task_with_tick = task)
+            print ('1')
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
 
 
 class StudentInCourseListView(generics.ListAPIView):
