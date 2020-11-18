@@ -955,12 +955,15 @@ class StudentInCourseCreateAPIView(generics.CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         for task in TaskWithKeyword.objects.filter(section__course = request.data["course"]):
-            options = TaskWithKeywordOption.objects.filter(task = task)
-            print (options)
-            options_ids = [friend.id for friend in options]
-            print (options_ids)
-            TaskWithKeywordResult.objects.create(option_id = choice(options_ids),user = self.request.user)
-            print ('1')
+            try:
+                options = TaskWithKeywordOption.objects.filter(task = task)
+                print (options)
+                options_ids = [friend.id for friend in options]
+                print (options_ids)
+                TaskWithKeywordResult.objects.create(option_id = choice(options_ids),user = self.request.user)
+                print ('1')
+            except:
+                pass
 
         for task in TaskWithTick.objects.filter(section__course = request.data["course"]):
             TaskWithTickStudentResult.objects.create(user = self.request.user, task_with_tick = task)
