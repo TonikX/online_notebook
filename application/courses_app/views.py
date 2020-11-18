@@ -958,6 +958,7 @@ class StudentInCourseCreateAPIView(generics.CreateAPIView):
             options = TaskWithKeywordOption.objects.filter(task = task)
             print (options)
             options_ids = [friend.id for friend in options]
+            print (options_ids)
             TaskWithKeywordResult.objects.create(option_id = choice(options_ids),user = self.request.user)
             print ('1')
 
