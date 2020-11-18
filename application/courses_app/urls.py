@@ -42,6 +42,11 @@ from .views import StudentInCourseCreateAPIView, StudentInCourseListView, Studen
 from .views import 	TaskWithTeacherCheckInStreamCreateView, TaskWithTeacherCheckInStreamDetailDeleteUpdateView, \
     TaskWithKeywordInStreamCreateView, TaskWithKeywordInStreamDetailDeleteUpdateView, \
     ClassmatesCheckedTaskInStreamCreateView, ClassmatesCheckedTaskInStreamDetailDeleteUpdateView, CourseForStudentListAPIView
+
+
+from .views import 	TaskWithKeywordStudentResultCreateView, TaskWithKeywordStudentResultListView, TaskWithKeywordStudentResultRetrieveView, TaskWithKeywordStudentResultUpdateView
+
+
 app_name = "courses_app"
 
 urlpatterns = [
@@ -159,10 +164,10 @@ urlpatterns = [
     path('tasks/with_keyword/options/all/', TaskWithKeywordOptionListView.as_view()),
     path('tasks/with_keyword/options/<int:pk>/', TaskWithKeywordOptionRetrieveView.as_view()),
     path('tasks/with_keyword/options/update/<int:pk>/', TaskWithKeywordOptionUpdateView.as_view()),
-    #
-    # path('tasks/with_keyword/results/add/', TaskWithKeywordStudentResultCreateView.as_view()),
-    # path('tasks/with_keyword/results/all/', TaskWithKeywordStudentResultListView.as_view()),
-    # path('tasks/with_keyword/results/<int:pk>/', TaskWithKeywordStudentResultRetrieveView.as_view()),
-    # path('tasks/with_keyword/results/update/<int:pk>/', TaskWithKeywordStudentResultUpdateView.as_view()),
+
+    path('tasks/with_keyword/results/add/', TaskWithKeywordStudentResultCreateView.as_view()),
+    path('tasks/with_keyword/results/all/', TaskWithKeywordStudentResultListView.as_view()),
+    path('tasks/with_keyword/results/<int:pk>/', TaskWithKeywordStudentResultRetrieveView.as_view()),
+    path('tasks/with_keyword/results/update/<int:pk>/', TaskWithKeywordStudentResultUpdateView.as_view()),
 
 ]

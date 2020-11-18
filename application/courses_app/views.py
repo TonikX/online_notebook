@@ -6,6 +6,8 @@ from rest_framework import permissions
 from rest_framework import generics
 from django.contrib.postgres.search import SearchVector
 
+from random import choice
+
 from .models import \
     StudentStream, StudentGroup, GroupInStream, Course, Lesson, StudentLessonResult, \
     ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
@@ -296,18 +298,27 @@ class CourseForStudentListAPIView(generics.ListAPIView):
             all_tasks = 0
             student_tasks = 0
             newdata = dict(course)
+
             try:
                 for section in course["sections_in_course"]:
                     for task in section["task_with_tick_in_section"]:
                         all_tasks +=1
                         if TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True):
                             student_tasks +=1
+
+                    for task in section["task_with_keyword_in_section"]:
+                        all_tasks +=1
+                        if TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
+                            student_tasks +=1
+
+
                 try:
                     newdata.update({"status": StudentInCourse.objects.get(course = newdata["id"], user = self.request.user).status, "all_tasks": all_tasks, "student_tasks": student_tasks})
                 except:
                     newdata.update({"status": "1", "all_tasks": all_tasks, "student_tasks": student_tasks})
                 newdata.update({"course_in_streams_title": course_in_streams_titles[course["id"]]})
                 del course_in_streams_titles[course["id"]]
+
             except:
                 pass
             newdata=OrderedDict(newdata)
@@ -335,7 +346,7 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
         course_in_streams_titles = {}
         try:
             instance = self.get_object()
-        except (Movie.DoesNotExist, KeyError):
+        except (Course.DoesNotExist, KeyError):
             return Response({"error": "Requested Movie does not exist"}, status=status.HTTP_404_NOT_FOUND)
         serializer = self.get_serializer(instance)
         print ('her')
@@ -355,6 +366,18 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
                 else:
                     task.update({"status": None})
 
+
+            for task in section["task_with_keyword_in_section"]:
+                tasks_in_sections +=1
+                if TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
+                    print ("dfdfdftrue")
+                    task.update({"status": "1"})
+                    completed_task_in_section +=1
+                elif TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False):
+                    task.update({"status": "0"})
+                else:
+                    task.update({"status": None})
+
                 """
                 Остальные задания кроме галочки
                 """
@@ -370,6 +393,9 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
         except:
             newdata.update({"status": "1"})
 
+
+        group = self.request.user.group
+        newdata.update({"stream_title": group.streams.filter(course_access = serializer.data["id"])[0].title})
 
         # except:
         #     pass
@@ -786,7 +812,10 @@ class StatisticsStudentResults(generics.ListAPIView):
         return queryset
 
 
-# Задания с ключевым словом
+"""
+Задания с ключевым словом
+"""
+
 
 class TaskWithKeywordCreateView(generics.CreateAPIView):
     queryset = TaskWithKeyword.objects.all()
@@ -842,29 +871,46 @@ class TaskWithKeywordOptionUpdateView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class TaskWithKeywordResultListCreateView(generics.ListCreateAPIView):
+class TaskWithKeywordStudentResultListView(generics.ListAPIView):
     queryset = TaskWithKeywordResult.objects.all()
     serializer_class = TaskWithKeywordResultSerializer
     permission_classes = [permissions.AllowAny]
 
 
-class TaskWithKeywordResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
     queryset = TaskWithKeywordResult.objects.all()
     serializer_class = TaskWithKeywordResultSerializer
     permission_classes = [permissions.AllowAny]
-#
-#
-# class TaskWithKeywordCheckListCreateView(generics.ListCreateAPIView):
-#     queryset = TaskWithKeywordCheck.objects.all()
-#     serializer_class = TaskWithKeywordCheckSerializer
-#     permission_classes = [permissions.AllowAny]
-#
-#
-# class TaskWithKeywordCheckRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = TaskWithKeywordCheck.objects.all()
-#     serializer_class = TaskWithKeywordCheckSerializer
-#     permission_classes = [permissions.AllowAny]
 
+
+class TaskWithKeywordStudentResultCreateView(generics.CreateAPIView):
+    queryset = TaskWithKeywordResult.objects.all()
+    serializer_class = TaskWithKeywordResultSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+    def create(self, request, *args, **kwargs):
+        options = TaskWithKeywordOption.objects.all()
+        options_ids = [friend.id for friend in options]
+        request.data.update({"option": choice(options_ids),"user":request.user.id})
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        print (request.data["option"])
+        options = TaskWithKeywordOption.objects.get(id = request.data["option"])
+        serializer_for_option = TaskWithKeywordOptionSerializer(options)
+        print (serializer_for_option.data)
+        return Response(serializer_for_option.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class TaskWithKeywordStudentResultRetrieveView(generics.RetrieveAPIView):
+    queryset = TaskWithKeywordResult.objects.all()
+    serializer_class = TaskWithKeywordResultSerializer
+    permission_classes = [permissions.AllowAny]
+"""
+Конец блока заданий с ключевым словом
+"""
 
 """
 Блок студента в курсе

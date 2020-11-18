@@ -329,7 +329,7 @@ class TaskWithKeywordOption(models.Model):
 class TaskWithKeywordResult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     option = models.ForeignKey(TaskWithKeywordOption, on_delete=models.CASCADE)
-
+    user_keyword = models.CharField(max_length=128, blank=True, null=True)
     perform = models.BooleanField(default=False)
 
     def __str__(self):

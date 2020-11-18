@@ -359,7 +359,8 @@ class TaskWithKeywordCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Create the book instance
-        book = TaskWithKeyword.objects.create(title=validated_data['title'], description=validated_data['description'], section=validated_data['section'])
+        book = TaskWithKeyword.objects.create(title=validated_data['title'], description=validated_data['description'],
+                                              section=validated_data['section'])
 
         # Create or update each page instance
         for item in validated_data['option_for_task_with_keyword']:
@@ -389,6 +390,14 @@ class TaskWithKeywordSerializer(serializers.ModelSerializer):
 
 
 class TaskWithKeywordResultSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = TaskWithKeywordResult
+        fields = '__all__'
+
+
+class TaskWithKeywordResultCreateSerializer(serializers.ModelSerializer):
 
 
     class Meta:
@@ -477,7 +486,7 @@ class TaskWithTeacherCheckInSectionForStreamSerializer(serializers.ModelSerializ
 class SectionInCourseForStreamSerializer(serializers.ModelSerializer):
     task_with_tick_in_section = TaskWithTickInSectionForStreamSerializer(many = True)
     # task_with_teacher_check_in_section = TaskWithTeacherCheckInSectionForStreamSerializer(many = True)
-    # task_with_keyword_in_section = TaskWithKeywordSectionForStreamSerializer(many = True)
+    task_with_keyword_in_section = TaskWithKeywordSectionForStreamSerializer(many = True)
     # lassmates_in_section = ClassmatesCheckedTaskForStreamSerializer(many = True)
 
     class Meta:
@@ -512,11 +521,11 @@ class CourseInStreamSerializer(serializers.ModelSerializer):
         model = Course
         fields = '__all__'
 
-    def get_id_of_wpcb(self, obj):
-
-        work_program = StudentStream.objects.filter(work_program_in_change_block = obj.id)
-        serializers = StudentStreamForCourseInStreamSerializer(work_program, many=True, context={'parent_cb_id': obj.id})
-        return serializers.data
+    # def get_id_of_wpcb(self, obj):
+    #
+    #     work_program = StudentStream.objects.filter(work_program_in_change_block = obj.id)
+    #     serializers = StudentStreamForCourseInStreamSerializer(work_program, many=True, context={'parent_cb_id': obj.id})
+    #     return serializers.data
 
 
 class StudentStreamListSerializer(serializers.ModelSerializer):

@@ -33,6 +33,7 @@ admin.site.register(TaskWithTeacherCheckCheck)
 admin.site.register(TaskWithTickInStream)
 admin.site.register(StudentInCourse)
 
+
 UserAdmin.fieldsets += ('Custom fields set', {'fields': ('role', 'group')}),
 admin.site.register(User, UserAdmin)
 # admin.site.register(Membership)
