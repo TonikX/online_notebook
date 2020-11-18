@@ -317,10 +317,14 @@ class CourseForStudentListAPIView(generics.ListAPIView):
                 except:
                     newdata.update({"status": "1", "all_tasks": all_tasks, "student_tasks": student_tasks})
                 newdata.update({"course_in_streams_title": course_in_streams_titles[course["id"]]})
+
                 del course_in_streams_titles[course["id"]]
 
             except:
                 pass
+
+            group = self.request.user.group
+            newdata.update({"stream_id": group.streams.filter(course_access = course["id"])[0].id})
             newdata=OrderedDict(newdata)
             data.append(newdata)
         return Response(data)
