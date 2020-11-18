@@ -360,9 +360,11 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
                 if TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True):
                     print ("dfdfdftrue")
                     task.update({"status": "1"})
+                    task.update({"task_result_id": TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True)[0].id})
                     completed_task_in_section +=1
                 elif TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = False):
                     task.update({"status": "0"})
+                    task.update({"task_result_id": TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = False)[0].id})
                 else:
                     task.update({"status": None})
 
@@ -372,9 +374,11 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
                 if TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
                     print ("dfdfdftrue")
                     task.update({"status": "1"})
+                    task.update({"task_result_id": TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True)[0].id})
                     completed_task_in_section +=1
                 elif TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False):
                     task.update({"status": "0"})
+                    task.update({"task_result_id": TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
                 else:
                     task.update({"status": None})
 
