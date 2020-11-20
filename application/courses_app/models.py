@@ -11,6 +11,7 @@ class User(AbstractUser):
         'StudentGroup', on_delete=models.PROTECT, null=True, blank=True,
         related_name='members'
     )
+    access_key = models.CharField("Ключ доступа", max_length=15, default='student')
 
     courses = models.ManyToManyField(
         'Course', related_name='students_in_course'
@@ -45,6 +46,7 @@ class StudentGroup(models.Model):
     streams = models.ManyToManyField(
         StudentStream, through='GroupInStream', related_name='groups'
     )
+    access_key = models.CharField(max_length=15, blank=True, null=True, verbose_name='ключ доступа к группе')
 
 
     class Meta:
@@ -334,3 +336,14 @@ class TaskWithKeywordResult(models.Model):
 
     def __str__(self):
         return f'{self.option}, User: {self.user} Is performed? {self.perform}'
+
+
+class CourseNews(models.Model):
+    date = models.DateTimeField(editable=True, blank=True, null=True, verbose_name='Дата публикации')
+    stream = models.ForeignKey(StudentGroup, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=128, blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.title} / {self.date}'

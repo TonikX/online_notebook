@@ -13,7 +13,8 @@ from .models import \
     ClassmatesCheckedTask, TaskOption, StudentResult, Check, Section, TaskWithTick, \
     TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, TaskWithTeacherCheckOption, \
-    TaskWithTeacherCheck, TaskWithTeacherCheckCheck, TaskWithKeywordOption, TaskWithTickInStream, StudentInCourse
+    TaskWithTeacherCheck, TaskWithTeacherCheckCheck, TaskWithKeywordOption, \
+    TaskWithTickInStream, StudentInCourse, CourseNews
 
 
 from .models import ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, TaskWithKeywordInStream
@@ -23,7 +24,7 @@ from .serializers import \
     ClassmatesCheckedTaskSerializer, TaskOptionSerializer, StudentResultSerializer, \
     CheckSerializer, TaskWithTeacherCheckSerializer, TaskWithTeacherCheckOptionSerializer, \
     TaskWithTeacherCheckResultSerializer, TaskWithTeacherCheckCheckSerializer, \
-    TaskSerializer, UserResultsSerializer
+    TaskSerializer, UserResultsSerializer, CourseNewsSerializer, CourseNewsCreateSerializer
     
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     StudentGroupSerializer, GroupMemberSerializer, \
@@ -1000,4 +1001,46 @@ class StudentInCourseDetailsView(generics.RetrieveAPIView):
 
 """
 Блок студента в курса
+"""
+
+"""
+Блок новости
+"""
+
+class CourseNewsCreateAPIView(generics.CreateAPIView):
+    serializer_class = CourseNewsCreateSerializer
+    queryset = CourseNews.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+
+class CourseNewsListView(generics.ListAPIView):
+    queryset = CourseNews.objects.all()
+    serializer_class = CourseNewsSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def list(self, request, **kwargs):
+        queryset = CourseNews.objects.filter(stream = self.kwargs['stream_id'], course = self.kwargs['course_id'])
+        serializer = CourseNewsSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class CourseNewsDestroyView(generics.DestroyAPIView):
+    queryset = CourseNews.objects.all()
+    serializer_class = CourseNewsSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CourseNewsUpdateView(generics.UpdateAPIView):
+    queryset = CourseNews.objects.all()
+    serializer_class = CourseNewsSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CourseNewsDetailsView(generics.RetrieveAPIView):
+    queryset = CourseNews.objects.all()
+    serializer_class = CourseNewsSerializer
+    permission_classes = [permissions.AllowAny]
+
+"""
+Конец блока новости
 """

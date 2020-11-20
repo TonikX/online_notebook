@@ -218,7 +218,8 @@ DJOSER = {
     'SERIALIZERS': {
         #'user': 'courses_app.serializers.UserSerializer',
         #'current_user': 'courses_app.serializers.UserSerializer',
-        #'user_create': 'courses_app.serializers.UserSerializer',
+        #'user_create': 'courses_app.serializers.UserSerializer'
+        'user_create': 'courses_app.serializers.UserRegistrationSerializer'
     },
 }
 

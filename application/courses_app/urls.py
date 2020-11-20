@@ -44,7 +44,9 @@ from .views import 	TaskWithTeacherCheckInStreamCreateView, TaskWithTeacherCheck
     ClassmatesCheckedTaskInStreamCreateView, ClassmatesCheckedTaskInStreamDetailDeleteUpdateView, CourseForStudentListAPIView
 
 
-from .views import 	TaskWithKeywordStudentResultCreateView, TaskWithKeywordStudentResultListView, TaskWithKeywordStudentResultRetrieveView, TaskWithKeywordStudentResultUpdateView
+from .views import 	TaskWithKeywordStudentResultCreateView, TaskWithKeywordStudentResultListView, \
+    TaskWithKeywordStudentResultRetrieveView, TaskWithKeywordStudentResultUpdateView
+from .views import CourseNewsListView, CourseNewsCreateAPIView, CourseNewsDetailsView, CourseNewsDestroyView, CourseNewsUpdateView
 
 
 app_name = "courses_app"
@@ -169,5 +171,11 @@ urlpatterns = [
     path('tasks/with_keyword/results/all/', TaskWithKeywordStudentResultListView.as_view()),
     path('tasks/with_keyword/results/<int:pk>/', TaskWithKeywordStudentResultRetrieveView.as_view()),
     path('tasks/with_keyword/results/update/<int:pk>/', TaskWithKeywordStudentResultUpdateView.as_view()),
+
+    path('course/stream/<int:stream_id>/news/<int:course_id>', CourseNewsListView.as_view()),
+    path('course/stream/news/create', CourseNewsCreateAPIView.as_view()),
+    path('course/stream/news/detail/<int:pk>', CourseNewsDetailsView.as_view()),
+    path('course/stream/news/delete/<int:pk>', CourseNewsDestroyView.as_view()),
+    path('course/stream/news/update/<int:pk>', CourseNewsUpdateView.as_view()),
 
 ]

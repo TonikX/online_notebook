@@ -8,10 +8,30 @@ from .models import \
     TaskWithTeacherCheckResult, TaskWithKeyword, \
     TaskWithTeacherCheck, TaskWithTeacherCheckOption, TaskWithTeacherCheckCheck, \
     TaskWithKeyword, TaskWithKeywordOption, TaskWithTickInStream, \
-    ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, TaskWithKeywordInStream, StudentInCourse
+    ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, \
+    TaskWithKeywordInStream, StudentInCourse, CourseNews
+
+from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
 
 User = get_user_model()
+
+
+class UserRegistrationSerializer(BaseUserRegistrationSerializer):
+    class Meta(BaseUserRegistrationSerializer.Meta):
+        fields = ('username', 'email', 'first_name', 'last_name', 'password', 'access_key')
+
+
+    def create(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)
+        try:
+            user.group = StudentGroup.objects.get(access_key = validated_data.get('access_key'))
+        except:
+            pass
+        user.save()
+        return user
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -55,7 +75,7 @@ class StudentGroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StudentGroup
-        fields = ("id", "title", "number", "year_of_receipt", "members")
+        fields = ("id", "title", "number", "year_of_receipt", "members", "access_key")
 
 
 class GroupMemberSerializer(serializers.ModelSerializer):
@@ -554,3 +574,28 @@ class StudentInCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentInCourse
         fields = '__all__'
+
+
+"""
+Блок новости
+"""
+
+
+class CourseNewsCreateSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = CourseNews
+        fields = '__all__'
+
+
+class CourseNewsSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = CourseNews
+        fields = '__all__'
+
+"""
+Конец блока новости
+"""
