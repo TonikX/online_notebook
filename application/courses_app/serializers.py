@@ -206,16 +206,15 @@ class TaskWithTeacherCreateCheckSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
-        # Create the book instance
-        book = TaskWithTeacherCheck.objects.create(title=validated_data['title'], description=validated_data['description'], section=validated_data['section'])
+        # Create instance
+        task = TaskWithTeacherCheck.objects.create(title=validated_data['title'], description=validated_data['description'], section=validated_data['section'])
 
         # Create or update each page instance
-        for item in validated_data['option_for_task_with_teacher']:
-            print (item['description'])
-            page = TaskWithTeacherCheckOption(description=item['description'], title = item['title'], task=book)
-            page.save()
+        for option in validated_data['option_for_task_with_teacher']:
+            task_with_teacher_option = TaskWithTeacherCheckOption(description=option['description'], title = option['title'], task=task)
+            task_with_teacher_option.save()
 
-        return book
+        return task
 
 
     class Meta:
