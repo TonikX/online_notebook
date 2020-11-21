@@ -6,8 +6,8 @@ import datetime
 
 class User(AbstractUser):
     role = models.CharField("Роль", max_length=15, default='student')
-    tel = models.CharField("Телефон", max_length=15, blank=True)
-    info = models.CharField("О себе", blank=True, null=True)
+    tel = models.CharField("Телефон", max_length=15, blank=True, null=True)
+    info = models.CharField("О себе",  max_length=1500, blank=True, null=True)
     isu_number = models.IntegerField("номер ису", blank=True, null=True)
     group = models.ForeignKey(
         'StudentGroup', on_delete=models.PROTECT, null=True, blank=True,
@@ -20,7 +20,7 @@ class User(AbstractUser):
     )
 
     REQUIRED_FIELDS = [
-        'email', 'group'#, 'info', 'isu_number'
+        'email', 'group', 'info', 'isu_number'
         # 'first_name', 'last_name', 'email', 'role', 'tel', 'group'
     ]
 
