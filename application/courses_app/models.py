@@ -20,7 +20,7 @@ class User(AbstractUser):
     )
 
     REQUIRED_FIELDS = [
-        'email', 'group', 'info', 'isu_number'
+        'email', 'group', 'info', 'isu_number', 'first_name', 'last_name'
         # 'first_name', 'last_name', 'email', 'role', 'tel', 'group'
     ]
 
