@@ -26,7 +26,7 @@ from .views import TaskWithTickRetrieveView, TaskWithTickUpdateView, TaskWithTic
     TaskWithTickStudentResultCreateView, TaskWithTickStudentResultRetrieveView, \
     TaskWithTickStudentResultUpdateView, TaskWithTickStudentResultListView, \
     StatisticsTaskByStudent, StatisticsStudentResults, \
-    CourseInStreamsListAPIView, CourseInStreamsByIdListAPIView, CourseForStudentDetailAPIView
+    CourseInStreamsListAPIView, CourseInStreamsByIdListAPIView, CourseForStudentDetailAPIView, CourseAtStudentListAPIView
 
 from .views import TaskWithKeywordRetrieveView, TaskWithKeywordUpdateView, TaskWithKeywordDeleteView, \
     TaskWithKeywordCreateView, TaskWithKeywordListView, \
@@ -113,6 +113,7 @@ urlpatterns = [
     path('courses_in_streams/all/', CourseInStreamsListAPIView.as_view()),
     path('courses_in_streams/by_stream_id/<int:stream_id>', CourseInStreamsByIdListAPIView.as_view()),
     path('courses_for_student/all/', CourseForStudentListAPIView.as_view()),
+    path('courses_at_student/all/', CourseAtStudentListAPIView.as_view()),
     path('courses_for_student/detail/<int:pk>/',CourseForStudentDetailAPIView.as_view()),
 
     path('courses/sections/add/', SectionCreateView.as_view()),

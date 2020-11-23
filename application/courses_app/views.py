@@ -329,17 +329,87 @@ class CourseForStudentListAPIView(generics.ListAPIView):
             newdata=OrderedDict(newdata)
             data.append(newdata)
         return Response(data)
+        # try:
+        #     queryset = Course.objects.none()
+        #     group = self.request.user.group
+        #     streams = group.streams.all()
+        #     for stream in streams:
+        #         queryset = queryset.union(stream.course_access.all())
+        #     serializer = CourseInStreamSerializer(queryset, many=True)
+        #     newdata = dict(serializer.data[0])
+        #     return Response(serializer.data)
+        # except:
+        #     return Response(status=400)
+
+
+class CourseAtStudentListAPIView(generics.ListAPIView):
+    serializer_class = CourseListSerializer
+    queryset = Course.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+
+    def list(self, request, **kwargs):
+        """
+        Вывод курсов, который проходимт этот юзер
+        """
+        queryset = Course.objects.none()
+        group = self.request.user.group
+        course_in_streams_titles = {}
+        course_ids = []
+
+        for item in StudentInCourse.objects.filter(user = request.user):
+            course_ids.append(item.course.id)
         try:
-            queryset = Course.objects.none()
-            group = self.request.user.group
             streams = group.streams.all()
             for stream in streams:
+                print (stream.title, stream.course_access.all())
                 queryset = queryset.union(stream.course_access.all())
-            serializer = CourseInStreamSerializer(queryset, many=True)
-            newdata = dict(serializer.data[0])
-            return Response(serializer.data)
+                for course in stream.course_access.ilter(id__in = course_ids):
+                    print (course.id)
+                    course_in_streams_titles.update({course.id:stream.title})
         except:
-            return Response(status=400)
+            pass
+
+
+        queryset = Course.objects.filter(id__in = course_ids)
+        print (queryset)
+        serializer = CourseInStreamSerializer(queryset, many=True)
+        data = []
+
+        for course in serializer.data:
+            all_tasks = 0
+            student_tasks = 0
+            newdata = dict(course)
+
+            try:
+                for section in course["sections_in_course"]:
+                    for task in section["task_with_tick_in_section"]:
+                        all_tasks +=1
+                        if TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True):
+                            student_tasks +=1
+
+                    for task in section["task_with_keyword_in_section"]:
+                        all_tasks +=1
+                        if TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
+                            student_tasks +=1
+
+
+                try:
+                    newdata.update({"status": StudentInCourse.objects.get(course = newdata["id"], user = self.request.user).status, "all_tasks": all_tasks, "student_tasks": student_tasks})
+                except:
+                    newdata.update({"status": "1", "all_tasks": all_tasks, "student_tasks": student_tasks})
+                newdata.update({"course_in_streams_title": course_in_streams_titles[course["id"]]})
+
+                del course_in_streams_titles[course["id"]]
+
+            except:
+                pass
+
+            group = self.request.user.group
+            #newdata.update({"stream_id": group.streams.filter(course_access = course["id"])[0].id})
+            newdata=OrderedDict(newdata)
+            data.append(newdata)
+        return Response(data)
 
 
 class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
