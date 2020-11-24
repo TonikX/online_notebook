@@ -103,7 +103,7 @@ class Lesson(models.Model):
         ('3', 'Laboratory work')
     ]
 
-    group_in_stream = models.ForeignKey(GroupInStream, on_delete=models.CASCADE, blank=True, null=True)
+    stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE, blank=True, null=True)
     student_group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, blank=True, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     lesson_type = models.CharField(choices=LESSON_TYPES, default='1', max_length=1)
