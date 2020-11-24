@@ -4,6 +4,7 @@ from django.conf import settings
 import datetime
 
 
+
 class User(AbstractUser):
     role = models.CharField("Роль", max_length=15, default='student')
     tel = models.CharField("Телефон", max_length=15, blank=True, null=True)
@@ -20,7 +21,7 @@ class User(AbstractUser):
     )
 
     REQUIRED_FIELDS = [
-        'email', 'group', 'info', 'isu_number', 'first_name', 'last_name'
+        'email', 'group', 'info', 'isu_number', 'first_name', 'last_name', 'groups'
         # 'first_name', 'last_name', 'email', 'role', 'tel', 'group'
     ]
 
@@ -349,3 +350,8 @@ class CourseNews(models.Model):
 
     def __str__(self):
         return f'{self.title} / {self.date}'
+
+
+
+# class badge(models.Model):
+#

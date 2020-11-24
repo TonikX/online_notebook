@@ -6,6 +6,8 @@ from rest_framework import permissions
 from rest_framework import generics
 from django.contrib.postgres.search import SearchVector
 
+from rest_framework.decorators import api_view
+
 from random import choice
 
 from .models import \
@@ -1114,3 +1116,13 @@ class CourseNewsDetailsView(generics.RetrieveAPIView):
 """
 Конец блока новости
 """
+
+@api_view(['GET'])
+def UserGroups(request):
+    ""
+    groups_names=[]
+    for group in request.user.groups.all():
+        groups_names.append(group.name)
+    # if UserExpertise.objects.filter(expert=request.user):
+    #     groups_names.append("expertise_member")
+    return Response({"groups": groups_names})
