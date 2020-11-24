@@ -563,36 +563,37 @@ class CourseDetailsView(generics.RetrieveAPIView):
 class LessonCreateView(generics.CreateAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class LessonRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class LessonListView(generics.ListAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class StudentLessonResultCreateView(generics.CreateAPIView):
     queryset = StudentLessonResult.objects.all()
     serializer_class = CreateStudentLessonResultSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class StudentLessonResultRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     queryset = StudentLessonResult.objects.all()
     serializer_class = StudentLessonResultSerializer
-    permission_class = permissions.AllowAny
+    permission_classes = [permissions.AllowAny]
 
 
 class StudentLessonResultListView(generics.ListAPIView):
     queryset = StudentLessonResult.objects.all()
     serializer_class = StudentLessonResultSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class ClassmatesCheckedTaskListCreateView(generics.ListCreateAPIView):
