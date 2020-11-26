@@ -16,7 +16,7 @@ from .models import \
     TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, TaskWithTeacherCheckOption, \
     TaskWithTeacherCheck, TaskWithTeacherCheckCheck, TaskWithKeywordOption, \
-    TaskWithTickInStream, StudentInCourse, CourseNews, BadgeForUser
+    TaskWithTickInStream, StudentInCourse, CourseNews, BadgeForUser, Badge
 
 
 from .models import ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, TaskWithKeywordInStream
@@ -26,7 +26,7 @@ from .serializers import \
     ClassmatesCheckedTaskSerializer, TaskOptionSerializer, StudentResultSerializer, \
     CheckSerializer, TaskWithTeacherCheckSerializer, TaskWithTeacherCheckOptionSerializer, \
     TaskWithTeacherCheckResultSerializer, TaskWithTeacherCheckCheckSerializer, \
-    TaskSerializer, UserResultsSerializer, CourseNewsSerializer, CourseNewsCreateSerializer
+    TaskSerializer, UserResultsSerializer, CourseNewsSerializer, CourseNewsCreateSerializer, BadgeForUserSerializer, BageSerializer
     
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     StudentGroupSerializer, GroupMemberSerializer, \
@@ -406,6 +406,7 @@ class CourseAtStudentListAPIView(generics.ListAPIView):
 
             except:
                 pass
+
 
             group = self.request.user.group
             #newdata.update({"stream_id": group.streams.filter(course_access = course["id"])[0].id})
@@ -1002,9 +1003,12 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
                 """
                 if TaskWithKeywordResult.objects.filter(user = request.user, perform = False).count() == 0:
                     BadgeForUser.objects.create(badge_id = 1, course = StudentInCourse.objects.filter(user = request.user, course = instance.option.task.section.course)[0])
-
-
-                return Response({"message": "solution is correct", "status":"success"})
+                    badge_serializer = BageSerializer(Badge.objects.get(pk = 1))
+                    print(Badge.objects.get(pk = 1))
+                    serializer_dict = badge_serializer.data
+                    serializer_dict['message']="solution is correct"
+                    serializer_dict['status']="success"
+                return Response(serializer_dict, status=status.HTTP_200_OK)
             else:
                 return Response({"message": "wrong_data"})
 
@@ -1155,3 +1159,22 @@ def UserGroups(request):
     # if UserExpertise.objects.filter(expert=request.user):
     #     groups_names.append("expertise_member")
     return Response({"groups": groups_names})
+
+
+"""
+Работа с бейджами
+"""
+
+#
+# badges = BadgeForUser.objects.filter(course__in = StudentInCourse.objects.get(user = self.request.user).all())
+# print (badges)
+
+class BadgeForUserListAPIView(generics.ListAPIView):
+    serializer_class = BadgeForUserSerializer
+    queryset = BadgeForUser.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+    def list(self, request, **kwargs):
+        queryset = BadgeForUser.objects.filter(course__in = StudentInCourse.objects.filter(user = self.request.user).all())
+        serializer = BadgeForUserSerializer(queryset, many=True)
+        return Response(serializer.data)

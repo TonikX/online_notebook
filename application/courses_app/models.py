@@ -21,12 +21,16 @@ class User(AbstractUser):
     )
 
     REQUIRED_FIELDS = [
-        'email', 'group', 'info', 'isu_number', 'first_name', 'last_name', 'groups'
+        'email', 'group', 'info', 'isu_number', 'first_name', 'first_name', 'groups'
         # 'first_name', 'last_name', 'email', 'role', 'tel', 'group'
     ]
 
     def __str__(self):
         return self.username
+
+
+    class Meta:
+        order_by = (('first_name', 'first_name'))
 
 
 class StudentStream(models.Model):

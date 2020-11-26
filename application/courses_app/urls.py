@@ -48,6 +48,8 @@ from .views import 	TaskWithKeywordStudentResultCreateView, TaskWithKeywordStude
     TaskWithKeywordStudentResultRetrieveView, TaskWithKeywordStudentResultUpdateView
 from .views import CourseNewsListView, CourseNewsCreateAPIView, CourseNewsDetailsView, CourseNewsDestroyView, CourseNewsUpdateView
 
+from .views import BadgeForUserListAPIView
+
 
 app_name = "courses_app"
 
@@ -178,5 +180,7 @@ urlpatterns = [
     path('course/stream/news/detail/<int:pk>', CourseNewsDetailsView.as_view()),
     path('course/stream/news/delete/<int:pk>', CourseNewsDestroyView.as_view()),
     path('course/stream/news/update/<int:pk>', CourseNewsUpdateView.as_view()),
+
+    path('student/badge/all', BadgeForUserListAPIView.as_view()),
 
 ]
