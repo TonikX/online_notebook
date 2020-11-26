@@ -104,13 +104,13 @@ class Lesson(models.Model):
     ]
 
     stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE, blank=True, null=True)
-    student_group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, blank=True, null=True)
+    # student_group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, blank=True, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     lesson_type = models.CharField(choices=LESSON_TYPES, default='1', max_length=1)
     date = models.DateField(default=datetime.date.today)
 
     def __str__(self):
-        return 'Course: {} Group: {}, {}'.format(self.course, self.group_in_stream, self.get_lesson_type_display())
+        return 'Course: {} {}'.format(self.course, self.get_lesson_type_display())
 
 
 class StudentLessonResult(models.Model):
@@ -127,9 +127,9 @@ class StudentLessonResult(models.Model):
         ('2', 'Missed')
     ]
     student = models.ForeignKey(User, on_delete=models.CASCADE)
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name = "students_in_lesson")
     mark = models.CharField(choices=MARKS, default='1', max_length=1)
-    visit = models.CharField(choices=VISIT_TYPES, default='1', max_length=1)
+    visit = models.CharField(choices=VISIT_TYPES, default='2', max_length=1)
     comment = models.CharField(max_length=255)
 
     def __str__(self):
@@ -341,17 +341,43 @@ class TaskWithKeywordResult(models.Model):
         return f'{self.option}, User: {self.user} Is performed? {self.perform}'
 
 
+
+
 class CourseNews(models.Model):
     date = models.DateTimeField(editable=True, blank=True, null=True, verbose_name='Дата публикации')
-    stream = models.ForeignKey(StudentGroup, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    stream = models.ForeignKey(StudentStream, on_delete=models.CASCADE)
+    #course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length=128, blank=True, null=True)
     text = models.TextField(blank=True, null=True)
+    to_email = models.BooleanField(default=False)
+    tags = models.CharField(max_length=1024, blank=True, null=True)
+
 
     def __str__(self):
         return f'{self.title} / {self.date}'
 
 
+def database_src_path(instance, filename):
+    return 'media/sandbox_db_{0}/src/{1}'.format(instance.id, filename)
 
-# class badge(models.Model):
-#
+
+def database_media_path(instance, filename):
+    return 'media/sandbox_db_{0}/media/{1}'.format(instance.id, filename)
+
+
+class Badge(models.Model):
+    title = models.CharField(max_length=128, blank=True, null=True, verbose_name = "Название бейджа")
+    description = models.TextField(blank=True, null=True, verbose_name = "Описание бейджа")
+    image = models.ImageField(
+        upload_to=database_media_path,
+        null=True,
+        blank=True
+    )
+
+
+class BadgeForUser(models.Model):
+    course = models.ForeignKey(StudentInCourse, on_delete=models.CASCADE, verbose_name = "Курс")
+    badge = models.ForeignKey(Badge, on_delete=models.CASCADE, verbose_name = "Бейдж")
+    date = models.DateField(default=datetime.date.today, verbose_name = "дата получения")
+
+

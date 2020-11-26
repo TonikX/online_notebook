@@ -6,7 +6,7 @@ from .models import \
     Section, ClassmatesCheckedTask, TaskOption, StudentResult, Check, TaskWithTick, \
     TaskWithTickStudentResult, TaskWithTeacherCheckCheck, TaskWithTeacherCheck, \
     TaskWithKeyword, TaskWithTeacherCheckOption, TaskWithKeywordOption, \
-    TaskWithTeacherCheckResult, TaskWithKeywordResult, TaskWithTickInStream, StudentInCourse, CourseNews
+    TaskWithTeacherCheckResult, TaskWithKeywordResult, TaskWithTickInStream, StudentInCourse, CourseNews, Badge, BadgeForUser
 
 
 admin.site.register(StudentGroup)
@@ -33,6 +33,8 @@ admin.site.register(TaskWithTeacherCheckCheck)
 admin.site.register(TaskWithTickInStream)
 admin.site.register(StudentInCourse)
 admin.site.register(CourseNews)
+admin.site.register(Badge)
+admin.site.register(BadgeForUser)
 
 
 UserAdmin.fieldsets += ('Custom fields set', {'fields': ('role', 'group')}),

@@ -140,7 +140,7 @@ class CourseCreateSerializer(serializers.ModelSerializer):
 
 
 class LessonSerializer(serializers.ModelSerializer):
-    course = CourseSerializer()
+    #course = CourseSerializer()
 
     class Meta:
         model = Lesson
@@ -153,6 +153,14 @@ class StudentLessonResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = StudentLessonResult
+        fields = '__all__'
+
+
+class LessonListSerializer(serializers.ModelSerializer):
+    students_in_lesson = StudentLessonResultSerializer(many = True)
+
+    class Meta:
+        model = Lesson
         fields = '__all__'
 
 

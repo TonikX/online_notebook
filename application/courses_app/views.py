@@ -16,7 +16,7 @@ from .models import \
     TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, TaskWithTeacherCheckOption, \
     TaskWithTeacherCheck, TaskWithTeacherCheckCheck, TaskWithKeywordOption, \
-    TaskWithTickInStream, StudentInCourse, CourseNews
+    TaskWithTickInStream, StudentInCourse, CourseNews, BadgeForUser
 
 
 from .models import ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, TaskWithKeywordInStream
@@ -37,7 +37,7 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     TaskWithTickStudentResult, TaskWithTickStudentResultSerializer, \
     CreateTaskWithTickStudentResultSerializer, StudentSerializer, CourseCreateSerializer, \
     TaskWithTeacherCreateCheckSerializer, StudentStreamCreateSerializer, \
-    StudentInCourseSerializer, StudentInCourseCreateSerializer
+    StudentInCourseSerializer, StudentInCourseCreateSerializer, LessonListSerializer
 
 from .serializers import TaskWithKeywordCreateSerializer, TaskWithKeywordSerializer, TaskWithKeywordOptionSerializer, TaskWithKeywordResultSerializer, CourseInStreamSerializer, TaskWithTickInStreamSerializer
 
@@ -566,7 +566,23 @@ class LessonCreateView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class LessonRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        print (StudentStream.objects.get(id = request.data["stream"]).groups.all())
+        for group in StudentStream.objects.get(id = request.data["stream"]).groups.all():
+            print(group)
+            for student in group.members.all():
+                print (student)
+                StudentLessonResult.objects.create(student_id = student.id, lesson_id = serializer.data["id"])
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+
+
+class LessonRetrieveUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [permissions.AllowAny]
@@ -574,8 +590,13 @@ class LessonRetrieveUpdateView(generics.RetrieveUpdateAPIView):
 
 class LessonListView(generics.ListAPIView):
     queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
+    serializer_class = LessonListSerializer
     permission_classes = [permissions.AllowAny]
+
+
+    def get_queryset(self):
+        queryset = Lesson.objects.filter(stream=self.kwargs['student_stream'])
+        return queryset
 
 
 class StudentLessonResultCreateView(generics.CreateAPIView):
@@ -976,6 +997,13 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
             serializer = self.get_serializer(instance, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
+                """
+                Бейджи
+                """
+                if TaskWithKeywordResult.objects.filter(user = request.user, perform = False).count() == 0:
+                    BadgeForUser.objects.create(badge_id = 1, course = StudentInCourse.objects.filter(user = request.user, course = instance.option.task.section.course)[0])
+
+
                 return Response({"message": "solution is correct", "status":"success"})
             else:
                 return Response({"message": "wrong_data"})
@@ -998,10 +1026,10 @@ class TaskWithKeywordStudentResultCreateView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        print (request.data["option"])
+        #print (request.data["option"])
         options = TaskWithKeywordOption.objects.get(id = request.data["option"])
         serializer_for_option = TaskWithKeywordOptionSerializer(options)
-        print (serializer_for_option.data)
+        #print (serializer_for_option.data)
         return Response(serializer_for_option.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
