@@ -12,7 +12,7 @@ class User(AbstractUser):
     isu_number = models.IntegerField("номер ису", blank=True, null=True)
     group = models.ForeignKey(
         'StudentGroup', on_delete=models.PROTECT, null=True, blank=True,
-        related_name='members'
+        related_name='group_members'
     )
     access_key = models.CharField("Ключ доступа", max_length=15, default='student')
 

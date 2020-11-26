@@ -71,11 +71,12 @@ class StudentStreamCreateSerializer(serializers.ModelSerializer):
 
 
 class StudentGroupSerializer(serializers.ModelSerializer):
-    members = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    #members = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    #group_members = StudentSerializer(many = True, read_only=True)
 
     class Meta:
         model = StudentGroup
-        fields = ("id", "title", "number", "year_of_receipt", "members", "access_key")
+        fields = ["id", "title", "number", "year_of_receipt", "access_key"]
 
 
 class GroupMemberSerializer(serializers.ModelSerializer):
