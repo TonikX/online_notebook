@@ -150,6 +150,7 @@ class LessonSerializer(serializers.ModelSerializer):
 class StudentLessonResultSerializer(serializers.ModelSerializer):
     mark = serializers.CharField(source='get_mark_display')
     visit = serializers.CharField(source='get_visit_display')
+    student = UserRegistrationSerializer()
 
     class Meta:
         model = StudentLessonResult
@@ -157,7 +158,7 @@ class StudentLessonResultSerializer(serializers.ModelSerializer):
 
 
 class LessonListSerializer(serializers.ModelSerializer):
-    students_in_lesson = StudentLessonResultSerializer(many = True)
+    students_in_lesson = StudentSerializer(many = True)
 
     class Meta:
         model = Lesson
