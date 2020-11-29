@@ -175,7 +175,7 @@ urlpatterns = [
     path('tasks/with_keyword/results/<int:pk>/', TaskWithKeywordStudentResultRetrieveView.as_view()),
     path('tasks/with_keyword/results/update/<int:pk>/', TaskWithKeywordStudentResultUpdateView.as_view()),
 
-    path('course/stream/<int:stream_id>/news/<int:course_id>', CourseNewsListView.as_view()),
+    path('course/stream/<int:stream_id>/news/', CourseNewsListView.as_view()),
     path('course/stream/news/create', CourseNewsCreateAPIView.as_view()),
     path('course/stream/news/detail/<int:pk>', CourseNewsDetailsView.as_view()),
     path('course/stream/news/delete/<int:pk>', CourseNewsDestroyView.as_view()),

@@ -1124,7 +1124,7 @@ class CourseNewsListView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
 
     def list(self, request, **kwargs):
-        queryset = CourseNews.objects.filter(stream = self.kwargs['stream_id'], course = self.kwargs['course_id'])
+        queryset = CourseNews.objects.filter(stream = self.kwargs['stream_id'])
         serializer = CourseNewsSerializer(queryset, many=True)
         return Response(serializer.data)
 
