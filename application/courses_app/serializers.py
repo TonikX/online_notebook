@@ -149,8 +149,8 @@ class LessonSerializer(serializers.ModelSerializer):
 
 
 class StudentLessonResultSerializer(serializers.ModelSerializer):
-    mark = serializers.CharField(source='get_mark_display')
-    visit = serializers.CharField(source='get_visit_display')
+    # mark = serializers.CharField(source='get_mark_display')
+    # visit = serializers.CharField(source='get_visit_display')
     student = StudentSerializer()
 
     class Meta:

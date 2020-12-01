@@ -134,7 +134,7 @@ class StudentLessonResult(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name = "students_in_lesson")
     mark = models.CharField(choices=MARKS, default='1', max_length=1)
     visit = models.CharField(choices=VISIT_TYPES, default='2', max_length=1)
-    comment = models.CharField(max_length=255)
+    comment = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return 'Student {}. Mark: {}. {}'.format(self.student, self.get_mark_display(), self.get_visit_display())
