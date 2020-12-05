@@ -382,6 +382,13 @@ class TaskWithKeywordForCreateSerializer(serializers.ModelSerializer):
         fields = ['pk', 'title', 'description', 'keyword']
 
 
+class TaskWithKeywordOptionForStudentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaskWithKeywordOption
+        fields = ['pk', 'title', 'description']
+
+
 class TaskWithKeywordCreateSerializer(serializers.ModelSerializer):
     option_for_task_with_keyword = TaskWithKeywordForCreateSerializer(many = True)
 

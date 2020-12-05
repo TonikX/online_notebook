@@ -26,7 +26,7 @@ from .serializers import \
     ClassmatesCheckedTaskSerializer, TaskOptionSerializer, StudentResultSerializer, \
     CheckSerializer, TaskWithTeacherCheckSerializer, TaskWithTeacherCheckOptionSerializer, \
     TaskWithTeacherCheckResultSerializer, TaskWithTeacherCheckCheckSerializer, \
-    TaskSerializer, UserResultsSerializer, CourseNewsSerializer, CourseNewsCreateSerializer, BadgeForUserSerializer, BageSerializer
+    TaskSerializer, UserResultsSerializer, CourseNewsSerializer, CourseNewsCreateSerializer, BadgeForUserSerializer, BageSerializer, TaskWithKeywordOptionForStudentSerializer
     
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     StudentGroupSerializer, GroupMemberSerializer, \
@@ -449,6 +449,8 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
 
             for task in section["task_with_keyword_in_section"]:
                 tasks_in_sections +=1
+                task_option_dict = TaskWithKeywordOptionForStudentSerializer(TaskWithKeywordOption.objects.get(id = TaskWithKeywordResult.objects.get(user = self.request.user, option__task_id = task["id"]).option.id))
+                task.update({"option": task_option_dict.data})
                 if TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
                     print ("dfdfdftrue")
                     task.update({"status": "1"})
@@ -1008,7 +1010,7 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
                     serializer_dict = badge_serializer.data
                     serializer_dict['message']="solution is correct"
                     serializer_dict['status']="success"
-                return Response(serializer_dict, status=status.HTTP_200_OK)
+                    return Response(serializer_dict, status=status.HTTP_200_OK)
             else:
                 return Response({"message": "wrong_data"})
 
