@@ -993,7 +993,7 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        print(instance.option.keyword)
+        print("keyword", instance.option.keyword)
         if instance.option.keyword == request.data["user_keyword"]:
 
             instance.perform = True
@@ -1010,7 +1010,7 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
                     print(Badge.objects.get(pk = 1))
                     serializer_dict = badge_serializer.data
                     serializer_dict['message']="solution is correct"
-                    serializer_dict['status']="success"
+                    serializer_dict['status']="success22"
                     print (serializer_dict)
                     return Response(serializer_dict, status=status.HTTP_200_OK)
 
