@@ -1014,7 +1014,7 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
                         print (serializer_dict)
                         return Response(serializer_dict, status=status.HTTP_200_OK)
                 except:
-                    return Response(serializer, status=status.HTTP_200_OK)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response({"message": "wrong_data"})
 
