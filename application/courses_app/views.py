@@ -1003,15 +1003,18 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
                 """
                 Бейджи
                 """
-                if TaskWithKeywordResult.objects.filter(user = request.user, perform = False).count() == 0:
-                    BadgeForUser.objects.create(badge_id = 1, course = StudentInCourse.objects.filter(user = request.user, course = instance.option.task.section.course)[0])
-                    badge_serializer = BageSerializer(Badge.objects.get(pk = 1))
-                    print(Badge.objects.get(pk = 1))
-                    serializer_dict = badge_serializer.data
-                    serializer_dict['message']="solution is correct"
-                    serializer_dict['status']="success"
-                    print (serializer_dict)
-                return Response(serializer_dict, status=status.HTTP_200_OK)
+                try:
+                    if TaskWithKeywordResult.objects.filter(user = request.user, perform = False).count() == 0:
+                        BadgeForUser.objects.create(badge_id = 1, course = StudentInCourse.objects.filter(user = request.user, course = instance.option.task.section.course)[0])
+                        badge_serializer = BageSerializer(Badge.objects.get(pk = 1))
+                        print(Badge.objects.get(pk = 1))
+                        serializer_dict = badge_serializer.data
+                        serializer_dict['message']="solution is correct"
+                        serializer_dict['status']="success"
+                        print (serializer_dict)
+                        return Response(serializer_dict, status=status.HTTP_200_OK)
+                except:
+                    return Response(serializer, status=status.HTTP_200_OK)
             else:
                 return Response({"message": "wrong_data"})
 
