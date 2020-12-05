@@ -207,7 +207,7 @@ class StudentGroupListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class StudentGroupRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+class StudentGroupRetrieveUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = StudentGroup.objects.all()
     serializer_class = StudentGroupSerializer
     permission_classes = [permissions.AllowAny]
