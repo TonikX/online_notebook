@@ -1010,6 +1010,7 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
                     serializer_dict = badge_serializer.data
                     serializer_dict['message']="solution is correct"
                     serializer_dict['status']="success"
+                    print (serializer_dict)
                     return Response(serializer_dict, status=status.HTTP_200_OK)
             else:
                 return Response({"message": "wrong_data"})
