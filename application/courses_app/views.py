@@ -1004,15 +1004,15 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
                 """
                 Бейджи
                 """
-
-                response ={}
+                response = {}
+                badges = {}
                 # Бейдж за все задания в курсе
                 if TaskWithKeywordResult.objects.filter(user = request.user, perform = False, option__task__section__course_id = instance.option.task.section.course).count()== 0 and \
                         TaskWithTeacherCheckResult.objects.filter(user = request.user, perform = False, option__task__section__course_id = instance.option.task.section.course).count()== 0 and \
                         TaskWithTickStudentResult.objects.filter(user = request.user, perform = False, task_with_tick__section__course_id = instance.option.task.section.course).count() == 0:
                     BadgeForUser.objects.create(badge_id = 1, course = StudentInCourse.objects.filter(user = request.user, course = instance.option.task.section.course)[0])
                     badge_serializer = BageSerializer(Badge.objects.get(pk = 1))
-                    response.update({"al_tasks_badge": dict(badge_serializer.data)})
+                    badges.update({"al_tasks_badge": dict(badge_serializer.data)})
                 else:
                     pass
 
@@ -1020,10 +1020,11 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
                 if TaskWithKeywordResult.objects.filter(user = request.user, perform = False, option__task__section__course_id = instance.option.task.section.course).count()== 0:
                     BadgeForUser.objects.create(badge_id = 2, course = StudentInCourse.objects.filter(user = request.user, course = instance.option.task.section.course)[0])
                     badge_serializer = BageSerializer(Badge.objects.get(pk = 2))
-                    response.update({"keyword_tasks_badge": dict(badge_serializer.data)})
+                    badges.update({"keyword_tasks_badge": dict(badge_serializer.data)})
                 else:
                     pass
 
+                response['badges']=badges
                 response['message']="solution is correct"
                 response['status']="success"
                 return Response(response, status=status.HTTP_200_OK)
