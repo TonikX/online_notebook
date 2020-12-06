@@ -26,7 +26,8 @@ from .serializers import \
     ClassmatesCheckedTaskSerializer, TaskOptionSerializer, StudentResultSerializer, \
     CheckSerializer, TaskWithTeacherCheckSerializer, TaskWithTeacherCheckOptionSerializer, \
     TaskWithTeacherCheckResultSerializer, TaskWithTeacherCheckCheckSerializer, \
-    TaskSerializer, UserResultsSerializer, CourseNewsSerializer, CourseNewsCreateSerializer, BadgeForUserSerializer, BageSerializer, TaskWithKeywordOptionForStudentSerializer
+    TaskSerializer, UserResultsSerializer, CourseNewsSerializer, CourseNewsCreateSerializer, BadgeForUserSerializer, \
+    BageSerializer, TaskWithKeywordOptionForStudentSerializer, TaskWithKeywordResultUpdateSerializer
     
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     StudentGroupSerializer, GroupMemberSerializer, \
@@ -987,15 +988,15 @@ class TaskWithKeywordStudentResultListView(generics.ListAPIView):
 
 class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
     queryset = TaskWithKeywordResult.objects.all()
-    serializer_class = TaskWithKeywordResultSerializer
+    serializer_class = TaskWithKeywordResultUpdateSerializer
     permission_classes = [permissions.AllowAny]
 
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        print("keyword", instance.option.keyword)
-        if instance.option.keyword == request.data["user_keyword"]:
-
+        if instance.perform == True:
+            return Response({"message": "You have already completed this quest."})
+        elif instance.option.keyword == request.data["user_keyword"]:
             instance.perform = True
             serializer = self.get_serializer(instance, data=request.data, partial=True)
             if serializer.is_valid():
@@ -1004,21 +1005,30 @@ class TaskWithKeywordStudentResultUpdateView(generics.UpdateAPIView):
                 Бейджи
                 """
 
-                if TaskWithKeywordResult.objects.filter(user = request.user, perform = False, option__task_id = instance.option.task.id).count() == 0:
+                response ={}
+                # Бейдж за все задания в курсе
+                if TaskWithKeywordResult.objects.filter(user = request.user, perform = False, option__task__section__course_id = instance.option.task.section.course).count()== 0 and \
+                        TaskWithTeacherCheckResult.objects.filter(user = request.user, perform = False, option__task__section__course_id = instance.option.task.section.course).count()== 0 and \
+                        TaskWithTickStudentResult.objects.filter(user = request.user, perform = False, task_with_tick__section__course_id = instance.option.task.section.course).count() == 0:
                     BadgeForUser.objects.create(badge_id = 1, course = StudentInCourse.objects.filter(user = request.user, course = instance.option.task.section.course)[0])
                     badge_serializer = BageSerializer(Badge.objects.get(pk = 1))
-                    print(Badge.objects.get(pk = 1))
-                    serializer_dict = badge_serializer.data
-                    serializer_dict['message']="solution is correct"
-                    serializer_dict['status']="success22"
-                    print (serializer_dict)
-                    return Response(serializer_dict, status=status.HTTP_200_OK)
+                    response.update({"al_tasks_badge": dict(badge_serializer.data)})
                 else:
-                    print ("pechal")
-                    return Response({"message": "solution is correct", "status": "success"})
+                    pass
+
+                # Бейдж за все задания с ключевым словом
+                if TaskWithKeywordResult.objects.filter(user = request.user, perform = False, option__task__section__course_id = instance.option.task.section.course).count()== 0:
+                    BadgeForUser.objects.create(badge_id = 2, course = StudentInCourse.objects.filter(user = request.user, course = instance.option.task.section.course)[0])
+                    badge_serializer = BageSerializer(Badge.objects.get(pk = 2))
+                    response.update({"keyword_tasks_badge": dict(badge_serializer.data)})
+                else:
+                    pass
+
+                response['message']="solution is correct"
+                response['status']="success"
+                return Response(response, status=status.HTTP_200_OK)
             else:
                 return Response({"message": "wrong_data"})
-
         else:
             return Response({"message": "solution is not correct", "status":"false"})
 

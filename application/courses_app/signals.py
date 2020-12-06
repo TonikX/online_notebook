@@ -11,6 +11,8 @@ def populate_models(sender, **kwargs):
         Group.objects.get_or_create(name=group)
     badge_all_tasks = {"title":"Выполнил все задания", "description":"Выдается тому, кто выполнил все задания"}
     Badge.objects.get_or_create(title = badge_all_tasks["title"], description = badge_all_tasks["description"])
+    badge_keyword_tasks = {"title":"Выполнил все задания с ключевым словом", "description":"Выдается тому, кто выполнил все заданияс ключевым словом"}
+    Badge.objects.get_or_create(title = badge_keyword_tasks["title"], description = badge_keyword_tasks["description"])
 
 #
 # @receiver(post_save, sender=User)

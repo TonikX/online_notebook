@@ -30,7 +30,7 @@ class User(AbstractUser):
 
 
     class Meta:
-        ordering = [('first_name', 'last_name')]
+        ordering = [('first_name')]
 
 
 class StudentStream(models.Model):

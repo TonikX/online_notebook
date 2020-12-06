@@ -433,6 +433,14 @@ class TaskWithKeywordResultSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskWithKeywordResultUpdateSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = TaskWithKeywordResult
+        fields = ["user_keyword"]
+
+
 class TaskWithKeywordResultCreateSerializer(serializers.ModelSerializer):
 
 
