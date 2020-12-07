@@ -367,7 +367,7 @@ class CourseAtStudentListAPIView(generics.ListAPIView):
             for stream in streams:
                 print (stream.title, stream.course_access.all())
                 queryset = queryset.union(stream.course_access.all())
-                for course in stream.course_access.ilter(id__in = course_ids):
+                for course in stream.course_access.filter(id__in = course_ids):
                     print (course.id)
                     course_in_streams_titles.update({course.id:stream.title})
         except:
@@ -571,19 +571,17 @@ class LessonCreateView(generics.CreateAPIView):
 
 
     def create(self, request, *args, **kwargs):
+        for course in StudentStream.objects.get(id = request.data["stream"]).course_access.all():
+            course_id = course.id
+        request.data["course"]=course_id
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        print (StudentStream.objects.get(id = request.data["stream"]).groups.all())
         for group in StudentStream.objects.get(id = request.data["stream"]).groups.all():
-            print(group)
-            for student in group.members.all():
-                print (student)
+            for student in group.group_members.all():
                 StudentLessonResult.objects.create(student_id = student.id, lesson_id = serializer.data["id"])
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-
 
 
 class LessonRetrieveUpdateView(generics.RetrieveUpdateDestroyAPIView):

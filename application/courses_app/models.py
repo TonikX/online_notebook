@@ -111,7 +111,7 @@ class Lesson(models.Model):
     # student_group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, blank=True, null=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     lesson_type = models.CharField(choices=LESSON_TYPES, default='1', max_length=1)
-    date = models.DateField(default=datetime.date.today)
+    date = models.DateTimeField(editable=True, blank=True, null=True)
 
     def __str__(self):
         return 'Course: {} {}'.format(self.course, self.get_lesson_type_display())

@@ -635,8 +635,16 @@ class BageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CourseForBadgesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Course
+        fields = '__all__'
+
+
 class BadgeForUserSerializer(serializers.ModelSerializer):
     badge = BageSerializer()
+    course = CourseForBadgesSerializer()
 
     class Meta:
         model = BadgeForUser
