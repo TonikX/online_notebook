@@ -642,9 +642,17 @@ class CourseForBadgesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class StudentInCourseForBadgesSerializer(serializers.ModelSerializer):
+    course = CourseForBadgesSerializer()
+
+    class Meta:
+        model = StudentInCourse
+        fields = '__all__'
+
+
 class BadgeForUserSerializer(serializers.ModelSerializer):
     badge = BageSerializer()
-    course = CourseForBadgesSerializer()
+    course = StudentInCourseForBadgesSerializer()
 
     class Meta:
         model = BadgeForUser
