@@ -299,8 +299,8 @@ class TaskWithTeacherCheckCheck(models.Model):
         ('4', '4'),
         ('5', '5')
     ]
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
-    student_result = models.ForeignKey(TaskWithTeacherCheckResult, on_delete=models.CASCADE, related_name = "checks_of_teacher")
+    # teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    # student_result = models.ForeignKey(TaskWithTeacherCheckResult, on_delete=models.CASCADE, related_name = "checks_of_teacher")
     mark = models.CharField(choices=MARKS, max_length=10, default='1')
     comment = models.CharField(max_length=3255, blank = True, null = True)
 
