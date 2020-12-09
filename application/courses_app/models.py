@@ -284,7 +284,6 @@ class TaskWithTeacherCheckOption(models.Model):
 class TaskWithTeacherCheckResult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     option = models.ForeignKey(TaskWithTeacherCheckOption, on_delete=models.CASCADE)
-
     perform = models.BooleanField(default=False)
 
     def __str__(self):
@@ -293,17 +292,20 @@ class TaskWithTeacherCheckResult(models.Model):
 
 class TaskWithTeacherCheckCheck(models.Model):
     """Associative entity between User, TaskWithTeacherCheckResult"""
-    check = models.CharField(max_length=20)
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    result = models.ForeignKey(TaskWithTeacherCheckResult, on_delete=models.CASCADE)
-    verifier = models.CharField(max_length=20)
-    mark = models.CharField(max_length=10, default='')
-    comment = models.CharField(max_length=255, default='')
-    description = models.CharField(max_length=1024, default='')
+    MARKS = [
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5')
+    ]
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    student_result = models.ForeignKey(TaskWithTeacherCheckResult, on_delete=models.CASCADE, related_name = "checks_of_teacher")
+    mark = models.CharField(choices=MARKS, max_length=10, default='')
+    comment = models.CharField(max_length=3255, default='')
 
     def __str__(self):
-        return 'TaskWithTeacherCheckCheck {} (Associative)'.format(self.check)
+        return 'TaskWithTeacherCheckCheck {} (Associative)'.format(self.teacher)
 
 
 class TaskWithKeyword(models.Model):

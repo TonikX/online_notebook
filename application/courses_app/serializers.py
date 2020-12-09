@@ -249,18 +249,20 @@ class TaskWithTeacherCheckSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class TaskWithTeacherCheckResultSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TaskWithTeacherCheckResult
-        fields = '__all__'
-
-
 class TaskWithTeacherCheckCheckSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskWithTeacherCheckCheck
         fields = '__all__'
 
-        
+
+class TaskWithTeacherCheckResultSerializer(serializers.ModelSerializer):
+    checks_of_teacher = TaskWithTeacherCheckCheckSerializer(many = True)
+
+    class Meta:
+        model = TaskWithTeacherCheckResult
+        fields = '__all__'
+
+
 class CreateSectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section
