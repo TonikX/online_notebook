@@ -301,8 +301,8 @@ class TaskWithTeacherCheckCheck(models.Model):
     ]
     teacher = models.ForeignKey(User, on_delete=models.CASCADE)
     student_result = models.ForeignKey(TaskWithTeacherCheckResult, on_delete=models.CASCADE, related_name = "checks_of_teacher")
-    mark = models.CharField(choices=MARKS, max_length=10, default='')
-    comment = models.CharField(max_length=3255, default='')
+    mark = models.CharField(choices=MARKS, max_length=10, default='1')
+    comment = models.CharField(max_length=3255, blank = True, null = True)
 
     def __str__(self):
         return 'TaskWithTeacherCheckCheck {} (Associative)'.format(self.teacher)
