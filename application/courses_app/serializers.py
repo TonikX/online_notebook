@@ -531,7 +531,7 @@ class TaskWithTeacherCheckInSectionForStreamSerializer(serializers.ModelSerializ
 
 class SectionInCourseForStreamSerializer(serializers.ModelSerializer):
     task_with_tick_in_section = TaskWithTickInSectionForStreamSerializer(many = True)
-    # task_with_teacher_check_in_section = TaskWithTeacherCheckInSectionForStreamSerializer(many = True)
+    task_with_teacher_check_in_section = TaskWithTeacherCheckInSectionForStreamSerializer(many = True)
     task_with_keyword_in_section = TaskWithKeywordSectionForStreamSerializer(many = True)
     # lassmates_in_section = ClassmatesCheckedTaskForStreamSerializer(many = True)
 

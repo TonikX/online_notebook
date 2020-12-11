@@ -27,7 +27,7 @@ from .serializers import \
     CheckSerializer, TaskWithTeacherCheckSerializer, TaskWithTeacherCheckOptionSerializer, \
     TaskWithTeacherCheckResultSerializer, TaskWithTeacherCheckCheckSerializer, \
     TaskSerializer, UserResultsSerializer, CourseNewsSerializer, CourseNewsCreateSerializer, BadgeForUserSerializer, \
-    BageSerializer, TaskWithKeywordOptionForStudentSerializer, TaskWithKeywordResultUpdateSerializer
+    BageSerializer, TaskWithKeywordOptionForStudentSerializer, TaskWithKeywordResultUpdateSerializer,  TaskWithTeacherOptionForCreateSerializer
     
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     StudentGroupSerializer, GroupMemberSerializer, \
@@ -467,6 +467,21 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
                 Остальные задания кроме галочки
                 """
 
+            for task in section["task_with_teacher_check_in_section"]:
+                tasks_in_sections +=1
+                task_option_dict = TaskWithTeacherOptionForCreateSerializer(TaskWithTeacherCheckOption.objects.get(id = TaskWithTeacherCheckResult.objects.get(user = self.request.user, option__task_id = task["id"]).option.id))
+                task.update({"option": task_option_dict.data})
+                if TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
+                    print ("dfdfdftrue")
+                    task.update({"status": "1"})
+                    task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True)[0].id})
+                    completed_task_in_section +=1
+                elif TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False):
+                    task.update({"status": "0"})
+                    task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
+                else:
+                    task.update({"status": None})
+
             section.update({"tasks_in_sections": tasks_in_sections})
             section.update({"completed_task_in_section": completed_task_in_section})
 
@@ -480,9 +495,12 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
 
 
         group = self.request.user.group
-        newdata.update({"stream_title": group.streams.filter(course_access = serializer.data["id"])[0].title})
-        newdata.update({"stream_start_date": group.streams.filter(course_access = serializer.data["id"])[0].start_date})
-        newdata.update({"stream_deadline_date": group.streams.filter(course_access = serializer.data["id"])[0].deadline_date})
+        try:
+            newdata.update({"stream_title": group.streams.filter(course_access = serializer.data["id"])[0].title})
+            newdata.update({"stream_start_date": group.streams.filter(course_access = serializer.data["id"])[0].start_date})
+            newdata.update({"stream_deadline_date": group.streams.filter(course_access = serializer.data["id"])[0].deadline_date})
+        except:
+            return Response({"message": "your group not in stream"})
 
         # except:
         #     pass
@@ -1080,17 +1098,24 @@ class StudentInCourseCreateAPIView(generics.CreateAPIView):
         for task in TaskWithKeyword.objects.filter(section__course = request.data["course"]):
             try:
                 options = TaskWithKeywordOption.objects.filter(task = task)
+                options_ids = [friend.id for friend in options]
+                TaskWithKeywordResult.objects.create(option_id = choice(options_ids),user = self.request.user)
+            except:
+                pass
+
+        for task in TaskWithTeacherCheck.objects.filter(section__course = request.data["course"]):
+            try:
+                options = TaskWithTeacherCheckOption.objects.filter(task = task)
                 print (options)
                 options_ids = [friend.id for friend in options]
                 print (options_ids)
-                TaskWithKeywordResult.objects.create(option_id = choice(options_ids),user = self.request.user)
+                TaskWithTeacherCheckResult.objects.create(option_id = choice(options_ids),user = self.request.user)
                 print ('1')
             except:
                 pass
 
         for task in TaskWithTick.objects.filter(section__course = request.data["course"]):
             TaskWithTickStudentResult.objects.create(user = self.request.user, task_with_tick = task)
-            print ('1')
 
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
