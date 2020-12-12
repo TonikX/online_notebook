@@ -286,6 +286,8 @@ class TaskWithTeacherCheckResult(models.Model):
     option = models.ForeignKey(TaskWithTeacherCheckOption, on_delete=models.CASCADE)
     description = models.CharField(max_length=1024, blank = True, null=True)
     perform = models.BooleanField(default=False)
+    on_check = models.BooleanField(default=False)
+
 
     def __str__(self):
         return f'{self.option}, User: {self.user} Is performed? {self.perform}'

@@ -476,8 +476,11 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
                     task.update({"status": "1"})
                     task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True)[0].id})
                     completed_task_in_section +=1
-                elif TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False):
+                elif TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False, on_check = False):
                     task.update({"status": "0"})
+                    task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
+                elif TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False, on_check = True):
+                    task.update({"status": "2"})
                     task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
                 else:
                     task.update({"status": None})
