@@ -103,7 +103,7 @@ urlpatterns = [
 
     path('tasks/teacher/checks/', TaskWithTeacherCheckCheckListCreateView.as_view()),
     path('tasks/teacher/checks/<int:pk>/', TaskWithTeacherCheckCheckRetrieveUpdateDestroyView.as_view()),
-    path('tasks/teacher/checks/<int:stream_id>/', TaskWithTeacherCheckResultForTeacherListView.as_view()),
+    path('tasks/teacher/checks/for_course_admin/<int:stream_id>/', TaskWithTeacherCheckResultForTeacherListView.as_view()),
 
     path('lessons/add/', LessonCreateView.as_view()),
     path('lessons/course/<int:student_stream>/all/', LessonListView.as_view()),

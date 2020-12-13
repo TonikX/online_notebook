@@ -719,12 +719,12 @@ class TaskWithTeacherCheckResultListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class TaskWithTeacherCheckResultForTeacherListView(generics.RetrieveAPIView):
+class TaskWithTeacherCheckResultForTeacherListView(generics.ListAPIView):
     queryset = TaskWithTeacherCheckResult.objects.all()
     serializer_class = TaskWithTeacherCheckResultSerializer
     permission_classes = [permissions.AllowAny]
 
-    def Retrieve(self, request, **kwargs):
+    def list(self, request, **kwargs):
         """
         Вывод всех результатов для одной рабочей программы по id
         """
