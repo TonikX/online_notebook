@@ -724,14 +724,16 @@ class TaskWithTeacherCheckResultForTeacherListView(generics.ListAPIView):
     serializer_class = TaskWithTeacherCheckResultSerializer
     permission_classes = [permissions.AllowAny]
 
-    def get_queryset(self, request, **kwargs):
+    def get(self, request, **kwargs):
         """
         Вывод всех результатов для одной рабочей программы по id
         """
         # Note the use of `get_queryset()` instead of `self.queryset`
         course = StudentStream.objects.filter(id = self.kwargs['stream_id'])[0].course_access.id
         print('d',course)
-        return TaskWithTeacherCheckResult.objects.filter(option__task__section__course__id = course)
+        queryset = TaskWithTeacherCheckResult.objects.filter(option__task__section__course__id = course)
+        serializer = TaskWithTeacherCheckResultSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class TaskWithTeacherCheckResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
