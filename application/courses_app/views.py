@@ -719,19 +719,19 @@ class TaskWithTeacherCheckResultListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class TaskWithTeacherCheckResultForTeacherListView(generics.ListAPIView):
+class TaskWithTeacherCheckResultForTeacherListView(generics.RetrieveAPIView):
     queryset = TaskWithTeacherCheckResult.objects.all()
     serializer_class = TaskWithTeacherCheckResultSerializer
     permission_classes = [permissions.AllowAny]
 
-    def list(self, request, **kwargs):
+    def Retrieve(self, request, **kwargs):
         """
         Вывод всех результатов для одной рабочей программы по id
         """
         # Note the use of `get_queryset()` instead of `self.queryset`
         course = StudentStream.objects.filter(id = self.kwargs['stream_id'])[0].course_access.id
         print('d',course)
-        queryset = TaskWithTeacherCheckResult.objects.filter(option__task__section__course__id = 19)
+        queryset = TaskWithTeacherCheckResult.objects.filter(option__task__section__course__id = course)
         serializer = TaskWithTeacherCheckResultSerializer(queryset, many=True)
         return Response(serializer.data)
 
