@@ -719,7 +719,7 @@ class TaskWithTeacherCheckResultListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class TaskWithTeacherCheckResultForTeacherListView(generics.ListCreateAPIView):
+class TaskWithTeacherCheckResultForTeacherListView(generics.ListAPIView):
     queryset = TaskWithTeacherCheckResult.objects.all()
     serializer_class = TaskWithTeacherCheckResultSerializer
     permission_classes = [permissions.AllowAny]
@@ -730,6 +730,7 @@ class TaskWithTeacherCheckResultForTeacherListView(generics.ListCreateAPIView):
         """
         # Note the use of `get_queryset()` instead of `self.queryset`
         course = StudentStream.objects.filter(id = self.kwargs['stream_id'])[0].course_access
+        print(course)
         queryset = TaskWithTeacherCheckResult.objects.filter(option__task__section__course = course)
         serializer = TaskWithTeacherCheckResultSerializer(queryset, many=True)
         return Response(serializer.data)
