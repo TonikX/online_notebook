@@ -15,7 +15,7 @@ services:
         container_name: online_notebook_backend
         build: ./application
         command: bash -c "
-                python manage.py makemigrations && python manage.py migrate &&
+                python manage.py makemigrations && python manage.py migrate --noinput &&
                 python manage.py runserver --insecure 0.0.0.0:8000";
         volumes:
              - ./application:/application

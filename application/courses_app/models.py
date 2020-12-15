@@ -283,7 +283,7 @@ class TaskWithTeacherCheckOption(models.Model):
 
 class TaskWithTeacherCheckResult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    option = models.ForeignKey(TaskWithTeacherCheckOption, on_delete=models.CASCADE)
+    option = models.ForeignKey(TaskWithTeacherCheckOption, on_delete=models.CASCADE, related_name = 'task_with_teacher_results')
     description = models.CharField(max_length=1024, blank = True, null=True)
     perform = models.BooleanField(default=False)
     on_check = models.BooleanField(default=False)

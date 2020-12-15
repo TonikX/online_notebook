@@ -180,6 +180,13 @@ class SectionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class SectionForTaskCheckSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Section
+        fields = '__all__'
+
+
 class ClassmatesCheckedTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassmatesCheckedTask
@@ -255,8 +262,25 @@ class TaskWithTeacherCheckCheckSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskWithTeacherCheckForCheckSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaskWithTeacherCheck
+        fields = '__all__'
+
+
+class TaskWithTeacherCheckOptionForCheckSerializer(serializers.ModelSerializer):
+    task = TaskWithTeacherCheckForCheckSerializer()
+
+    class Meta:
+        model = TaskWithTeacherCheckOption
+        fields = '__all__'
+
+
 class TaskWithTeacherCheckResultSerializer(serializers.ModelSerializer):
     checks_of_teacher = TaskWithTeacherCheckCheckSerializer(many = True)
+    user = StudentSerializer()
+    option = TaskWithTeacherCheckOptionForCheckSerializer()
 
     class Meta:
         model = TaskWithTeacherCheckResult

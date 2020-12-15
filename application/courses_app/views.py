@@ -38,7 +38,7 @@ from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
     TaskWithTickStudentResult, TaskWithTickStudentResultSerializer, \
     CreateTaskWithTickStudentResultSerializer, StudentSerializer, CourseCreateSerializer, \
     TaskWithTeacherCreateCheckSerializer, StudentStreamCreateSerializer, \
-    StudentInCourseSerializer, StudentInCourseCreateSerializer, LessonListSerializer
+    StudentInCourseSerializer, StudentInCourseCreateSerializer, LessonListSerializer, SectionForTaskCheckSerializer
 
 from .serializers import TaskWithKeywordCreateSerializer, TaskWithKeywordSerializer, TaskWithKeywordOptionSerializer, TaskWithKeywordResultSerializer, CourseInStreamSerializer, TaskWithTickInStreamSerializer
 
@@ -730,10 +730,28 @@ class TaskWithTeacherCheckResultForTeacherListView(generics.ListAPIView):
         """
         # Note the use of `get_queryset()` instead of `self.queryset`
         course = StudentStream.objects.get(id = self.kwargs['stream_id']).course_access.all()[0]
-        print('d',course)
         queryset = TaskWithTeacherCheckResult.objects.filter(option__task__section__course = course)
         serializer = TaskWithTeacherCheckResultSerializer(queryset, many=True)
-        return Response(serializer.data)
+        sections = Section.objects.filter(course = course)
+        serializer_section = SectionForTaskCheckSerializer(sections, many = True)
+        print(serializer_section.data)
+        tasks =[]
+        for result in serializer.data:
+            dict_result = dict(result)
+            result['section'] = Section.objects.get(task_with_teacher_check_in_section__option_for_task_with_teacher__task_with_teacher_results__id = dict_result["id"]).id
+            print(result['section'])
+            tasks.append(result)
+        print(tasks)
+        for section in serializer_section.data:
+            try:
+                print(section['tasks'])
+            except:
+                section['tasks'] = []
+            for task in tasks:
+                if section['id'] == task['section']:
+                    section['tasks'].append(task)
+        print(serializer_section.data)
+        return Response(serializer_section.data)
 
 
 class TaskWithTeacherCheckResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
