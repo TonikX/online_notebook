@@ -269,6 +269,13 @@ class TaskWithTeacherCheckForCheckSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskWithTeacherCheckForTeacherListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaskWithTeacherCheck
+        fields = '__all__'
+
+
 class TaskWithTeacherCheckOptionForCheckSerializer(serializers.ModelSerializer):
     task = TaskWithTeacherCheckForCheckSerializer()
 

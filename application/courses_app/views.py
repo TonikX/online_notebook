@@ -26,7 +26,7 @@ from .serializers import \
     ClassmatesCheckedTaskSerializer, TaskOptionSerializer, StudentResultSerializer, \
     CheckSerializer, TaskWithTeacherCheckSerializer, TaskWithTeacherCheckOptionSerializer, \
     TaskWithTeacherCheckResultSerializer, TaskWithTeacherCheckCheckSerializer, \
-    TaskSerializer, UserResultsSerializer, CourseNewsSerializer, CourseNewsCreateSerializer, BadgeForUserSerializer, \
+    TaskSerializer, UserResultsSerializer, CourseNewsSerializer, CourseNewsCreateSerializer, BadgeForUserSerializer, TaskWithTeacherCheckForTeacherListSerializer, \
     BageSerializer, TaskWithKeywordOptionForStudentSerializer, TaskWithKeywordResultUpdateSerializer,  TaskWithTeacherOptionForCreateSerializer
     
 from .serializers import StudentStreamSerializer, StudentGroupSerializer, \
@@ -739,18 +739,36 @@ class TaskWithTeacherCheckResultForTeacherListView(generics.ListAPIView):
         for result in serializer.data:
             dict_result = dict(result)
             result['section'] = Section.objects.get(task_with_teacher_check_in_section__option_for_task_with_teacher__task_with_teacher_results__id = dict_result["id"]).id
-            print(result['section'])
+            result['task'] = TaskWithTeacherCheck.objects.get(option_for_task_with_teacher__task_with_teacher_results__id = dict_result["id"]).id
+
+            print(result['task'])
             tasks.append(result)
-        print(tasks)
+
+        # for section in serializer_section.data:
+        #     try:
+        #         print(section['tasks'])
+        #     except:
+        #         section['tasks'] = []
+        #     for task in tasks:
+        #         if section['id'] == task['section']:
+        #             section['tasks'].append(task)
+        # print(serializer_section.data)
+        main_tasks = TaskWithTeacherCheck.objects.filter(section__course = course)
+        print(main_tasks)
+
         for section in serializer_section.data:
-            try:
-                print(section['tasks'])
-            except:
-                section['tasks'] = []
-            for task in tasks:
-                if section['id'] == task['section']:
-                    section['tasks'].append(task)
-        print(serializer_section.data)
+            main_tasks = TaskWithTeacherCheck.objects.filter(section__id = section['id'])
+            print('main_tasks', main_tasks)
+            serializer_main_tasks = TaskWithTeacherCheckForTeacherListSerializer(main_tasks, many = True)
+            section['tasks'] = serializer_main_tasks.data
+            for task in  section['tasks']:
+                task['task_results'] = []
+                for result in tasks:
+                    if task['id'] == result['task']:
+                        task['task_results'].append(result)
+                        print('tasktask_results', task['task_results'])
+
+
         return Response(serializer_section.data)
 
 
