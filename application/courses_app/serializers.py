@@ -9,7 +9,7 @@ from .models import \
     TaskWithTeacherCheck, TaskWithTeacherCheckOption, TaskWithTeacherCheckCheck, \
     TaskWithKeyword, TaskWithKeywordOption, TaskWithTickInStream, \
     ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, \
-    TaskWithKeywordInStream, StudentInCourse, CourseNews, BadgeForUser, Badge
+    TaskWithKeywordInStream, StudentInCourse, CourseNews, BadgeForUser, Badge, CourseFAQ
 
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
@@ -689,4 +689,22 @@ class BadgeForUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BadgeForUser
+        fields = '__all__'
+
+
+"""
+Блок новостей
+"""
+
+class CourseFAQCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CourseFAQ
+        fields = '__all__'
+
+
+class CourseFAQSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CourseFAQ
         fields = '__all__'

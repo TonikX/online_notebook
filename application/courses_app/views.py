@@ -16,7 +16,7 @@ from .models import \
     TaskWithTickStudentResult, TaskWithKeywordResult, \
     TaskWithTeacherCheckResult, TaskWithKeyword, TaskWithTeacherCheckOption, \
     TaskWithTeacherCheck, TaskWithTeacherCheckCheck, TaskWithKeywordOption, \
-    TaskWithTickInStream, StudentInCourse, CourseNews, BadgeForUser, Badge
+    TaskWithTickInStream, StudentInCourse, CourseNews, BadgeForUser, Badge, CourseFAQ
 
 
 from .models import ClassmatesCheckedTaskInStream, TaskWithTeacherCheckInStream, TaskWithKeywordInStream
@@ -44,6 +44,8 @@ from .serializers import TaskWithKeywordCreateSerializer, TaskWithKeywordSeriali
 
 
 from .serializers import TaskWithKeywordInStreamSerializer, TaskWithTeacherCheckInStreamSerializer, ClassmatesCheckedTaskInStreamSerializer, StudentStreamListSerializer
+
+from .serializers import CourseFAQCreateSerializer, CourseFAQSerializer
 
 
 from .utils import get_object_or_none
@@ -1274,4 +1276,44 @@ class BadgeForUserListAPIView(generics.ListAPIView):
     def list(self, request, **kwargs):
         queryset = BadgeForUser.objects.filter(course__in = StudentInCourse.objects.filter(user = self.request.user).all())
         serializer = BadgeForUserSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+"""
+Блок FQA
+"""
+
+class CourseFAQCreateView(generics.CreateAPIView):
+    queryset = CourseFAQ.objects.all()
+    serializer_class = CourseFAQCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CourseFAQRetrieveView(generics.RetrieveAPIView):
+    queryset = CourseFAQ.objects.all()
+    serializer_class = CourseFAQSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CourseFAQUpdateView(generics.UpdateAPIView):
+    queryset = CourseFAQ.objects.all()
+    serializer_class = CourseFAQCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CourseFAQDeleteView(generics.DestroyAPIView):
+    queryset = CourseFAQ.objects.all()
+    serializer_class = CourseFAQCreateSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class CourseFAQListView(generics.ListAPIView):
+    queryset = CourseFAQ.objects.all()
+    serializer_class = CourseFAQSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+    def list(self, request, **kwargs):
+        queryset = CourseFAQ.objects.filter(course = self.kwargs['course_id'])
+        serializer = CourseFAQSerializer(queryset, many=True)
         return Response(serializer.data)

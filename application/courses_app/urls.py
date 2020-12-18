@@ -50,6 +50,9 @@ from .views import CourseNewsListView, CourseNewsCreateAPIView, CourseNewsDetail
 
 from .views import BadgeForUserListAPIView
 
+from .views import CourseFAQRetrieveView, CourseFAQUpdateView, CourseFAQDeleteView, \
+    CourseFAQCreateView, CourseFAQListView
+
 
 app_name = "courses_app"
 
@@ -183,5 +186,11 @@ urlpatterns = [
     path('course/stream/news/update/<int:pk>', CourseNewsUpdateView.as_view()),
 
     path('student/badge/all', BadgeForUserListAPIView.as_view()),
+
+    path('course_faq/add/', CourseFAQCreateView.as_view()),
+    path('course_faq/course/<int:course_id>', CourseFAQListView.as_view()),
+    path('course_faq/<int:pk>/', CourseFAQRetrieveView.as_view()),
+    path('course_faq/update/<int:pk>/', CourseFAQUpdateView.as_view()),
+    path('course_faq/delete/<int:pk>/', CourseFAQDeleteView.as_view()),
 
 ]

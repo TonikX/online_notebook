@@ -306,6 +306,7 @@ class TaskWithTeacherCheckCheck(models.Model):
     student_result = models.ForeignKey(TaskWithTeacherCheckResult, on_delete=models.CASCADE, related_name = "checks_of_teacher", null = True)
     mark = models.CharField(choices=MARKS, max_length=10, default='1')
     comment = models.CharField(max_length=3255, blank = True, null = True)
+    task_complete = models.BooleanField(default = False, blank=True, null=True)
 
     def __str__(self):
         return 'TaskWithTeacherCheckCheck {} (Associative)'.format(self.teacher)
@@ -390,3 +391,7 @@ class BadgeForUser(models.Model):
     date = models.DateField(default=datetime.date.today, verbose_name = "дата получения")
 
 
+class CourseFAQ(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    question = models.CharField(max_length=128, blank=True, null=True, verbose_name = "вопрос")
+    answer = models.TextField(blank=True, null=True, verbose_name = "ответ")
