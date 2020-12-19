@@ -294,6 +294,13 @@ class TaskWithTeacherCheckResultSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskWithTeacherCheckResultCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TaskWithTeacherCheckResult
+        fields = '__all__'
+
+
 class CreateSectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Section

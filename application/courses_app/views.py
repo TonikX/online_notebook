@@ -47,6 +47,8 @@ from .serializers import TaskWithKeywordInStreamSerializer, TaskWithTeacherCheck
 
 from .serializers import CourseFAQCreateSerializer, CourseFAQSerializer
 
+from .serializers import TaskWithTeacherCheckResultCreateSerializer
+
 
 from .utils import get_object_or_none
 
@@ -717,7 +719,7 @@ class TaskWithTeacherCheckOptionRetrieveUpdateDestroyView(generics.RetrieveUpdat
 
 class TaskWithTeacherCheckResultListCreateView(generics.ListCreateAPIView):
     queryset = TaskWithTeacherCheckResult.objects.all()
-    serializer_class = TaskWithTeacherCheckResultSerializer
+    serializer_class = TaskWithTeacherCheckResultCreateSerializer
     permission_classes = [permissions.AllowAny]
 
 
@@ -776,7 +778,7 @@ class TaskWithTeacherCheckResultForTeacherListView(generics.ListAPIView):
 
 class TaskWithTeacherCheckResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TaskWithTeacherCheckResult.objects.all()
-    serializer_class = TaskWithTeacherCheckResultSerializer
+    serializer_class = TaskWithTeacherCheckResultCreateSerializer
     permission_classes = [permissions.AllowAny]
 
 
