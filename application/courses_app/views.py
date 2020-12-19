@@ -791,14 +791,15 @@ class TaskWithTeacherCheckCheckListCreateView(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         if self.request.data['task_complete']:
 
-            task = TaskWithTeacherCheckResult.objects.get(checks_of_teacher = self.request.data['student_result'])
+            task = TaskWithTeacherCheckResult.objects.get(id = self.request.data['student_result'])
             task.perform = True
             task.on_check = False
             task.save()
+            print('Сохрарнено')
 
         else:
 
-            task = TaskWithTeacherCheckResult.objects.get(checks_of_teacher = self.request.data['student_result'])
+            task = TaskWithTeacherCheckResult.objects.get(id = self.request.data['student_result'])
             task.perform = False
             task.on_check = False
             task.save()
