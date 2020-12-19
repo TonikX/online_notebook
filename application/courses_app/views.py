@@ -473,6 +473,7 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
 
             for task in section["task_with_teacher_check_in_section"]:
                 tasks_in_sections +=1
+
                 task_option_dict = TaskWithTeacherOptionForCreateSerializer(TaskWithTeacherCheckOption.objects.get(id = TaskWithTeacherCheckResult.objects.get(user = self.request.user, option__task_id = task["id"]).option.id))
                 task.update({"option": task_option_dict.data})
                 task_result_dict = TaskWithTeacherCheckResultSerializer(TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"]))
