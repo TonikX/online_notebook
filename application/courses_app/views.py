@@ -477,8 +477,7 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
                 task.update({"option": task_option_dict.data})
                 task_result_dict = TaskWithTeacherCheckResultSerializer(TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"]))
                 task.update({"result_with_all_fields": task_result_dict.data})
-
-            if TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
+                if TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
                     print ("dfdfdftrue")
                     task.update({"status": "1"})
                     task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True)[0].id})
