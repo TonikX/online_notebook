@@ -39,7 +39,7 @@ from .views import TaskWithKeywordRetrieveView, TaskWithKeywordUpdateView, TaskW
 from .views import StudentInCourseCreateAPIView, StudentInCourseListView, StudentInCourseDetailsView, StudentInCourseDestroyView, StudentInCourseUpdateView
 
 
-from .views import 	TaskWithTeacherCheckInStreamCreateView, TaskWithTeacherCheckInStreamDetailDeleteUpdateView, \
+from .views import 	TaskWithTeacherCheckInStreamCreateView, TaskWithTeacherCheckInStreamDetailDeleteUpdateView, TaskWithTeacherCheckResultRetrieveView, \
     TaskWithKeywordInStreamCreateView, TaskWithKeywordInStreamDetailDeleteUpdateView, \
     ClassmatesCheckedTaskInStreamCreateView, ClassmatesCheckedTaskInStreamDetailDeleteUpdateView, CourseForStudentListAPIView
 
@@ -103,6 +103,7 @@ urlpatterns = [
 
     path('tasks/teacher/results/', TaskWithTeacherCheckResultListCreateView.as_view()),
     path('tasks/teacher/results/<int:pk>/', TaskWithTeacherCheckResultRetrieveUpdateDestroyView.as_view()),
+    path('tasks/teacher/results/all_fields/<int:pk>/', TaskWithTeacherCheckResultRetrieveView.as_view()),
 
     path('tasks/teacher/checks/', TaskWithTeacherCheckCheckListCreateView.as_view()),
     path('tasks/teacher/checks/<int:pk>/', TaskWithTeacherCheckCheckRetrieveUpdateDestroyView.as_view()),

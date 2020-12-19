@@ -776,6 +776,11 @@ class TaskWithTeacherCheckResultForTeacherListView(generics.ListAPIView):
         return Response(serializer_section.data)
 
 
+class TaskWithTeacherCheckResultRetrieveView(generics.RetrieveAPIView):
+    queryset = TaskWithTeacherCheckResult.objects.all()
+    serializer_class = TaskWithTeacherCheckResultSerializer
+    permission_classes = [permissions.AllowAny]
+
 class TaskWithTeacherCheckResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TaskWithTeacherCheckResult.objects.all()
     serializer_class = TaskWithTeacherCheckResultCreateSerializer
