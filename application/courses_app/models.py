@@ -80,6 +80,7 @@ class Course(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1024, blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    contacts = models.CharField(max_length=1024, blank=True, null=True)
 
 
     def __str__(self):
@@ -286,7 +287,7 @@ class TaskWithTeacherCheckResult(models.Model):
     option = models.ForeignKey(TaskWithTeacherCheckOption, on_delete=models.CASCADE, related_name = 'task_with_teacher_results')
     description = models.CharField(max_length=1024, blank = True, null=True)
     perform = models.BooleanField(default=False)
-    on_check = models.BooleanField(default=False)
+    on_check = models.BooleanField(default=True)
 
 
     def __str__(self):

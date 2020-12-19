@@ -732,7 +732,7 @@ class TaskWithTeacherCheckResultForTeacherListView(generics.ListAPIView):
         """
         # Note the use of `get_queryset()` instead of `self.queryset`
         course = StudentStream.objects.get(id = self.kwargs['stream_id']).course_access.all()[0]
-        queryset = TaskWithTeacherCheckResult.objects.filter(option__task__section__course = course)
+        queryset = TaskWithTeacherCheckResult.objects.filter(option__task__section__course = course, on_check = True)
         serializer = TaskWithTeacherCheckResultSerializer(queryset, many=True)
         sections = Section.objects.filter(course = course)
         serializer_section = SectionForTaskCheckSerializer(sections, many = True)
@@ -784,6 +784,26 @@ class TaskWithTeacherCheckCheckListCreateView(generics.ListCreateAPIView):
     queryset = TaskWithTeacherCheckCheck.objects.all()
     serializer_class = TaskWithTeacherCheckCheckSerializer
     permission_classes = [permissions.AllowAny]
+
+
+    def create(self, request, *args, **kwargs):
+        if self.request.data['task_complete']:
+
+            task = TaskWithTeacherCheckResult.objects.get(checks_of_teacher = self.request.data['student_result'])
+            task.perform = True
+            task.on_check = False
+            task.save()
+
+        else:
+
+            task = TaskWithTeacherCheckResult.objects.get(checks_of_teacher = self.request.data['student_result'])
+            task.perform = False
+            task.on_check = False
+            task.save()
+
+
+        return Response(status=status.HTTP_201_CREATED)
+
 
 
 class TaskWithTeacherCheckCheckRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
