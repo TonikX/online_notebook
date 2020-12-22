@@ -297,6 +297,7 @@ class TaskWithTeacherCheckResult(models.Model):
 class TaskWithTeacherCheckCheck(models.Model):
     """Associative entity between User, TaskWithTeacherCheckResult"""
     MARKS = [
+        ('0', '0'),
         ('1', '1'),
         ('2', '2'),
         ('3', '3'),
@@ -308,6 +309,7 @@ class TaskWithTeacherCheckCheck(models.Model):
     mark = models.CharField(choices=MARKS, max_length=10, default='1')
     comment = models.CharField(max_length=3255, blank = True, null = True)
     task_complete = models.BooleanField(default = False, blank=True, null=True)
+    date = models.DateTimeField(editable=True, auto_now_add=True, blank=True, null=True, verbose_name='дата')
 
     def __str__(self):
         return 'TaskWithTeacherCheckCheck {} (Associative)'.format(self.teacher)
