@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework import generics
 from django.contrib.postgres.search import SearchVector
-
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 
 from random import choice
@@ -793,6 +793,17 @@ class TaskWithTeacherCheckResultRetrieveUpdateDestroyView(generics.RetrieveUpdat
     queryset = TaskWithTeacherCheckResult.objects.all()
     serializer_class = TaskWithTeacherCheckResultCreateSerializer
     permission_classes = [permissions.AllowAny]
+
+
+    def patch(self, request, *args, **kwargs):
+        question = get_object_or_404(TaskWithTeacherCheckResult, pk=kwargs['pk'])
+        question.on_check = True
+        serializer = TaskWithTeacherCheckResultCreateSerializer(question, data=request.data, partial=True)
+        if serializer.is_valid():
+            #serializer.data['on_check'] = True
+            question = serializer.save()
+            return Response(TaskWithTeacherCheckResultCreateSerializer(question).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class TaskWithTeacherCheckCheckListCreateView(generics.ListCreateAPIView):
