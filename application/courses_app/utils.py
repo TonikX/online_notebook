@@ -9,3 +9,6 @@ def get_object_or_none(model, filtering_features):
     objects = model.objects.filter(**filtering_features)
 
     return objects.first() if objects.count() == 1 else None
+
+
+

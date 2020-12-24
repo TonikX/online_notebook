@@ -81,6 +81,11 @@ class Course(models.Model):
     description = models.CharField(max_length=1024, blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     contacts = models.CharField(max_length=1024, blank=True, null=True)
+    file_description_1 = models.FileField(upload_to='course_files/', null=True, blank=True)
+    file_description_2 = models.FileField(upload_to='course_files/', null=True, blank=True)
+    file_description_3 = models.FileField(upload_to='course_files/', null=True, blank=True)
+    file_description_4 = models.FileField(upload_to='course_files/', null=True, blank=True)
+    file_description_5 = models.FileField(upload_to='course_files/', null=True, blank=True)
 
 
     def __str__(self):

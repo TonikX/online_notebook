@@ -577,7 +577,12 @@ class CourseCreateAPIView(generics.CreateAPIView):
 
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        owner = self.request.user
+        if self.request.data.get('file_description') is not None:
+            file_description = self.request.data.get('file_description')
+            serializer.save(owner=owner,file_description=file_description)
+        else:
+            serializer.save(owner=owner)
 
 
 class CourseDestroyView(generics.DestroyAPIView):
@@ -590,6 +595,26 @@ class CourseUpdateView(generics.UpdateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [permissions.AllowAny]
+
+
+    def perform_update(self, serializer):
+        if self.request.data.get('file_description_1') is not None:
+            file_description = self.request.data.get('file_description_1')
+            serializer.save(file_description=file_description)
+        if self.request.data.get('file_description_2') is not None:
+            file_description = self.request.data.get('file_description_2')
+            serializer.save(file_description=file_description)
+        if self.request.data.get('file_description_3') is not None:
+            file_description = self.request.data.get('file_description_3')
+            serializer.save(file_description=file_description)
+        if self.request.data.get('file_description_4') is not None:
+            file_description = self.request.data.get('file_description_4')
+            serializer.save(file_description=file_description)
+        if self.request.data.get('file_description_5') is not None:
+            file_description = self.request.data.get('file_description_5')
+            serializer.save(file_description=file_description)
+        else:
+            serializer.save()
 
 
 class CourseDetailsView(generics.RetrieveAPIView):
