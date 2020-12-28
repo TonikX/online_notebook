@@ -435,12 +435,12 @@ class TaskWithKeywordCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Create the book instance
-        book = TaskWithKeyword.objects.create(title=validated_data['title'],
+        book = TaskWithKeyword.objects.create(title=validated_data['title'], description=validated_data['description'],
                                               section=validated_data['section'])
 
         # Create or update each page instance
         for item in validated_data['option_for_task_with_keyword']:
-            page = TaskWithKeywordOption(title = item['title'], keyword = item['keyword'], task=book)
+            page = TaskWithKeywordOption(description=item['description'], title = item['title'], keyword = item['keyword'], task=book)
             page.save()
 
         return book
