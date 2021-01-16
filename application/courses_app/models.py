@@ -6,7 +6,11 @@ import datetime
 
 
 class User(AbstractUser):
-    role = models.CharField("Роль", max_length=15, default='student')
+    ROLES = [
+        ('student', 'student'),
+        ('teacher', 'teacher')
+    ]
+    role = models.CharField("Роль", choices=ROLES, max_length=15, default='student')
     tel = models.CharField("Телефон", max_length=15, blank=True, null=True)
     info = models.CharField("О себе",  max_length=1500, blank=True, null=True)
     isu_number = models.IntegerField("номер ису", blank=True, null=True)

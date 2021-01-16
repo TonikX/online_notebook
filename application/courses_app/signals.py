@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
-# from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
 from courses_app.models import Badge
 
 
@@ -18,3 +18,12 @@ def populate_models(sender, **kwargs):
 # @receiver(post_save, sender=User)
 # def save_profile(sender, instance, **kwargs):
 #     instance.profile.save()
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        if instance.access_key == "teacher":
+            instance.groups.add(Group.objects.get(name='teacher'))
+        else:
+            instance.groups.add(Group.objects.get(name='student'))
