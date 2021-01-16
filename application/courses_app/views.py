@@ -426,105 +426,108 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
     permission_classes = [permissions.AllowAny]
 
     def retrieve(self, request, *args, **kwargs):
-        course_in_streams_titles = {}
         try:
-            instance = self.get_object()
-        except (Course.DoesNotExist, KeyError):
-            return Response({"error": "Requested Movie does not exist"}, status=status.HTTP_404_NOT_FOUND)
-        serializer = self.get_serializer(instance)
-        print ('her')
-        newdata = dict(serializer.data)
-        #try:
-        for section in newdata["sections_in_course"]:
-            tasks_in_sections = 0
-            completed_task_in_section = 0
-            for task in section["task_with_tick_in_section"]:
-                tasks_in_sections +=1
-                if TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True):
-                    print ("dfdfdftrue")
-                    task.update({"status": "1"})
-                    task.update({"task_result_id": TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True)[0].id})
-                    completed_task_in_section +=1
-                elif TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = False):
-                    task.update({"status": "0"})
-                    task.update({"task_result_id": TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = False)[0].id})
-                else:
-                    task.update({"status": None})
+            course_in_streams_titles = {}
+            try:
+                instance = self.get_object()
+            except (Course.DoesNotExist, KeyError):
+                return Response({"error": "Requested Movie does not exist"}, status=status.HTTP_404_NOT_FOUND)
+            serializer = self.get_serializer(instance)
+            print ('her')
+            newdata = dict(serializer.data)
+            #try:
+            for section in newdata["sections_in_course"]:
+                tasks_in_sections = 0
+                completed_task_in_section = 0
+                for task in section["task_with_tick_in_section"]:
+                    tasks_in_sections +=1
+                    if TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True):
+                        print ("dfdfdftrue")
+                        task.update({"status": "1"})
+                        task.update({"task_result_id": TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = True)[0].id})
+                        completed_task_in_section +=1
+                    elif TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = False):
+                        task.update({"status": "0"})
+                        task.update({"task_result_id": TaskWithTickStudentResult.objects.filter(user = self.request.user, task_with_tick_id = task["id"], perform = False)[0].id})
+                    else:
+                        task.update({"status": None})
 
 
-            for task in section["task_with_keyword_in_section"]:
-                tasks_in_sections +=1
-                task_option_dict = TaskWithKeywordOptionForStudentSerializer(TaskWithKeywordOption.objects.get(id = TaskWithKeywordResult.objects.get(user = self.request.user, option__task_id = task["id"]).option.id))
-                task.update({"option": task_option_dict.data})
-                if TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
-                    print ("dfdfdftrue")
-                    task.update({"status": "1"})
-                    task.update({"task_result_id": TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True)[0].id})
-                    completed_task_in_section +=1
-                elif TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False):
-                    task.update({"status": "0"})
-                    task.update({"task_result_id": TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
-                else:
-                    task.update({"status": None})
-
-                """
-                Остальные задания кроме галочки
-                """
-
-            for task in section["task_with_teacher_check_in_section"]:
-                tasks_in_sections +=1
-                try:
-                    task_option_dict = TaskWithTeacherOptionForCreateSerializer(TaskWithTeacherCheckOption.objects.get(id = TaskWithTeacherCheckResult.objects.get(user = self.request.user, option__task_id = task["id"]).option.id))
+                for task in section["task_with_keyword_in_section"]:
+                    tasks_in_sections +=1
+                    task_option_dict = TaskWithKeywordOptionForStudentSerializer(TaskWithKeywordOption.objects.get(id = TaskWithKeywordResult.objects.get(user = self.request.user, option__task_id = task["id"]).option.id))
                     task.update({"option": task_option_dict.data})
-                except:
-                    pass
-                try:
-                    task_result_dict = TaskWithTeacherCheckResultSerializer(TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"]), many = True)
-                    task.update({"result_with_all_fields": task_result_dict.data})
-                except:
-                    pass
-                if TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
-                    print ("dfdfdftrue")
-                    task.update({"status": "1"})
-                    task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True)[0].id})
-                    completed_task_in_section +=1
-                elif TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False, on_check = False):
-                    task.update({"status": "0"})
-                    task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
-                elif TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False, on_check = True):
-                    task.update({"status": "2"})
-                    task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
-                else:
-                    task.update({"status": None})
+                    if TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
+                        print ("dfdfdftrue")
+                        task.update({"status": "1"})
+                        task.update({"task_result_id": TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True)[0].id})
+                        completed_task_in_section +=1
+                    elif TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False):
+                        task.update({"status": "0"})
+                        task.update({"task_result_id": TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
+                    else:
+                        task.update({"status": None})
 
-            section.update({"tasks_in_sections": tasks_in_sections})
-            section.update({"completed_task_in_section": completed_task_in_section})
+                    """
+                    Остальные задания кроме галочки
+                    """
+
+                for task in section["task_with_teacher_check_in_section"]:
+                    tasks_in_sections +=1
+                    try:
+                        task_option_dict = TaskWithTeacherOptionForCreateSerializer(TaskWithTeacherCheckOption.objects.get(id = TaskWithTeacherCheckResult.objects.get(user = self.request.user, option__task_id = task["id"]).option.id))
+                        task.update({"option": task_option_dict.data})
+                    except:
+                        pass
+                    try:
+                        task_result_dict = TaskWithTeacherCheckResultSerializer(TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"]), many = True)
+                        task.update({"result_with_all_fields": task_result_dict.data})
+                    except:
+                        pass
+                    if TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
+                        print ("dfdfdftrue")
+                        task.update({"status": "1"})
+                        task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True)[0].id})
+                        completed_task_in_section +=1
+                    elif TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False, on_check = False):
+                        task.update({"status": "0"})
+                        task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
+                    elif TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False, on_check = True):
+                        task.update({"status": "2"})
+                        task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
+                    else:
+                        task.update({"status": None})
+
+                section.update({"tasks_in_sections": tasks_in_sections})
+                section.update({"completed_task_in_section": completed_task_in_section})
 
 
 
 
-        try:
-            newdata.update({"status": StudentInCourse.objects.get(course = newdata["id"], user = self.request.user).status})
+            try:
+                newdata.update({"status": StudentInCourse.objects.get(course = newdata["id"], user = self.request.user).status})
+            except:
+                newdata.update({"status": "1"})
+
+
+            group = self.request.user.group
+            try:
+                newdata.update({"stream_title": group.streams.filter(course_access = serializer.data["id"])[0].title})
+                newdata.update({"stream_start_date": group.streams.filter(course_access = serializer.data["id"])[0].start_date})
+                newdata.update({"stream_deadline_date": group.streams.filter(course_access = serializer.data["id"])[0].deadline_date})
+            except:
+                return Response({"message": "your group not in stream"})
+
+            # except:
+            #     pass
+
+
+
+            newdata=OrderedDict(newdata)
+
+            return Response(newdata)
         except:
-            newdata.update({"status": "1"})
-
-
-        group = self.request.user.group
-        try:
-            newdata.update({"stream_title": group.streams.filter(course_access = serializer.data["id"])[0].title})
-            newdata.update({"stream_start_date": group.streams.filter(course_access = serializer.data["id"])[0].start_date})
-            newdata.update({"stream_deadline_date": group.streams.filter(course_access = serializer.data["id"])[0].deadline_date})
-        except:
-            return Response({"message": "your group not in stream"})
-
-        # except:
-        #     pass
-
-
-
-        newdata=OrderedDict(newdata)
-
-        return Response(newdata)
+            return Response({"message": "course not used by this user"})
 
 
 
