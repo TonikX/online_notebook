@@ -4,6 +4,9 @@ from django.conf import settings
 import datetime
 
 
+def database_media_path(instance, filename):
+    return 'media/avatars/{1}'.format(instance.id, filename)
+
 
 class User(AbstractUser):
     ROLES = [
@@ -19,13 +22,17 @@ class User(AbstractUser):
         related_name='group_members'
     )
     access_key = models.CharField("Ключ доступа", max_length=15, default='student')
-
     courses = models.ManyToManyField(
         'Course', related_name='students_in_course'
     )
+    image = models.ImageField(
+        upload_to=database_media_path,
+        null=True,
+        blank=True
+    )
 
     REQUIRED_FIELDS = [
-        'email', 'group', 'info', 'isu_number', 'first_name', 'last_name', 'groups'
+        'email', 'group', 'info', 'isu_number', 'first_name', 'last_name', 'groups', 'image'
         # 'first_name', 'last_name', 'email', 'role', 'tel', 'group'
     ]
 
@@ -85,6 +92,7 @@ class Course(models.Model):
     description = models.CharField(max_length=1024, blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     contacts = models.CharField(max_length=1024, blank=True, null=True)
+    small_description = models.TextField(blank=True, null=True)
     file_description_1 = models.FileField(upload_to='course_files/', null=True, blank=True)
     file_description_2 = models.FileField(upload_to='course_files/', null=True, blank=True)
     file_description_3 = models.FileField(upload_to='course_files/', null=True, blank=True)
