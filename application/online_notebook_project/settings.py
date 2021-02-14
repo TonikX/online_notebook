@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'courses_app',
     'corsheaders',
     'rest_framework_swagger',
+    'tests_builder',
+    'django_filters',
+    'stats',
     # 'users.apps.UsersConfig',
 ]
 

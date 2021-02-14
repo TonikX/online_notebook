@@ -15,6 +15,7 @@ services:
         container_name: online_notebook_backend
         build: ./application
         command: bash -c "
+                pip install django-filter &&
                 python manage.py makemigrations --noinput && python manage.py migrate --noinput &&
                 python manage.py runserver --insecure 0.0.0.0:8000";
         volumes:
@@ -37,7 +38,7 @@ services:
         ports:
             - "3006:3000"
         environment:
-            - REACT_APP_API_HOST=62.109.28.95
+            - REACT_APP_API_HOST=localhost
             - REACT_APP_API_SCHEMA=http
             - REACT_APP_API_PORT=8005
             - PORT=3000

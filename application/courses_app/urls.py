@@ -5,7 +5,7 @@ from .views import StudentStreamListCreateView, StudentStreamRetrieveUpdateView,
 from .views import LessonCreateView, \
     LessonRetrieveUpdateView, StudentLessonResultCreateView, \
     StudentLessonResultRetrieveUpdateView, \
-    LessonListView, StudentLessonResultListView, TaskWithTeacherCheckResultForTeacherListView
+    LessonListView, StudentLessonResultListView, TaskWithTeacherCheckResultForTeacherListView, CourseForStudentForDescriptionDetailAPIView
 
 from .views import CourseCreateAPIView, CourseListAPIView, CourseDetailsView, CourseDestroyView, CourseUpdateView
 
@@ -121,6 +121,7 @@ urlpatterns = [
     path('courses_in_streams/by_stream_id/<int:stream_id>', CourseInStreamsByIdListAPIView.as_view()),
     path('courses_for_student/all/', CourseForStudentListAPIView.as_view()),
     path('courses_at_student/all/', CourseAtStudentListAPIView.as_view()),
+    path('courses_for_student_for_description/detail/<int:pk>/',CourseForStudentForDescriptionDetailAPIView.as_view()),
     path('courses_for_student/detail/<int:pk>/',CourseForStudentDetailAPIView.as_view()),
 
     path('courses/sections/add/', SectionCreateView.as_view()),

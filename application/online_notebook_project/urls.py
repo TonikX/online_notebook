@@ -31,6 +31,8 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.urls.jwt')),
+    path('stats/', include('stats.urls')),
+    path('test_builder/', include('tests_builder.urls')),
     url(r'swagger-docs/', schema_view),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

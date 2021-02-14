@@ -56,6 +56,9 @@ from rest_framework import filters
 
 from collections import OrderedDict
 
+from tests_builder.models import FixedTest
+from stats.models import StudentFixedTest
+
 
 User = get_user_model()
 
@@ -420,6 +423,12 @@ class CourseAtStudentListAPIView(generics.ListAPIView):
         return Response(data)
 
 
+class CourseForStudentForDescriptionDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = CourseInStreamSerializer
+    queryset = Course.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+
 class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
     serializer_class = CourseInStreamSerializer
     queryset = Course.objects.all()
@@ -497,6 +506,17 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
                         task.update({"task_result_id": TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = False)[0].id})
                     else:
                         task.update({"status": None})
+
+                for task in section["fixed_tests_for_section"]:
+                    try:
+                        if StudentFixedTest.objects.filter(test = task["id"], student = self.request.user, is_success = True):
+                            task.update({"status": "1"})
+                        else:
+                            task.update({"status": "0"})
+                    except:
+                        pass
+
+
 
                 section.update({"tasks_in_sections": tasks_in_sections})
                 section.update({"completed_task_in_section": completed_task_in_section})
@@ -1249,6 +1269,18 @@ class StudentInCourseCreateAPIView(generics.CreateAPIView):
                 print ('1')
             except:
                 pass
+
+        # for task in FixedTest.objects.filter(section__course = request.data["course"]):
+        #     try:
+        #
+        #         options = StudentFixedTest.objects.filter(task = task, student)
+        #         print (options)
+        #         options_ids = [friend.id for friend in options]
+        #         print (options_ids)
+        #         TaskWithTeacherCheckResult.objects.create(option_id = choice(options_ids),user = self.request.user)
+        #         print ('1')
+        #     except:
+        #         pass
 
         for task in TaskWithTick.objects.filter(section__course = request.data["course"]):
             TaskWithTickStudentResult.objects.create(user = self.request.user, task_with_tick = task)

@@ -13,6 +13,8 @@ from .models import \
 
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 
+from tests_builder.serializers import FixedTestSerializer
+
 
 User = get_user_model()
 
@@ -224,7 +226,7 @@ class TaskWithTeacherCreateCheckSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Create instance
-        task = TaskWithTeacherCheck.objects.create(title=validated_data['title'], description=validated_data['description'], section=validated_data['section'])
+        task = TaskWithTeacherCheck.objects.create(title=validated_data['title'], description=validated_data['description'], section=validated_data['section'], upload_file = validated_data['upload_file'])
 
         # Create or update each page instance
         for option in validated_data['option_for_task_with_teacher']:
@@ -571,6 +573,7 @@ class SectionInCourseForStreamSerializer(serializers.ModelSerializer):
     task_with_tick_in_section = TaskWithTickInSectionForStreamSerializer(many = True)
     task_with_teacher_check_in_section = TaskWithTeacherCheckInSectionForStreamSerializer(many = True)
     task_with_keyword_in_section = TaskWithKeywordSectionForStreamSerializer(many = True)
+    fixed_tests_for_section = FixedTestSerializer(many = True)
     # lassmates_in_section = ClassmatesCheckedTaskForStreamSerializer(many = True)
 
     class Meta:
