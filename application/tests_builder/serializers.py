@@ -11,7 +11,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class AnswerSerializer(serializers.ModelSerializer):
-    is_correct = serializers.BooleanField(write_only=True)
+    is_correct = serializers.BooleanField()
 
     class Meta:
         model = models.Answer
@@ -20,7 +20,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(many=True)
-    tags = serializers.SlugRelatedField(many=True, slug_field='name', queryset=models.Tag.objects.all())
+    tags = serializers.SlugRelatedField(required=False, many=True, slug_field='name', queryset=models.Tag.objects.all())
 
     class Meta:
         model = models.Question
@@ -29,15 +29,19 @@ class QuestionSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         answers_data = validated_data.pop('answers')
-        tags_data = validated_data.pop('tags')
+
 
         question = models.Question.objects.create(**validated_data)
 
         for answer_data in answers_data:
             models.Answer.objects.create(question=question, **answer_data)
 
-        for tag_data in tags_data:
-            question.tags.add(tag_data)
+        try:
+            tags_data = validated_data.pop('tags')
+            for tag_data in tags_data:
+                question.tags.add(tag_data)
+        except:
+            pass
 
         return question
 

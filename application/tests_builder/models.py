@@ -6,7 +6,7 @@ from django.db import models
 from django.utils import timezone
 
 
-from courses_app.models import Section
+from courses_app.models import Section, Course
 
 
 class ValidationError(Exception):
@@ -21,8 +21,9 @@ class Tag(models.Model):
 
 
 class Question(models.Model):
-    text_question = models.CharField(unique=True, max_length=255)
-    tags = models.ManyToManyField(Tag, blank=True, related_name='questions')
+    text_question = models.CharField(max_length=2555)
+    tags = models.ManyToManyField(Tag, blank = True, null = True, related_name='questions')
+    section = models.ForeignKey(Section, blank = True, null = True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.text_question
