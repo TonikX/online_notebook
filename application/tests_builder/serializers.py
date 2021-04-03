@@ -20,7 +20,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(many=True)
-    tags = serializers.SlugRelatedField(required=False, many=True, slug_field='name', queryset=models.Tag.objects.all())
+    # tags = serializers.SlugRelatedField(required=False, many=True, slug_field='name', queryset=models.Tag.objects.all())
 
     class Meta:
         model = models.Question
@@ -36,22 +36,22 @@ class QuestionSerializer(serializers.ModelSerializer):
         for answer_data in answers_data:
             models.Answer.objects.create(question=question, **answer_data)
 
-        try:
-            tags_data = validated_data.pop('tags')
-            for tag_data in tags_data:
-                question.tags.add(tag_data)
-        except:
-            pass
+        # try:
+        #     tags_data = validated_data.pop('tags')
+        #     for tag_data in tags_data:
+        #         question.tags.add(tag_data)
+        # except:
+        #     pass
 
         return question
 
     @transaction.atomic
     def update(self, instance, validated_data):
         instance.text_question = validated_data.get('text_question', instance.text_question)
-        tags_data = validated_data.pop('tags')
-
-        for tag_data in tags_data:
-            instance.tags.add(tag_data)
+        # tags_data = validated_data.pop('tags')
+        #
+        # for tag_data in tags_data:
+        #     instance.tags.add(tag_data)
 
         instance.save()
 
@@ -114,7 +114,7 @@ class FixedTestSerializer(serializers.ModelSerializer):
 
 
 class RandomTestSerializer(serializers.ModelSerializer):
-    tags = serializers.SlugRelatedField(many=True, slug_field='name', queryset=models.Tag.objects.all())
+    # tags = serializers.SlugRelatedField(many=True, slug_field='name', queryset=models.Tag.objects.all())
     created_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
