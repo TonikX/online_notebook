@@ -226,7 +226,7 @@ class TaskWithTeacherCreateCheckSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Create instance
-        task = TaskWithTeacherCheck.objects.create(title=validated_data['title'], description=validated_data['description'], section=validated_data['section'], upload_file = validated_data['upload_file'])
+        task = TaskWithTeacherCheck.objects.create(title=validated_data['title'], description=validated_data['description'], section=validated_data['section'], upload_file = validated_data['upload_file'], points=validated_data['points'])
 
         # Create or update each page instance
         for option in validated_data['option_for_task_with_teacher']:
