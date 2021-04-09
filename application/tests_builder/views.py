@@ -42,6 +42,16 @@ class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.AnswerSerializer
 
 
+class AnswerDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Answer.objects.all()
+    serializer_class = serializers.AnswerSerializer
+
+
+class AnswerCreate(generics.CreateAPIView):
+    queryset = models.Answer.objects.all()
+    serializer_class = serializers.AnswerCreateSerializer
+
+
 class TagSet(viewsets.ModelViewSet):
     queryset = models.Tag.objects.all()
     serializer_class = serializers.TagSerializer

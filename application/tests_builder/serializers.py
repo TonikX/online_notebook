@@ -18,6 +18,14 @@ class AnswerSerializer(serializers.ModelSerializer):
         fields = ('id', 'text_answer', 'is_correct')
 
 
+class AnswerCreateSerializer(serializers.ModelSerializer):
+    is_correct = serializers.BooleanField()
+
+    class Meta:
+        model = models.Answer
+        fields = ('id', 'text_answer', 'is_correct', 'question')
+
+
 class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(many=True)
     # tags = serializers.SlugRelatedField(required=False, many=True, slug_field='name', queryset=models.Tag.objects.all())

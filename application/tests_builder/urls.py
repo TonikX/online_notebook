@@ -14,6 +14,7 @@ router.register(r'tags', views.TagSet, basename='tags')
 
 
 urlpatterns = [
+    path('answers/', views.AnswerCreate.as_view()),
     path('answers/<int:pk>/', views.AnswerDetail.as_view()),
     url(r'', include(router.urls)),
 ]
