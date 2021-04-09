@@ -339,6 +339,7 @@ class TaskWithKeyword(models.Model):
     description = models.CharField(max_length=1024, blank=True, null=True)
     upload_file = models.BooleanField(default = False, blank=True, null=True)
     index_number = models.IntegerField(blank=True, null=True)
+    points = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.section}, Task: {self.title}'

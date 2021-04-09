@@ -33,7 +33,7 @@ class QuestionSet(viewsets.ModelViewSet):
     queryset = models.Question.objects.all()
     serializer_class = serializers.QuestionSerializer
     filter_backends = (django_filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-    # filterset_fields = ('tags',)
+    filterset_fields = ('section', 'section__course')
     # search_fields = ('tags_name', 'text_question')
 
 
