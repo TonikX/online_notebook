@@ -50,7 +50,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
-    text_answer = models.CharField(max_length=255)
+    text_answer = models.CharField(max_length=255, blank=True)
     is_correct = models.BooleanField()
 
     def __str__(self):
