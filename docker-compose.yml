@@ -42,8 +42,8 @@ services:
             - REACT_APP_API_SCHEMA=http
             - REACT_APP_API_PORT=8005
             - PORT=3000
-#        depends_on:
-#            - backend
+       depends_on:
+           - backend
 
 volumes:
   node-modules:

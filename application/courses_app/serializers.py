@@ -121,6 +121,7 @@ class SectionInCourseSerializer(serializers.ModelSerializer):
     task_with_tick_in_section = TaskWithTickInSectionSerializer(many = True)
     task_with_teacher_check_in_section = TaskWithTeacherCheckInSectionSerializer(many = True)
     task_with_keyword_in_section = TaskWithKeywordCheckInSectionSerializer(many = True)
+    fixed_tests_for_section = FixedTestSerializer(many = True)
     class Meta:
         model = Section
         fields = '__all__'
