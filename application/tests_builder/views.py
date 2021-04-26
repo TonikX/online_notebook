@@ -1,4 +1,6 @@
 from django_filters import rest_framework as django_filters
+from django.shortcuts import get_object_or_404
+from django.http import Http404
 from rest_framework import viewsets, generics, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -11,6 +13,7 @@ class FixedTestSet(viewsets.ModelViewSet):
     queryset = models.FixedTest.objects.all()
     serializer_class = serializers.FixedTestSerializer
     filter_backends = (django_filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
+    # ordering_fields = ['questions__position']
     # filterset_fields = ('name', 'section')
     # search_fields = ('name', 'section__name', 'created_by__username')
 

@@ -89,6 +89,11 @@ class FixedTestSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('created',)
 
+    def to_representation(self, instance):
+            response = super().to_representation(instance)
+            response["questions"] = sorted(response["questions"], key=lambda x: x["position"])
+            return response
+
     @transaction.atomic
     def create(self, validated_data):
         questions_data = validated_data.pop('test_to_question')
