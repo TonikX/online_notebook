@@ -22,7 +22,6 @@ class FixedTestQuestionSet(viewsets.ModelViewSet):
     # filterset_fields = ('test',)
     # search_fields = ('test__name', 'question__text_question')
     def destroy(self, request, *args, **kwargs):
-        print('override destroy')
         question = self.get_object()
         test = question.test
         posStart = question.position + 1
