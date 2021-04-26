@@ -67,7 +67,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class FixedTestQuestionSerializer(serializers.ModelSerializer):
-    question = QuestionSerializer()
+    # question = QuestionSerializer()
 
     class Meta:
         model = models.FixedTestQuestion
@@ -77,7 +77,7 @@ class FixedTestQuestionSerializer(serializers.ModelSerializer):
 class CreateFixedTestQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.FixedTestQuestion
-        fields = ('position', 'question')
+        fields = ('id', 'position', 'question')
 
 
 class FixedTestSerializer(serializers.ModelSerializer):

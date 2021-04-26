@@ -1,5 +1,7 @@
 from django_filters import rest_framework as django_filters
-from rest_framework import viewsets, generics, filters
+from rest_framework import viewsets, generics, filters, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from tests_builder import models
 from tests_builder import serializers
@@ -19,7 +21,19 @@ class FixedTestQuestionSet(viewsets.ModelViewSet):
     filter_backends = (django_filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     # filterset_fields = ('test',)
     # search_fields = ('test__name', 'question__text_question')
+    def destroy(self, request, *args, **kwargs):
+        print('override destroy')
+        question = self.get_object()
+        test = question.test
+        posStart = question.position + 1
+        question.delete()
+        questionsByTest = models.FixedTestQuestion.objects.filter(test=test)
+        for question in questionsByTest:
+            if question.position >= posStart:
+                question.position -= 1
+                question.save()
 
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class RandomTestSet(viewsets.ModelViewSet):
     queryset = models.RandomTest.objects.all()
