@@ -60,6 +60,7 @@ from tests_builder.models import FixedTest
 from stats.models import StudentFixedTest
 
 
+
 User = get_user_model()
 
 
@@ -403,6 +404,13 @@ class CourseAtStudentListAPIView(generics.ListAPIView):
                         if TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
                             student_tasks +=1
 
+                    for task in section["task_with_teacher_check_in_section"]:
+                        all_tasks +=1
+                        # if TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
+                        #     student_tasks +=1
+
+                    for task in section["fixed_tests_for_section"]:
+                        all_tasks +=1
 
                 try:
                     newdata.update({"status": StudentInCourse.objects.get(course = newdata["id"], user = self.request.user).status, "all_tasks": all_tasks, "student_tasks": student_tasks})
@@ -440,7 +448,7 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
             try:
                 instance = self.get_object()
             except (Course.DoesNotExist, KeyError):
-                return Response({"error": "Requested Movie does not exist"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"error": "Requested Course does not exist"}, status=status.HTTP_404_NOT_FOUND)
             serializer = self.get_serializer(instance)
             print ('her')
             newdata = dict(serializer.data)
