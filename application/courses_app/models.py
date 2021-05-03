@@ -304,7 +304,7 @@ class TaskWithTeacherCheckResult(models.Model):
     option = models.ForeignKey(TaskWithTeacherCheckOption, on_delete=models.CASCADE, related_name = 'task_with_teacher_results')
     description = models.CharField(max_length=1024, blank = True, null=True)
     perform = models.BooleanField(default=False)
-    on_check = models.BooleanField(default=True)
+    on_check = models.BooleanField(default=False) # был true
     file = models.FileField(upload_to='task_with_teacher_result_files/', null=True, blank=True)
 
 

@@ -1024,6 +1024,15 @@ class TaskWithTickStudentResultCreateView(generics.CreateAPIView):
     serializer_class = CreateTaskWithTickStudentResultSerializer
     permission_classes = [permissions.AllowAny]
 
+    # def create(self, request, *args, **kwargs):
+    #     request.data.update({"user": request.user.id})
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_create(serializer)
+    #     headers = self.get_success_headers(serializer.data)
+
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
 
 class TaskWithTickStudentResultRetrieveView(generics.RetrieveAPIView):
     queryset = TaskWithTickStudentResult.objects.all()
