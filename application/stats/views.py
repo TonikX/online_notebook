@@ -3,6 +3,7 @@ from django.db.models import Count, Q, F
 from rest_framework import generics, views, exceptions, viewsets, filters, mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework import permissions
 
 from tests_builder import models as tests_models
 from tests_builder import serializers as tests_serializers
@@ -115,6 +116,7 @@ class StudentTestSet(BaseStatsSet):
 
 
 class StudentFixedTestSet(StudentTestSet):
+    permission_classes = [permissions.AllowAny]
     queryset = stats_models.StudentFixedTest.objects.all()
     serializer_class = serializers.StudentFixedTestSerializer
     filter_backends = (django_filters.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
