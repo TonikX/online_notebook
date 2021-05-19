@@ -16,5 +16,6 @@ router.register(r'tags', views.TagSet, basename='tags')
 urlpatterns = [
     path('answers/', views.AnswerCreate.as_view()),
     path('answers/<int:pk>/', views.AnswerDetail.as_view()),
+    path('student_fixed_test/detail/<int:pk>', views.StudentFixedTestSet.as_view({'get':'retrieve'})),
     url(r'', include(router.urls)),
 ]

@@ -17,6 +17,10 @@ class FixedTestSet(viewsets.ModelViewSet):
     # filterset_fields = ('name', 'section')
     # search_fields = ('name', 'section__name', 'created_by__username')
 
+class StudentFixedTestSet(viewsets.ReadOnlyModelViewSet):
+    """Получение теста с вопросами(с текстом вопроса) и ответами (без is_correct)"""
+    queryset = models.FixedTest.objects.all()
+    serializer_class = serializers.StudentTestSerializer1
 
 class FixedTestQuestionSet(viewsets.ModelViewSet):
     queryset = models.FixedTestQuestion.objects.all()
