@@ -25,25 +25,25 @@ services:
 
         depends_on:
             - db
-    # frontend:
-    #     stdin_open: true
-    #     tty: true
-    #     container_name: frontend
-    #     build:
-    #         context: ./frontend
-    #         dockerfile: Dockerfile
-    #     volumes:
-    #         - ./frontend:/app
-    #         - node-modules:/app/node_modules
-    #     ports:
-    #         - "3006:3000"
-    #     environment:
-    #         - REACT_APP_API_HOST=localhost
-    #         - REACT_APP_API_SCHEMA=http
-    #         - REACT_APP_API_PORT=8005
-    #         - PORT=3000
-    #     depends_on:
-    #        - backend
+    frontend:
+        stdin_open: true
+        tty: true
+        container_name: frontend
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        volumes:
+            - ./frontend:/app
+            - node-modules:/app/node_modules
+        ports:
+            - "3006:3000"
+        environment:
+            - REACT_APP_API_HOST=localhost
+            - REACT_APP_API_SCHEMA=http
+            - REACT_APP_API_PORT=8005
+            - PORT=3000
+        depends_on:
+           - backend
 
 volumes:
   node-modules:
