@@ -1,6 +1,7 @@
 from django_filters import rest_framework as django_filters
 from django.shortcuts import get_object_or_404
 from django.http import Http404
+from rest_framework import permissions
 from rest_framework import viewsets, generics, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -19,6 +20,8 @@ class FixedTestSet(viewsets.ModelViewSet):
 
 class StudentFixedTestSet(viewsets.ReadOnlyModelViewSet):
     """Получение теста с вопросами(с текстом вопроса) и ответами (без is_correct)"""
+    # TODO: возможно сделать другой пермишн
+    permission_classes = [permissions.AllowAny]
     queryset = models.FixedTest.objects.all()
     serializer_class = serializers.StudentTestSerializer1
 

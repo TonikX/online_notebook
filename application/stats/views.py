@@ -77,6 +77,9 @@ class StudentRandomTestQuestionSet(StudentTestQuestionSet):
 
 
 class StudentFixedTestQuestionSet(StudentTestQuestionSet):
+    # TODO: пермишн нужен на студента
+    # здесь студент отв на по вопросы (POST)
+    permission_classes = [permissions.AllowAny]
     queryset = stats_models.StudentFixedTestQuestion.objects.all()
     serializer_class = serializers.StudentFixedTestQuestionSerializer
     filter_backends = (django_filters.DjangoFilterBackend, filters.OrderingFilter)
