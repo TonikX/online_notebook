@@ -517,8 +517,12 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
 
                 for task in section["fixed_tests_for_section"]:
                     try:
-                        if StudentFixedTest.objects.filter(test = task["id"], student = self.request.user, is_success = True):
-                            task.update({"status": "1"})
+                        results = StudentFixedTest.objects.filter(test = task["id"], student = self.request.user, is_success = True).values('correct_answers_percent')
+                        if results:
+                            resultsArr = []
+                            for item in results:
+                                resultsArr.append(item['correct_answers_percent'])
+                            task.update({"status": "1", "results": resultsArr })
                         else:
                             task.update({"status": "0"})
                     except:
