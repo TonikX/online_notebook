@@ -160,9 +160,10 @@ class GroupInStreamNewDetailView(generics.RetrieveAPIView):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         newdata = dict(serializer.data)
-        isJoined = StudentInCourse.objects.filter(user=self.request.user, course_id=self.kwargs['pk'])
+        course = Course.objects.filter(streams_on_a_course__id=self.kwargs['pk'])
+        isJoined = StudentInCourse.objects.filter(user=self.request.user, course_id=course[0].id)
         if isJoined:
-            newdata.update({"status": "0"})
+            newdata.update({"status": "2"})
         else:
             newdata.update({"status": "1"})
         return Response(newdata)
