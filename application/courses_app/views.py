@@ -156,6 +156,16 @@ class GroupInStreamNewDetailView(generics.RetrieveAPIView):
     serializer_class = StudentStreamListSerializer
     permission_classes = [permissions.AllowAny]
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        newdata = dict(serializer.data)
+        isJoined = StudentInCourse.objects.filter(user=self.request.user, course_id=self.kwargs['pk'])
+        if isJoined:
+            newdata.update({"status": "0"})
+        else:
+            newdata.update({"status": "1"})
+        return Response(newdata)
 
 class GroupInStreamNewDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = StudentStream.objects.all()
