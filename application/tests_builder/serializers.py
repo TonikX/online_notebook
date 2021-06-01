@@ -67,7 +67,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class FixedTestQuestionSerializer(serializers.ModelSerializer):
-    question = QuestionSerializer()
+    # question = QuestionSerializer()
 
     class Meta:
         model = models.FixedTestQuestion
@@ -77,7 +77,7 @@ class FixedTestQuestionSerializer(serializers.ModelSerializer):
 class CreateFixedTestQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.FixedTestQuestion
-        fields = ('position', 'question')
+        fields = ('id', 'position', 'question')
 
 
 class FixedTestSerializer(serializers.ModelSerializer):
@@ -88,6 +88,11 @@ class FixedTestSerializer(serializers.ModelSerializer):
         model = models.FixedTest
         fields = '__all__'
         read_only_fields = ('created',)
+
+    def to_representation(self, instance):
+            response = super().to_representation(instance)
+            response["questions"] = sorted(response["questions"], key=lambda x: x["position"])
+            return response
 
     @transaction.atomic
     def create(self, validated_data):
@@ -139,3 +144,37 @@ class RandomTestSerializer(serializers.ModelSerializer):
             random_test.tags.add(tag_data)
 
         return random_test
+
+
+
+
+
+class StudentAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Answer
+        fields = ('id', 'text_answer')
+
+class StudentQuestionSerializer(serializers.ModelSerializer):
+    answers = StudentAnswerSerializer(many=True)
+    class Meta:
+        model = models.Question
+        fields = ('id', 'text_question', 'answers')
+
+class StudentTestQuestionSerializer(serializers.ModelSerializer):
+    question = StudentQuestionSerializer()
+    class Meta:
+        model = models.FixedTestQuestion
+        fields = ('id', 'position', 'question')
+
+class StudentTestSerializer1(serializers.ModelSerializer):
+    questions = StudentTestQuestionSerializer(source='test_to_question', many=True)
+    created_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = models.FixedTest
+        fields = '__all__'
+
+    def to_representation(self, instance):
+            response = super().to_representation(instance)
+            response["questions"] = sorted(response["questions"], key=lambda x: x["position"])
+            return response

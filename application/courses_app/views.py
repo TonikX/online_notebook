@@ -60,6 +60,7 @@ from tests_builder.models import FixedTest
 from stats.models import StudentFixedTest
 
 
+
 User = get_user_model()
 
 
@@ -155,6 +156,17 @@ class GroupInStreamNewDetailView(generics.RetrieveAPIView):
     serializer_class = StudentStreamListSerializer
     permission_classes = [permissions.AllowAny]
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        newdata = dict(serializer.data)
+        course = Course.objects.filter(streams_on_a_course__id=self.kwargs['pk'])
+        isJoined = StudentInCourse.objects.filter(user=self.request.user, course_id=course[0].id)
+        if isJoined:
+            newdata.update({"status": "2"})
+        else:
+            newdata.update({"status": "1"})
+        return Response(newdata)
 
 class GroupInStreamNewDeleteUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = StudentStream.objects.all()
@@ -403,6 +415,13 @@ class CourseAtStudentListAPIView(generics.ListAPIView):
                         if TaskWithKeywordResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
                             student_tasks +=1
 
+                    for task in section["task_with_teacher_check_in_section"]:
+                        all_tasks +=1
+                        # if TaskWithTeacherCheckResult.objects.filter(user = self.request.user, option__task_id = task["id"], perform = True):
+                        #     student_tasks +=1
+
+                    for task in section["fixed_tests_for_section"]:
+                        all_tasks +=1
 
                 try:
                     newdata.update({"status": StudentInCourse.objects.get(course = newdata["id"], user = self.request.user).status, "all_tasks": all_tasks, "student_tasks": student_tasks})
@@ -440,7 +459,7 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
             try:
                 instance = self.get_object()
             except (Course.DoesNotExist, KeyError):
-                return Response({"error": "Requested Movie does not exist"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"error": "Requested Course does not exist"}, status=status.HTTP_404_NOT_FOUND)
             serializer = self.get_serializer(instance)
             print ('her')
             newdata = dict(serializer.data)
@@ -509,8 +528,12 @@ class CourseForStudentDetailAPIView(generics.RetrieveAPIView):
 
                 for task in section["fixed_tests_for_section"]:
                     try:
-                        if StudentFixedTest.objects.filter(test = task["id"], student = self.request.user, is_success = True):
-                            task.update({"status": "1"})
+                        results = StudentFixedTest.objects.filter(test = task["id"], student = self.request.user, is_success = True).values('correct_answers_percent')
+                        if results:
+                            resultsArr = []
+                            for item in results:
+                                resultsArr.append(item['correct_answers_percent'])
+                            task.update({"status": "1", "results": resultsArr })
                         else:
                             task.update({"status": "0"})
                     except:
@@ -1015,6 +1038,15 @@ class TaskWithTickStudentResultCreateView(generics.CreateAPIView):
     queryset = TaskWithTickStudentResult.objects.all()
     serializer_class = CreateTaskWithTickStudentResultSerializer
     permission_classes = [permissions.AllowAny]
+
+    # def create(self, request, *args, **kwargs):
+    #     request.data.update({"user": request.user.id})
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_create(serializer)
+    #     headers = self.get_success_headers(serializer.data)
+
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class TaskWithTickStudentResultRetrieveView(generics.RetrieveAPIView):

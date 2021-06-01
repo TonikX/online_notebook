@@ -57,7 +57,7 @@ class StudentRandomTest(StudentTest):
 
 
 class StudentFixedTest(StudentTest):
-    test = models.ForeignKey(FixedTest, on_delete=models.PROTECT)
+    test = models.ForeignKey(FixedTest, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('test', 'student', 'number_of_try')
@@ -85,7 +85,7 @@ class StudentRandomTestQuestion(StudentTestQuestion):
 
 
 class StudentFixedTestQuestion(StudentTestQuestion):
-    student_test = models.ForeignKey(StudentFixedTest, on_delete=models.PROTECT)
+    student_test = models.ForeignKey(StudentFixedTest, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('student_test', 'question')

@@ -33,4 +33,4 @@ pillow==7.0.0
 PyMySQL[rsa]
 cryptography
 drf-yasg
-
+python-dotenv

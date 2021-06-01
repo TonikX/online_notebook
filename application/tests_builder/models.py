@@ -50,7 +50,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
-    text_answer = models.CharField(max_length=255)
+    text_answer = models.CharField(max_length=255, blank=True)
     is_correct = models.BooleanField()
 
     def __str__(self):
@@ -78,14 +78,14 @@ class Test(models.Model):
 
 class FixedTestQuestion(models.Model):
     test = models.ForeignKey('FixedTest', on_delete=models.CASCADE, related_name='test_to_question')
-    question = models.ForeignKey('Question', on_delete=models.CASCADE, related_name='question_to_test')
+    question = models.ForeignKey('Question', null=True, on_delete=models.CASCADE, related_name='question_to_test')
     position = models.PositiveSmallIntegerField()
 
     class Meta:
         unique_together = (('test', 'question'), ('test', 'position'))
 
-    def __str__(self):
-        return f'{self.question.text_question}'
+    # def __str__(self):
+    #     return f'{self.question.text_question}'
 
 
 class FixedTest(Test):
